@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document>
+	<name>Bus Depot.kml</name>
+	<Schema name="Bus Depot" id="S_Bus_Depot_SSSDD">
+		<SimpleField type="string" name="name"><displayName>&lt;b&gt;name&lt;/b&gt;</displayName>
+</SimpleField>
+		<SimpleField type="string" name="address"><displayName>&lt;b&gt;address&lt;/b&gt;</displayName>
+</SimpleField>
+		<SimpleField type="string" name="class"><displayName>&lt;b&gt;class&lt;/b&gt;</displayName>
+</SimpleField>
+		<SimpleField type="double" name="longitude"><displayName>&lt;b&gt;longitude&lt;/b&gt;</displayName>
+</SimpleField>
+		<SimpleField type="double" name="latitude"><displayName>&lt;b&gt;latitude&lt;/b&gt;</displayName>
+</SimpleField>
+	</Schema>
+	<Style id="hlightPointStyle">
+		<IconStyle>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/shapes/placemark_circle_highlight.png</href>
+			</Icon>
+		</IconStyle>
+		<BalloonStyle>
+			<text><![CDATA[<table border="0">
+  <tr><td><b>name</b></td><td>$[Bus Depot/name]</td></tr>
+  <tr><td><b>address</b></td><td>$[Bus Depot/address]</td></tr>
+  <tr><td><b>class</b></td><td>$[Bus Depot/class]</td></tr>
+  <tr><td><b>longitude</b></td><td>$[Bus Depot/longitude]</td></tr>
+  <tr><td><b>latitude</b></td><td>$[Bus Depot/latitude]</td></tr>
+</table>
+]]></text>
+		</BalloonStyle>
+	</Style>
+	<Style id="normPointStyle">
+		<IconStyle>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/shapes/placemark_circle.png</href>
+			</Icon>
+		</IconStyle>
+		<BalloonStyle>
+			<text><![CDATA[<table border="0">
+  <tr><td><b>name</b></td><td>$[Bus Depot/name]</td></tr>
+  <tr><td><b>address</b></td><td>$[Bus Depot/address]</td></tr>
+  <tr><td><b>class</b></td><td>$[Bus Depot/class]</td></tr>
+  <tr><td><b>longitude</b></td><td>$[Bus Depot/longitude]</td></tr>
+  <tr><td><b>latitude</b></td><td>$[Bus Depot/latitude]</td></tr>
+</table>
+]]></text>
+		</BalloonStyle>
+	</Style>
+	<StyleMap id="pointStyleMap">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#normPointStyle</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#hlightPointStyle</styleUrl>
+		</Pair>
+	</StyleMap>
+	<Folder id="layer 0">
+		<name>Bus Depot</name>
+		<open>1</open>
+		<Placemark>
+			<styleUrl>#pointStyleMap</styleUrl>
+			<ExtendedData>
+				<SchemaData schemaUrl="#S_Bus_Depot_SSSDD">
+					<SimpleData name="name">SYS</SimpleData>
+					<SimpleData name="address">SYS</SimpleData>
+					<SimpleData name="class">Bus Depots</SimpleData>
+					<SimpleData name="longitude">73.788</SimpleData>
+					<SimpleData name="latitude">18.5613</SimpleData>
+				</SchemaData>
+			</ExtendedData>
+			<Point>
+				<coordinates>73.78796735999997,18.56125189999999,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<styleUrl>#pointStyleMap</styleUrl>
+			<ExtendedData>
+				<SchemaData schemaUrl="#S_Bus_Depot_SSSDD">
+					<SimpleData name="name">S T Depot Bus Stop</SimpleData>
+					<SimpleData name="address">Shankar Sheth Rd, Ghorpade Peth, Swargate, Pune, Maharashtra 411042</SimpleData>
+					<SimpleData name="class">Bus Depots</SimpleData>
+					<SimpleData name="longitude">73.8674</SimpleData>
+					<SimpleData name="latitude">18.5011</SimpleData>
+				</SchemaData>
+			</ExtendedData>
+			<Point>
+				<coordinates>73.86742959999999,18.50105410000002,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<styleUrl>#pointStyleMap</styleUrl>
+			<ExtendedData>
+				<SchemaData schemaUrl="#S_Bus_Depot_SSSDD">
+					<SimpleData name="name">Pune Central Bus Stop</SimpleData>
+					<SimpleData name="address">Ganeshkhind Rd, Model Colony, Shivajinagar, Pune, Maharashtra 411016</SimpleData>
+					<SimpleData name="class">Bus Depots</SimpleData>
+					<SimpleData name="longitude">73.8387</SimpleData>
+					<SimpleData name="latitude">18.5348</SimpleData>
+				</SchemaData>
+			</ExtendedData>
+			<Point>
+				<coordinates>73.838684,18.53481500000001,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<styleUrl>#pointStyleMap</styleUrl>
+			<ExtendedData>
+				<SchemaData schemaUrl="#S_Bus_Depot_SSSDD">
+					<SimpleData name="name">Kothrud Bus Depot</SimpleData>
+					<SimpleData name="address">Eklavya Colony, Kothrud, Pune, Maharashtra 411038</SimpleData>
+					<SimpleData name="class">Bus Depots</SimpleData>
+					<SimpleData name="longitude">73.7951</SimpleData>
+					<SimpleData name="latitude">18.506</SimpleData>
+				</SchemaData>
+			</ExtendedData>
+			<Point>
+				<coordinates>73.79507049999999,18.50596159999999,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<styleUrl>#pointStyleMap</styleUrl>
+			<ExtendedData>
+				<SchemaData schemaUrl="#S_Bus_Depot_SSSDD">
+					<SimpleData name="name">Swargate ST Stand</SimpleData>
+					<SimpleData name="address">Satara Rd, Swargate, Pune, Maharashtra 411042</SimpleData>
+					<SimpleData name="class">Bus Depots</SimpleData>
+					<SimpleData name="longitude">73.8592</SimpleData>
+					<SimpleData name="latitude">18.4995</SimpleData>
+				</SchemaData>
+			</ExtendedData>
+			<Point>
+				<coordinates>73.85918150000001,18.49945470000002,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<styleUrl>#pointStyleMap</styleUrl>
+			<ExtendedData>
+				<SchemaData schemaUrl="#S_Bus_Depot_SSSDD">
+					<SimpleData name="name">Pune Station Bus Stand</SimpleData>
+					<SimpleData name="address">Agarkar Nagar, Pune, Maharashtra 411001</SimpleData>
+					<SimpleData name="class">Bus Depots</SimpleData>
+					<SimpleData name="longitude">73.8722</SimpleData>
+					<SimpleData name="latitude">18.5281</SimpleData>
+				</SchemaData>
+			</ExtendedData>
+			<Point>
+				<coordinates>73.87221410000002,18.52808929999999,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<styleUrl>#pointStyleMap</styleUrl>
+			<ExtendedData>
+				<SchemaData schemaUrl="#S_Bus_Depot_SSSDD">
+					<SimpleData name="name">P.M.T Bus Depot</SimpleData>
+					<SimpleData name="address">Pune - Solapur Road, Gadital, Hadapsar, Pune, Maharashtra 411028</SimpleData>
+					<SimpleData name="class">Bus Depots</SimpleData>
+					<SimpleData name="longitude">73.9393</SimpleData>
+					<SimpleData name="latitude">18.5011</SimpleData>
+				</SchemaData>
+			</ExtendedData>
+			<Point>
+				<coordinates>73.93927599999999,18.50107679999998,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<styleUrl>#pointStyleMap</styleUrl>
+			<ExtendedData>
+				<SchemaData schemaUrl="#S_Bus_Depot_SSSDD">
+					<SimpleData name="name">MSRTC Bus Depot, Pune Station</SimpleData>
+					<SimpleData name="address">Sanjay Gandhi Rd, Agarkar Nagar, Pune, Maharashtra 411001</SimpleData>
+					<SimpleData name="class">Bus Depots</SimpleData>
+					<SimpleData name="longitude">73.8727</SimpleData>
+					<SimpleData name="latitude">18.5279</SimpleData>
+				</SchemaData>
+			</ExtendedData>
+			<Point>
+				<coordinates>73.87273099999999,18.52786800000003,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<styleUrl>#pointStyleMap</styleUrl>
+			<ExtendedData>
+				<SchemaData schemaUrl="#S_Bus_Depot_SSSDD">
+					<SimpleData name="name">Pune Bus Depot</SimpleData>
+					<SimpleData name="address">Sadhu Vaswani Rd, Agarkar Nagar, Pune, Maharashtra 411001</SimpleData>
+					<SimpleData name="class">Bus Depots</SimpleData>
+					<SimpleData name="longitude">73.8775</SimpleData>
+					<SimpleData name="latitude">18.5268</SimpleData>
+				</SchemaData>
+			</ExtendedData>
+			<gx:balloonVisibility>1</gx:balloonVisibility>
+			<Point>
+				<coordinates>73.877522,18.52681499999999,0</coordinates>
+			</Point>
+		</Placemark>
+	</Folder>
+</Document>
+</kml>
