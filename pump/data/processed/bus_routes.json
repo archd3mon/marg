@@ -1,0 +1,6182 @@
+[
+  {
+    "id": "route_100-D",
+    "name": "100-D",
+    "description": "Hinjawadi Maan Phase 3 To Ma Na Pa",
+    "length_km": 26.4
+  },
+  {
+    "id": "route_100-U",
+    "name": "100-U",
+    "description": "Ma Na Pa To Hinjawadi Maan Phase 3",
+    "length_km": 26.4
+  },
+  {
+    "id": "route_101-D",
+    "name": "101-D",
+    "description": "Kondhwa Bk To Kothrud Depot",
+    "length_km": 16.2
+  },
+  {
+    "id": "route_101-U",
+    "name": "101-U",
+    "description": "Kothrud Depot To Kondhwa Bk",
+    "length_km": 16.2
+  },
+  {
+    "id": "route_102-D",
+    "name": "102-D",
+    "description": "Lohgaon To Kothrud Depot",
+    "length_km": 23.6
+  },
+  {
+    "id": "route_102-U",
+    "name": "102-U",
+    "description": "Kothrud Depot To Lohgaon",
+    "length_km": 23.6
+  },
+  {
+    "id": "route_103A-D",
+    "name": "103A-D",
+    "description": "Hinjawadi Maan Phase 3 To Katraj (Vai Kothrud Depo)",
+    "length_km": 36.6
+  },
+  {
+    "id": "route_103A-U",
+    "name": "103A-U",
+    "description": "Katraj To Hinjawadi Maan Phase 3 (Vai Kothrud Depo)",
+    "length_km": 36.6
+  },
+  {
+    "id": "route_103B-D",
+    "name": "103B-D",
+    "description": "Swargate To Katraj",
+    "length_km": 6.1
+  },
+  {
+    "id": "route_103B-U",
+    "name": "103B-U",
+    "description": "Katraj To Swargate",
+    "length_km": 6.1
+  },
+  {
+    "id": "route_103C-D",
+    "name": "103C-D",
+    "description": "Hinjawadi Maan Phase 3 To Swargate",
+    "length_km": 30.5
+  },
+  {
+    "id": "route_103C-U",
+    "name": "103C-U",
+    "description": "Swargate To Hinjawadi Maan Phase 3",
+    "length_km": 30.5
+  },
+  {
+    "id": "route_103-D",
+    "name": "103-D",
+    "description": "Kothrud Depot To Katraj",
+    "length_km": 14.3
+  },
+  {
+    "id": "route_103-U",
+    "name": "103-U",
+    "description": "Katraj To Kothrud Depot",
+    "length_km": 14.3
+  },
+  {
+    "id": "route_104-D",
+    "name": "104-D",
+    "description": "DSK Vishwa To Deccan Gymkhana",
+    "length_km": 15.4
+  },
+  {
+    "id": "route_104-U",
+    "name": "104-U",
+    "description": "Deccan Gymkhana To DSK Vishwa",
+    "length_km": 15.4
+  },
+  {
+    "id": "route_105-D",
+    "name": "105-D",
+    "description": "Balewadi Depot To Deccan Gymkhana",
+    "length_km": 16.8
+  },
+  {
+    "id": "route_105-U",
+    "name": "105-U",
+    "description": "Deccan Gymkhana To  Balewadi Depot",
+    "length_km": 16.8
+  },
+  {
+    "id": "route_106-R",
+    "name": "106-R",
+    "description": "Galinde Path To Galinde Path",
+    "length_km": 21.3
+  },
+  {
+    "id": "route_107-D",
+    "name": "107-D",
+    "description": "Pimplegurav To Deccan Gymkhana",
+    "length_km": 14.4
+  },
+  {
+    "id": "route_107-U",
+    "name": "107-U",
+    "description": "Deccan Gymkhana To Pimplegurav",
+    "length_km": 14.4
+  },
+  {
+    "id": "route_108-D",
+    "name": "108-D",
+    "description": "Pune Station To Sutardara",
+    "length_km": 12.3
+  },
+  {
+    "id": "route_108-U",
+    "name": "108-U",
+    "description": "Sutardara To Pune Station",
+    "length_km": 12.3
+  },
+  {
+    "id": "route_109-R",
+    "name": "109-R",
+    "description": "Ma Na Pa To Ma Na Pa",
+    "length_km": 21.0
+  },
+  {
+    "id": "route_10-D",
+    "name": "10-D",
+    "description": "Keshavnagar To Swargate",
+    "length_km": 15.0
+  },
+  {
+    "id": "route_10-U",
+    "name": "10-U",
+    "description": "Swargate To Keshavnagar",
+    "length_km": 15.0
+  },
+  {
+    "id": "route_110-R",
+    "name": "110-R",
+    "description": "Ma Na Pa To Ma Na Pa",
+    "length_km": 21.0
+  },
+  {
+    "id": "route_111-D",
+    "name": "111-D",
+    "description": "Ma Na Pa To Bhekrainagar",
+    "length_km": 17.3
+  },
+  {
+    "id": "route_111-U",
+    "name": "111-U",
+    "description": "Bhekrainagar To Ma Na Pa",
+    "length_km": 17.3
+  },
+  {
+    "id": "route_112-D",
+    "name": "112-D",
+    "description": "Mandai To Kothrud Depot",
+    "length_km": 8.0
+  },
+  {
+    "id": "route_112-U",
+    "name": "112-U",
+    "description": "Kothrud Depot To Mandai",
+    "length_km": 8.0
+  },
+  {
+    "id": "route_113A-D",
+    "name": "113A-D",
+    "description": "Pimplegurav To Appa Balawant Chowk",
+    "length_km": 13.3
+  },
+  {
+    "id": "route_113A-U",
+    "name": "113A-U",
+    "description": "Appa Balawant Chowk To Pimplegurav",
+    "length_km": 13.3
+  },
+  {
+    "id": "route_113B-D",
+    "name": "113B-D",
+    "description": "Pimplegurav To Ma Na Pa",
+    "length_km": 12.6
+  },
+  {
+    "id": "route_113B-U",
+    "name": "113B-U",
+    "description": "Ma Na Pa To Pimplegurav",
+    "length_km": 12.6
+  },
+  {
+    "id": "route_113-D",
+    "name": "113-D",
+    "description": "Vasantdada Putala Sangvi To Appa Balawant Chowk",
+    "length_km": 10.9
+  },
+  {
+    "id": "route_113-U",
+    "name": "113-U",
+    "description": "Appa Balawant Chowk To Vasantdada Putala Sangvi",
+    "length_km": 10.9
+  },
+  {
+    "id": "route_114-D",
+    "name": "114-D",
+    "description": "Mhalungegaon To Ma Na Pa",
+    "length_km": 12.5
+  },
+  {
+    "id": "route_114-U",
+    "name": "114-U",
+    "description": "Ma Na Pa To Mhalungegaon",
+    "length_km": 12.5
+  },
+  {
+    "id": "route_115P-D",
+    "name": "115P-D",
+    "description": "Hinjawadi Maan Phase 3 To Pune Station",
+    "length_km": 29.0
+  },
+  {
+    "id": "route_115P-U",
+    "name": "115P-U",
+    "description": "Pune Station To Hinjawadi Maan Phase 3",
+    "length_km": 29.0
+  },
+  {
+    "id": "route_116-D",
+    "name": "116-D",
+    "description": "Khadki Bazar To Ma Na Pa",
+    "length_km": 10.8
+  },
+  {
+    "id": "route_116-U",
+    "name": "116-U",
+    "description": "Ma Na Pa To Khadki Bazar",
+    "length_km": 10.8
+  },
+  {
+    "id": "route_117A-D",
+    "name": "117A-D",
+    "description": "DSK Vishwa To Swargate",
+    "length_km": 12.6
+  },
+  {
+    "id": "route_117A-U",
+    "name": "117A-U",
+    "description": "Swargate To DSK Vishwa",
+    "length_km": 12.6
+  },
+  {
+    "id": "route_117B-D",
+    "name": "117B-D",
+    "description": "Shree Control To Swargate",
+    "length_km": 11.7
+  },
+  {
+    "id": "route_117B-U",
+    "name": "117B-U",
+    "description": "Swargate To Shree Control",
+    "length_km": 11.7
+  },
+  {
+    "id": "route_117C-D",
+    "name": "117C-D",
+    "description": "Raykarmala To Swargate",
+    "length_km": 13.5
+  },
+  {
+    "id": "route_117C-U",
+    "name": "117C-U",
+    "description": "Swargate To Raykarmala",
+    "length_km": 13.5
+  },
+  {
+    "id": "route_117-D",
+    "name": "117-D",
+    "description": "Dhayari Maruti Mandir To Swargate",
+    "length_km": 12.2
+  },
+  {
+    "id": "route_117-U",
+    "name": "117-U",
+    "description": "Swargate To Dhayari Maruti Mandir",
+    "length_km": 12.2
+  },
+  {
+    "id": "route_117D-U",
+    "name": "117D-U",
+    "description": "Swargate To Saritanagari",
+    "length_km": 5.0
+  },
+  {
+    "id": "route_117E-D",
+    "name": "117E-D",
+    "description": "Shaniwarwada Stand To Saritanagari",
+    "length_km": 7.0
+  },
+  {
+    "id": "route_117F-U",
+    "name": "117F-U",
+    "description": "Shaniwarwada To Dhayari Maruti Mandir",
+    "length_km": 13.6
+  },
+  {
+    "id": "route_118-7A-D",
+    "name": "118-7A-D",
+    "description": "Swargate To Marketyard",
+    "length_km": 3.1
+  },
+  {
+    "id": "route_118-7A-U",
+    "name": "118-7A-U",
+    "description": "Marketyard To Swargate",
+    "length_km": 3.1
+  },
+  {
+    "id": "route_118-7-D",
+    "name": "118-7-D",
+    "description": "Venutai Chavan College To Swargate",
+    "length_km": 9.4
+  },
+  {
+    "id": "route_118-7-U",
+    "name": "118-7-U",
+    "description": "Swargate To Venutai Chavan College",
+    "length_km": 9.4
+  },
+  {
+    "id": "route_118A-D",
+    "name": "118A-D",
+    "description": "Suncity To Swargate",
+    "length_km": 6.0
+  },
+  {
+    "id": "route_118A-U",
+    "name": "118A-U",
+    "description": "Swargate To Suncity",
+    "length_km": 6.0
+  },
+  {
+    "id": "route_118B-D",
+    "name": "118B-D",
+    "description": "Vadgaon Bk To Swargate",
+    "length_km": 7.0
+  },
+  {
+    "id": "route_118B-U",
+    "name": "118B-U",
+    "description": "Swargate To Vadgaon Bk",
+    "length_km": 7.0
+  },
+  {
+    "id": "route_118C-D",
+    "name": "118C-D",
+    "description": "Nanded To Swargate",
+    "length_km": 11.2
+  },
+  {
+    "id": "route_118C-U",
+    "name": "118C-U",
+    "description": "Swargate To Nanded",
+    "length_km": 11.2
+  },
+  {
+    "id": "route_118-D",
+    "name": "118-D",
+    "description": "Venutai Chavan College To Swargate",
+    "length_km": 9.4
+  },
+  {
+    "id": "route_118-U",
+    "name": "118-U",
+    "description": "Swargate To Venutai Chavan College",
+    "length_km": 9.4
+  },
+  {
+    "id": "route_119A-D",
+    "name": "119A-D",
+    "description": "Alandi To Vishrantwadi",
+    "length_km": 11.0
+  },
+  {
+    "id": "route_119A-U",
+    "name": "119A-U",
+    "description": "Vishrantwadi To Alandi",
+    "length_km": 11.0
+  },
+  {
+    "id": "route_119-D",
+    "name": "119-D",
+    "description": "Alandi To Ma Na Pa",
+    "length_km": 23.1
+  },
+  {
+    "id": "route_119-U",
+    "name": "119-U",
+    "description": "Ma Na Pa To Alandi",
+    "length_km": 23.1
+  },
+  {
+    "id": "route_11-D",
+    "name": "11-D",
+    "description": "Pimplegurav To Marketyard",
+    "length_km": 18.3
+  },
+  {
+    "id": "route_11-U",
+    "name": "11-U",
+    "description": "Marketyard To Pimplegurav",
+    "length_km": 18.3
+  },
+  {
+    "id": "route_11K-D",
+    "name": "11K-D",
+    "description": "Kalpataru To Katraj",
+    "length_km": 21.6
+  },
+  {
+    "id": "route_11K-U",
+    "name": "11K-U",
+    "description": "Katraj To Kalpataru",
+    "length_km": 21.6
+  },
+  {
+    "id": "route_120A-D",
+    "name": "120A-D",
+    "description": "Indoorance System To Bhosari",
+    "length_km": 23.5
+  },
+  {
+    "id": "route_120A-U",
+    "name": "120A-U",
+    "description": "Bhosari To Indoorance System",
+    "length_km": 23.5
+  },
+  {
+    "id": "route_120-D",
+    "name": "120-D",
+    "description": "Indoorance System Chakan Mhalunge To Ma Na Pa",
+    "length_km": 40.6
+  },
+  {
+    "id": "route_120-U",
+    "name": "120-U",
+    "description": "Ma Na Pa To Indoorance System Chakan Mhalunge",
+    "length_km": 40.6
+  },
+  {
+    "id": "route_121-D",
+    "name": "121-D",
+    "description": "Bhosari Terminal To Ma Na Pa",
+    "length_km": 17.1
+  },
+  {
+    "id": "route_121-U",
+    "name": "121-U",
+    "description": "Ma Na Pa To Bhosari Terminal",
+    "length_km": 17.1
+  },
+  {
+    "id": "route_122A-U",
+    "name": "122A-U",
+    "description": "Nehrunagar Depo To Ma Na Pa",
+    "length_km": 15.9
+  },
+  {
+    "id": "route_122B-D",
+    "name": "122B-D",
+    "description": "Chinchwadgaon To Nehrunagar Depo",
+    "length_km": 6.0
+  },
+  {
+    "id": "route_122B-U",
+    "name": "122B-U",
+    "description": "Nehrunagar Depo To Chinchwadgaon",
+    "length_km": 6.0
+  },
+  {
+    "id": "route_122C-U",
+    "name": "122C-U",
+    "description": "Ma Na Pa To Chinchwadgaon",
+    "length_km": 18.7
+  },
+  {
+    "id": "route_122-D",
+    "name": "122-D",
+    "description": "Chinchwadgaon To Ma Na Pa",
+    "length_km": 18.7
+  },
+  {
+    "id": "route_122-U",
+    "name": "122-U",
+    "description": "Ma Na Pa To Chinchwadgaon",
+    "length_km": 18.7
+  },
+  {
+    "id": "route_123-D",
+    "name": "123-D",
+    "description": "Bhakti Shakti To Ma Na Pa",
+    "length_km": 20.1
+  },
+  {
+    "id": "route_123-U",
+    "name": "123-U",
+    "description": "Ma Na Pa To Bhakti Shakti",
+    "length_km": 20.1
+  },
+  {
+    "id": "route_125-D",
+    "name": "125-D",
+    "description": "Dapodi Mantri Niketan To Bopkhel",
+    "length_km": 12.7
+  },
+  {
+    "id": "route_125-U",
+    "name": "125-U",
+    "description": "Bopkhel To Dapodi Mantri Niketan",
+    "length_km": 12.7
+  },
+  {
+    "id": "route_126A-D",
+    "name": "126A-D",
+    "description": "Kamalpark To Khadki Bazar",
+    "length_km": 10.1
+  },
+  {
+    "id": "route_126B-U",
+    "name": "126B-U",
+    "description": "Kamalpark To Pimplenilakh",
+    "length_km": 20.2
+  },
+  {
+    "id": "route_126C-U",
+    "name": "126C-U",
+    "description": "Khadki Bazar To Pimplenilakh",
+    "length_km": 10.2
+  },
+  {
+    "id": "route_126-D",
+    "name": "126-D",
+    "description": "Pimplenilakh To Vishrantwadi",
+    "length_km": 16.2
+  },
+  {
+    "id": "route_126D-U",
+    "name": "126D-U",
+    "description": "Khadki Bazar To Vishrantwadi",
+    "length_km": 6.0
+  },
+  {
+    "id": "route_126-U",
+    "name": "126-U",
+    "description": "Vishrantwadi To Pimplenilakh",
+    "length_km": 16.2
+  },
+  {
+    "id": "route_128-D",
+    "name": "128-D",
+    "description": "Bopkhel To Ma Na Pa",
+    "length_km": 19.1
+  },
+  {
+    "id": "route_128-U",
+    "name": "128-U",
+    "description": "Ma Na Pa To Bopkhel",
+    "length_km": 19.1
+  },
+  {
+    "id": "route_129-D",
+    "name": "129-D",
+    "description": "Balewadi Depot To Pune Station",
+    "length_km": 18.8
+  },
+  {
+    "id": "route_129-U",
+    "name": "129-U",
+    "description": "Pune Station To  Balewadi Depot",
+    "length_km": 18.8
+  },
+  {
+    "id": "route_12-D",
+    "name": "12-D",
+    "description": "Bhakti Shakti To Upper Depot",
+    "length_km": 30.05
+  },
+  {
+    "id": "route_12-U",
+    "name": "12-U",
+    "description": "Upper Depot To Bhakti Shakti",
+    "length_km": 30.05
+  },
+  {
+    "id": "route_130A-D",
+    "name": "130A-D",
+    "description": "Yewalewadi To Katraj",
+    "length_km": 5.7
+  },
+  {
+    "id": "route_130A-U",
+    "name": "130A-U",
+    "description": "Katraj To Yewalewadi",
+    "length_km": 5.7
+  },
+  {
+    "id": "route_130-D",
+    "name": "130-D",
+    "description": "Shivajinagar To Yewalewadi",
+    "length_km": 16.1
+  },
+  {
+    "id": "route_130-U",
+    "name": "130-U",
+    "description": "Yewalewadi To Shivajinagar",
+    "length_km": 16.1
+  },
+  {
+    "id": "route_132A-D",
+    "name": "132A-D",
+    "description": "Vadgaonsheri To Ma Na Pa (Via Shubham)",
+    "length_km": 14.0
+  },
+  {
+    "id": "route_132A-U",
+    "name": "132A-U",
+    "description": "Ma Na Pa To Vadgaonsheri (Via Shubham)",
+    "length_km": 14.0
+  },
+  {
+    "id": "route_132-D",
+    "name": "132-D",
+    "description": "Shubham Society Nagar Road To Ma Na Pa",
+    "length_km": 11.1
+  },
+  {
+    "id": "route_132-U",
+    "name": "132-U",
+    "description": "Ma Na Pa To Shubham Society Nagar Road",
+    "length_km": 11.1
+  },
+  {
+    "id": "route_133A-D",
+    "name": "133A-D",
+    "description": "Vadgaon Sheri To Ma Na Pa (Via Anand Park)",
+    "length_km": 14.8
+  },
+  {
+    "id": "route_133A-U",
+    "name": "133A-U",
+    "description": "Ma Na Pa To Vadgaon Sheri (Via Anand Park)",
+    "length_km": 14.8
+  },
+  {
+    "id": "route_133-D",
+    "name": "133-D",
+    "description": "Anand Park To Ma Na Pa",
+    "length_km": 12.8
+  },
+  {
+    "id": "route_133-U",
+    "name": "133-U",
+    "description": "Ma Na Pa To Anand Park",
+    "length_km": 12.8
+  },
+  {
+    "id": "route_133B-D",
+    "name": "133B-D",
+    "description": "Sainathnagar To Ma Na Pa",
+    "length_km": 14.0
+  },
+  {
+    "id": "route_133B-U",
+    "name": "133B-U",
+    "description": "Ma Na Pa To Sainath nagar",
+    "length_km": 14.0
+  },
+  {
+    "id": "route_134-D",
+    "name": "134-D",
+    "description": "Vidyanagar To Pune Station",
+    "length_km": 8.7
+  },
+  {
+    "id": "route_134-U",
+    "name": "134-U",
+    "description": "Pune Station To Vidyanagar",
+    "length_km": 8.7
+  },
+  {
+    "id": "route_135A-D",
+    "name": "135A-D",
+    "description": "Wadebolhai To Kesnand Phata",
+    "length_km": 10.8
+  },
+  {
+    "id": "route_135A-U",
+    "name": "135A-U",
+    "description": "Kesnand Phata To Wadebolhai",
+    "length_km": 10.8
+  },
+  {
+    "id": "route_135-D",
+    "name": "135-D",
+    "description": "Wadebolhai To Pune Station",
+    "length_km": 25.6
+  },
+  {
+    "id": "route_135-U",
+    "name": "135-U",
+    "description": "Pune Station To Wadebolhai",
+    "length_km": 25.6
+  },
+  {
+    "id": "route_136A-D",
+    "name": "136A-D",
+    "description": "Vadegaon To Kesnand Phata",
+    "length_km": 12.7
+  },
+  {
+    "id": "route_136A-U",
+    "name": "136A-U",
+    "description": "Kesnand Phata To Vadegaon",
+    "length_km": 12.7
+  },
+  {
+    "id": "route_136-D",
+    "name": "136-D",
+    "description": "Vadegaon To Pune Station",
+    "length_km": 27.5
+  },
+  {
+    "id": "route_136-U",
+    "name": "136-U",
+    "description": "Pune Station To Vadegaon",
+    "length_km": 27.5
+  },
+  {
+    "id": "route_139A-D",
+    "name": "139A-D",
+    "description": "Bhakti Shakti To Bhekrainagar",
+    "length_km": 30.7
+  },
+  {
+    "id": "route_139A-U",
+    "name": "139A-U",
+    "description": "Bhekrainagar To Bhakti Shakti",
+    "length_km": 30.7
+  },
+  {
+    "id": "route_139-D",
+    "name": "139-D",
+    "description": "Bhakti Shakti To Shewalwadi",
+    "length_km": 31.6
+  },
+  {
+    "id": "route_139-U",
+    "name": "139-U",
+    "description": "Shewalwadi To Bhakti Shakti",
+    "length_km": 31.6
+  },
+  {
+    "id": "route_13A-D",
+    "name": "13A-D",
+    "description": "Shivajinagar To VIT College",
+    "length_km": 11.9
+  },
+  {
+    "id": "route_13A-U",
+    "name": "13A-U",
+    "description": "Vit College To Shivajinagar",
+    "length_km": 11.9
+  },
+  {
+    "id": "route_13B-D",
+    "name": "13B-D",
+    "description": "Pune Vidhyapeeth To Upper Depo",
+    "length_km": 14.5
+  },
+  {
+    "id": "route_13B-U",
+    "name": "13B-U",
+    "description": "Upper Depo To Pune Vidhyapeeth",
+    "length_km": 14.5
+  },
+  {
+    "id": "route_13C-U",
+    "name": "13C-U",
+    "description": "Upper Depo To Pune Vidhyapeeth",
+    "length_km": 14.5
+  },
+  {
+    "id": "route_13-D",
+    "name": "13-D",
+    "description": "Shivajinagar To Upper Depot",
+    "length_km": 10.0
+  },
+  {
+    "id": "route_13L-D",
+    "name": "13L-D",
+    "description": "Shivajinagar To Lake Town Society",
+    "length_km": 9.6
+  },
+  {
+    "id": "route_13L-U",
+    "name": "13L-U",
+    "description": "Lake Town Society To Shivajinagar",
+    "length_km": 9.6
+  },
+  {
+    "id": "route_13-U",
+    "name": "13-U",
+    "description": "Upper Depot To Shivajinagar",
+    "length_km": 10.0
+  },
+  {
+    "id": "route_140-D",
+    "name": "140-D",
+    "description": "Pune Station To Upper Depot",
+    "length_km": 11.3
+  },
+  {
+    "id": "route_140-U",
+    "name": "140-U",
+    "description": "Upper Depot To Pune Station",
+    "length_km": 11.3
+  },
+  {
+    "id": "route_141A-D",
+    "name": "141A-D",
+    "description": "Marketyard To Khandoba Mandir",
+    "length_km": 6.0
+  },
+  {
+    "id": "route_141A-U",
+    "name": "141A-U",
+    "description": "Khandoba Mandir To Marketyard",
+    "length_km": 6.0
+  },
+  {
+    "id": "route_141-D",
+    "name": "141-D",
+    "description": "Pune Station To Khandoba Mandir",
+    "length_km": 11.9
+  },
+  {
+    "id": "route_141-U",
+    "name": "141-U",
+    "description": "Khandoba Mandir To Pune Station",
+    "length_km": 11.9
+  },
+  {
+    "id": "route_142-D",
+    "name": "142-D",
+    "description": "Ghotawade Phata To Pune Station",
+    "length_km": 31.8
+  },
+  {
+    "id": "route_142-U",
+    "name": "142-U",
+    "description": "Pune Station To Ghotawade Phata",
+    "length_km": 31.8
+  },
+  {
+    "id": "route_143A-D",
+    "name": "143A-D",
+    "description": "Pune Station To Galinde Path (Vai Nal Stop)",
+    "length_km": 11.3
+  },
+  {
+    "id": "route_143A-U",
+    "name": "143A-U",
+    "description": "Galinde Path To Pune Station (Vai Nal Stop)",
+    "length_km": 11.3
+  },
+  {
+    "id": "route_143-D",
+    "name": "143-D",
+    "description": "Pune Station To Galinde Path (Vai Mhatre Pul)",
+    "length_km": 11.3
+  },
+  {
+    "id": "route_143-U",
+    "name": "143-U",
+    "description": "Galinde Path To Pune Station (Vai Mhatre Pul)",
+    "length_km": 11.3
+  },
+  {
+    "id": "route_144A-D",
+    "name": "144A-D",
+    "description": "Pune Station To Sai Sayajinagar",
+    "length_km": 13.9
+  },
+  {
+    "id": "route_144A-U",
+    "name": "144A-U",
+    "description": "Sai Sayajinagar To Pune Station",
+    "length_km": 13.9
+  },
+  {
+    "id": "route_144B-D",
+    "name": "144B-D",
+    "description": "Sainathnagar To Kumbre Park",
+    "length_km": 22.7
+  },
+  {
+    "id": "route_144B-U",
+    "name": "144B-U",
+    "description": "Kumbre Park To Sainathnagar",
+    "length_km": 22.7
+  },
+  {
+    "id": "route_144-D",
+    "name": "144-D",
+    "description": "Pune Station To Kothrud Stand",
+    "length_km": 9.0
+  },
+  {
+    "id": "route_144D-D",
+    "name": "144D-D",
+    "description": "Pune Station To Kumbare Park",
+    "length_km": 12.5
+  },
+  {
+    "id": "route_144D-U",
+    "name": "144D-U",
+    "description": "Kumbare Park To Pune Station",
+    "length_km": 12.5
+  },
+  {
+    "id": "route_144K-D",
+    "name": "144K-D",
+    "description": "Pune Station To Gujrat Colony",
+    "length_km": 9.0
+  },
+  {
+    "id": "route_144K-U",
+    "name": "144K-U",
+    "description": "Gujrat Colony To Pune Station",
+    "length_km": 9.0
+  },
+  {
+    "id": "route_144-U",
+    "name": "144-U",
+    "description": "Kothrud Stand To Pune Station",
+    "length_km": 9.0
+  },
+  {
+    "id": "route_145A-D",
+    "name": "145A-D",
+    "description": "D2 Circle To Pune Station",
+    "length_km": 25.75
+  },
+  {
+    "id": "route_145A-U",
+    "name": "145A-U",
+    "description": "Pune Station To D2 Circle",
+    "length_km": 25.75
+  },
+  {
+    "id": "route_145B-D",
+    "name": "145B-D",
+    "description": "Sutarwadi Pashan To Pune Station",
+    "length_km": 13.0
+  },
+  {
+    "id": "route_145B-U",
+    "name": "145B-U",
+    "description": "Pune Station To Sutarwadi Pashan",
+    "length_km": 13.0
+  },
+  {
+    "id": "route_145-D",
+    "name": "145-D",
+    "description": "NDA Golmarket To Pune Station",
+    "length_km": 23.15
+  },
+  {
+    "id": "route_145-U",
+    "name": "145-U",
+    "description": "Pune Station To NDA Gol Market",
+    "length_km": 23.15
+  },
+  {
+    "id": "route_146-D",
+    "name": "146-D",
+    "description": "Gokhalenagar To Pune Station",
+    "length_km": 8.45
+  },
+  {
+    "id": "route_146-U",
+    "name": "146-U",
+    "description": "Pune Station To Gokhalenagar",
+    "length_km": 8.45
+  },
+  {
+    "id": "route_147A-D",
+    "name": "147A-D",
+    "description": "Nhavi Sandas To Kesnand Phata",
+    "length_km": 23.2
+  },
+  {
+    "id": "route_147A-U",
+    "name": "147A-U",
+    "description": "Kesnand Phata To Nhavi Sandas",
+    "length_km": 23.2
+  },
+  {
+    "id": "route_147-D",
+    "name": "147-D",
+    "description": "Nhavi Sandas To Pune Station",
+    "length_km": 38.0
+  },
+  {
+    "id": "route_147-U",
+    "name": "147-U",
+    "description": "Pune Station To Nhavi Sandas",
+    "length_km": 38.0
+  },
+  {
+    "id": "route_148A-D",
+    "name": "148A-D",
+    "description": "Bhosari To Bhekrainagar",
+    "length_km": 33.7
+  },
+  {
+    "id": "route_148A-U",
+    "name": "148A-U",
+    "description": "Bhekrainagar To Bhosari",
+    "length_km": 33.7
+  },
+  {
+    "id": "route_148-D",
+    "name": "148-D",
+    "description": "Pimplegurav To Shewalwadi",
+    "length_km": 24.8
+  },
+  {
+    "id": "route_148-U",
+    "name": "148-U",
+    "description": "Shewalwadi To Pimplegurav",
+    "length_km": 24.8
+  },
+  {
+    "id": "route_149A-D",
+    "name": "149A-D",
+    "description": "Bhakti Shakti To Shewalwadi",
+    "length_km": 42.9
+  },
+  {
+    "id": "route_149A-U",
+    "name": "149A-U",
+    "description": "Shewalwadi To Bhakti Shakti",
+    "length_km": 42.9
+  },
+  {
+    "id": "route_149-D",
+    "name": "149-D",
+    "description": "Pimpri To Shewalwadi",
+    "length_km": 37.6
+  },
+  {
+    "id": "route_149-U",
+    "name": "149-U",
+    "description": "Shewalwadi To Pimpri",
+    "length_km": 37.6
+  },
+  {
+    "id": "route_14-D",
+    "name": "14-D",
+    "description": "Kesnand Phata To Dhayari Maruti Mandir",
+    "length_km": 31.6
+  },
+  {
+    "id": "route_14-U",
+    "name": "14-U",
+    "description": "Dhayari Maruti Mandir To Kesnand Phata",
+    "length_km": 31.6
+  },
+  {
+    "id": "route_151-D",
+    "name": "151-D",
+    "description": "Alandi To Pune Station",
+    "length_km": 22.0
+  },
+  {
+    "id": "route_151-U",
+    "name": "151-U",
+    "description": "Pune Station To Alandi",
+    "length_km": 22.0
+  },
+  {
+    "id": "route_152A-D",
+    "name": "152A-D",
+    "description": "Munjabavasti To Ma Na Pa",
+    "length_km": 12.3
+  },
+  {
+    "id": "route_152A-U",
+    "name": "152A-U",
+    "description": "Ma Na Pa To Munjabavasti",
+    "length_km": 12.3
+  },
+  {
+    "id": "route_152D-D",
+    "name": "152D-D",
+    "description": "Ma Na Pa To Dhanorigaon",
+    "length_km": 11.6
+  },
+  {
+    "id": "route_154-D",
+    "name": "154-D",
+    "description": "Vishrantwadi To Pune Station",
+    "length_km": 8.5
+  },
+  {
+    "id": "route_154-U",
+    "name": "154-U",
+    "description": "Pune Station To Vishrantwadi",
+    "length_km": 8.5
+  },
+  {
+    "id": "route_155-D",
+    "name": "155-D",
+    "description": "Lohgaon To Pune Station (Via Dhanori)",
+    "length_km": 15.7
+  },
+  {
+    "id": "route_155-U",
+    "name": "155-U",
+    "description": "Pune Station To Lohgaon (Via Dhanori)",
+    "length_km": 15.7
+  },
+  {
+    "id": "route_158A-D",
+    "name": "158A-D",
+    "description": "Dadachi Padal To Ma Na Pa",
+    "length_km": 15.5
+  },
+  {
+    "id": "route_158A-U",
+    "name": "158A-U",
+    "description": "Ma Na Pa To Dadachi Padal",
+    "length_km": 15.5
+  },
+  {
+    "id": "route_158-D",
+    "name": "158-D",
+    "description": "Lohgaon To Ma Na Pa",
+    "length_km": 13.5
+  },
+  {
+    "id": "route_158-U",
+    "name": "158-U",
+    "description": "Ma Na Pa To Lohgaon",
+    "length_km": 13.5
+  },
+  {
+    "id": "route_159-D",
+    "name": "159-D",
+    "description": "Talegaon Dhamdhere To Ma Na Pa",
+    "length_km": 40.5
+  },
+  {
+    "id": "route_159K-D",
+    "name": "159K-D",
+    "description": "Koregaon Bhima To Ma Na Pa",
+    "length_km": 29.0
+  },
+  {
+    "id": "route_159K-U",
+    "name": "159K-U",
+    "description": "Ma Na Pa To Koregaon Bhima",
+    "length_km": 29.0
+  },
+  {
+    "id": "route_159P-D",
+    "name": "159P-D",
+    "description": "Pabal Phata To Ma Na Pa",
+    "length_km": 40.8
+  },
+  {
+    "id": "route_159P-U",
+    "name": "159P-U",
+    "description": "Ma Na Pa To Pabal Phata",
+    "length_km": 40.8
+  },
+  {
+    "id": "route_159-U",
+    "name": "159-U",
+    "description": "Ma Na Pa To Talegaon Dhamdhere",
+    "length_km": 40.5
+  },
+  {
+    "id": "route_160-D",
+    "name": "160-D",
+    "description": "Mundhwagaon To Ma Na Pa",
+    "length_km": 10.9
+  },
+  {
+    "id": "route_160-U",
+    "name": "160-U",
+    "description": "Ma Na Pa To Mundhwagaon",
+    "length_km": 10.9
+  },
+  {
+    "id": "route_161-D",
+    "name": "161-D",
+    "description": "Vimannagar To  Warje Malwadi",
+    "length_km": 23.0
+  },
+  {
+    "id": "route_161-U",
+    "name": "161-U",
+    "description": "Warje Malwadi To Vimannagar",
+    "length_km": 23.0
+  },
+  {
+    "id": "route_162-D",
+    "name": "162-D",
+    "description": "Kendurgaon To Pune Station",
+    "length_km": 43.0
+  },
+  {
+    "id": "route_162-U",
+    "name": "162-U",
+    "description": "Pune Station To Kendurgaon",
+    "length_km": 43.0
+  },
+  {
+    "id": "route_163-D",
+    "name": "163-D",
+    "description": "Kharadi Gaon To Pune Station",
+    "length_km": 11.0
+  },
+  {
+    "id": "route_163-U",
+    "name": "163-U",
+    "description": "Pune Station To Kharadi Gaon",
+    "length_km": 11.0
+  },
+  {
+    "id": "route_164-D",
+    "name": "164-D",
+    "description": "Vimannagar To Swargate",
+    "length_km": 15.5
+  },
+  {
+    "id": "route_164-U",
+    "name": "164-U",
+    "description": "Swargate To Vimannagar",
+    "length_km": 15.0
+  },
+  {
+    "id": "route_165-D",
+    "name": "165-D",
+    "description": "Vadgaonsheri To Ma Na Pa",
+    "length_km": 11.1
+  },
+  {
+    "id": "route_165-U",
+    "name": "165-U",
+    "description": "Ma Na Pa To Vadgaonsheri",
+    "length_km": 11.1
+  },
+  {
+    "id": "route_166-D",
+    "name": "166-D",
+    "description": "Vimannagar To Pune Station",
+    "length_km": 9.5
+  },
+  {
+    "id": "route_166-U",
+    "name": "166-U",
+    "description": "Pune Station To Vimannagar",
+    "length_km": 9.5
+  },
+  {
+    "id": "route_167-D",
+    "name": "167-D",
+    "description": "Kesnand Phata To Hadapsar Gadital",
+    "length_km": 14.2
+  },
+  {
+    "id": "route_167-U",
+    "name": "167-U",
+    "description": "Hadapsar Gadital To Kesnand Phata",
+    "length_km": 14.2
+  },
+  {
+    "id": "route_168-D",
+    "name": "168-D",
+    "description": "Keshavnagar To Ma Na Pa",
+    "length_km": 11.6
+  },
+  {
+    "id": "route_168-U",
+    "name": "168-U",
+    "description": "Ma Na Pa To Keshavnagar",
+    "length_km": 11.6
+  },
+  {
+    "id": "route_169-D",
+    "name": "169-D",
+    "description": "Keshavnagar To Ma Na Pa (Vai Koregaon Park)",
+    "length_km": 12.0
+  },
+  {
+    "id": "route_169-U",
+    "name": "169-U",
+    "description": "Ma Na Pa To Keshavnagar (Vai Koregaon Park)",
+    "length_km": 12.0
+  },
+  {
+    "id": "route_170A-D",
+    "name": "170A-D",
+    "description": "Kondhwa Bk To Pune Station",
+    "length_km": 11.3
+  },
+  {
+    "id": "route_170A-U",
+    "name": "170A-U",
+    "description": "Pune Station To Kondhwa Bk",
+    "length_km": 11.3
+  },
+  {
+    "id": "route_170B-D",
+    "name": "170B-D",
+    "description": "Kondhwa Hospital To Pune Station",
+    "length_km": 12.0
+  },
+  {
+    "id": "route_170B-U",
+    "name": "170B-U",
+    "description": "Pune Station To Kondhwa Hospital",
+    "length_km": 12.0
+  },
+  {
+    "id": "route_170-D",
+    "name": "170-D",
+    "description": "Kondhwa Bk To Pune Station",
+    "length_km": 11.3
+  },
+  {
+    "id": "route_170-U",
+    "name": "170-U",
+    "description": "Pune Station To Kondhwa Bk",
+    "length_km": 11.3
+  },
+  {
+    "id": "route_174A-D",
+    "name": "174A-D",
+    "description": "NDA Golmarket To Pune Station",
+    "length_km": 21.0
+  },
+  {
+    "id": "route_174A-U",
+    "name": "174A-U",
+    "description": "Pune Station To NDA Gol Market",
+    "length_km": 21.0
+  },
+  {
+    "id": "route_174B-D",
+    "name": "174B-D",
+    "description": "D2 Circle To Pune Station",
+    "length_km": 23.4
+  },
+  {
+    "id": "route_174B-U",
+    "name": "174B-U",
+    "description": "Pune Station To D2 Circle",
+    "length_km": 23.4
+  },
+  {
+    "id": "route_174-D",
+    "name": "174-D",
+    "description": "Kondhwa Gate To Pune Station",
+    "length_km": 18.8
+  },
+  {
+    "id": "route_174-U",
+    "name": "174-U",
+    "description": "Pune Station To Kondhwa Gate",
+    "length_km": 18.8
+  },
+  {
+    "id": "route_175-D",
+    "name": "175-D",
+    "description": "Hadapsar Gadital To Ma Na Pa",
+    "length_km": 16.0
+  },
+  {
+    "id": "route_175-U",
+    "name": "175-U",
+    "description": "Ma Na Pa To Hadapsar Gadital",
+    "length_km": 16.0
+  },
+  {
+    "id": "route_176A-D",
+    "name": "176A-D",
+    "description": "Krushnanagar Mohammadwadi To  Swargate (Vai NIBM)",
+    "length_km": 12.1
+  },
+  {
+    "id": "route_176A-U",
+    "name": "176A-U",
+    "description": "Swrgate To Krushnanagar Mohammadwadi (Vai NIBM)",
+    "length_km": 12.1
+  },
+  {
+    "id": "route_176-D",
+    "name": "176-D",
+    "description": "Mahammad Wadi To Swargate",
+    "length_km": 12.1
+  },
+  {
+    "id": "route_176-U",
+    "name": "176-U",
+    "description": "Swargate To Mahammad Wadi",
+    "length_km": 12.1
+  },
+  {
+    "id": "route_177A-D",
+    "name": "177A-D",
+    "description": "Azadnagar To Vishrantwadi",
+    "length_km": 18.4
+  },
+  {
+    "id": "route_177A-U",
+    "name": "177A-U",
+    "description": "Vishrantwadi To Azadnagar",
+    "length_km": 18.4
+  },
+  {
+    "id": "route_177B-D",
+    "name": "177B-D",
+    "description": "Siddharthnagar To Pune Station",
+    "length_km": 9.7
+  },
+  {
+    "id": "route_177B-U",
+    "name": "177B-U",
+    "description": "Pune Station To Siddharthnagar",
+    "length_km": 9.7
+  },
+  {
+    "id": "route_177-D",
+    "name": "177-D",
+    "description": "Salunke Vihar To Pune Station",
+    "length_km": 9.2
+  },
+  {
+    "id": "route_177D-D",
+    "name": "177D-D",
+    "description": "Azadnagar To Pune Station",
+    "length_km": 9.5
+  },
+  {
+    "id": "route_177D-U",
+    "name": "177D-U",
+    "description": "Pune Station To Azadnagar",
+    "length_km": 9.5
+  },
+  {
+    "id": "route_177K-D",
+    "name": "177K-D",
+    "description": "Krushnanagar Mohammadwadi To Pune Station",
+    "length_km": 10.9
+  },
+  {
+    "id": "route_177K-U",
+    "name": "177K-U",
+    "description": "Pune Station To Krushnanagar Mohammadwadi",
+    "length_km": 10.9
+  },
+  {
+    "id": "route_177M-D",
+    "name": "177M-D",
+    "description": "Mahammad Wadi To Pune Station",
+    "length_km": 13.3
+  },
+  {
+    "id": "route_177M-U",
+    "name": "177M-U",
+    "description": "Pune Station To Mahammad Wadi",
+    "length_km": 13.3
+  },
+  {
+    "id": "route_177-U",
+    "name": "177-U",
+    "description": "Pune Station To Salunke Vihar",
+    "length_km": 9.2
+  },
+  {
+    "id": "route_179A-D",
+    "name": "179A-D",
+    "description": "Vadachiwadi To Hadapsar Gadital",
+    "length_km": 9.6
+  },
+  {
+    "id": "route_179A-U",
+    "name": "179A-U",
+    "description": "Hadapsar Gadital To Vadachiwadi",
+    "length_km": 9.6
+  },
+  {
+    "id": "route_179-D",
+    "name": "179-D",
+    "description": "Vadachiwadi To swargate",
+    "length_km": 14.2
+  },
+  {
+    "id": "route_179-U",
+    "name": "179-U",
+    "description": "Swargate To Vadachiwadi",
+    "length_km": 14.2
+  },
+  {
+    "id": "route_17A-D",
+    "name": "17A-D",
+    "description": "Narhegaon To Natraj Stand",
+    "length_km": 11.0
+  },
+  {
+    "id": "route_17A-U",
+    "name": "17A-U",
+    "description": "Natraj Stand To Narhegaon",
+    "length_km": 11.0
+  },
+  {
+    "id": "route_17B-D",
+    "name": "17B-D",
+    "description": "Shaniwarwada Stand To Swargate",
+    "length_km": 2.8
+  },
+  {
+    "id": "route_17B-U",
+    "name": "17B-U",
+    "description": "Swargate To Shaniwarwada Stand",
+    "length_km": 2.8
+  },
+  {
+    "id": "route_17-D",
+    "name": "17-D",
+    "description": "Narhegaon To Shaniwarwada",
+    "length_km": 13.2
+  },
+  {
+    "id": "route_17-U",
+    "name": "17-U",
+    "description": "Shaniwarwada To Narhegaon",
+    "length_km": 13.2
+  },
+  {
+    "id": "route_180-D",
+    "name": "180-D",
+    "description": "Bhekrainagar To Na Ta Wadi",
+    "length_km": 15.5
+  },
+  {
+    "id": "route_180-U",
+    "name": "180-U",
+    "description": "Na Ta Wadi To Bhekrainagar",
+    "length_km": 15.5
+  },
+  {
+    "id": "route_181A-D",
+    "name": "181A-D",
+    "description": "SRP Camp To Na Ta Wadi",
+    "length_km": 12.3
+  },
+  {
+    "id": "route_181A-U",
+    "name": "181A-U",
+    "description": "Na Ta Wadi To SRP Camp",
+    "length_km": 12.3
+  },
+  {
+    "id": "route_181B-D",
+    "name": "181B-D",
+    "description": "Siddharthnagar To Na Ta Wadi",
+    "length_km": 11.5
+  },
+  {
+    "id": "route_181B-U",
+    "name": "181B-U",
+    "description": "Na Ta Wadi To Siddharthnagar",
+    "length_km": 11.5
+  },
+  {
+    "id": "route_181C-D",
+    "name": "181C-D",
+    "description": "Kondhwa Bk To Na Ta Wadi",
+    "length_km": 13.8
+  },
+  {
+    "id": "route_181C-U",
+    "name": "181C-U",
+    "description": "Na Ta Wadi To Kondhwa Bk",
+    "length_km": 13.8
+  },
+  {
+    "id": "route_181-D",
+    "name": "181-D",
+    "description": "Kondhwa Kh To Na Ta Wadi",
+    "length_km": 11.5
+  },
+  {
+    "id": "route_181-U",
+    "name": "181-U",
+    "description": "Na Ta Wadi To Kondhwa Kh",
+    "length_km": 11.5
+  },
+  {
+    "id": "route_183A-D",
+    "name": "183A-D",
+    "description": "Theur Factory To Sarasbaug",
+    "length_km": 27.9
+  },
+  {
+    "id": "route_183A-U",
+    "name": "183A-U",
+    "description": "Sarasbaug To Theur Factory",
+    "length_km": 27.9
+  },
+  {
+    "id": "route_183-D",
+    "name": "183-D",
+    "description": "Theur To Hadapsar Gadital",
+    "length_km": 17.4
+  },
+  {
+    "id": "route_183-U",
+    "name": "183-U",
+    "description": "Hadapsar Gadital To Theur",
+    "length_km": 14.7
+  },
+  {
+    "id": "route_184A-D",
+    "name": "184A-D",
+    "description": "Bhekrainagar To Swargate",
+    "length_km": 12.1
+  },
+  {
+    "id": "route_184A-NGT-D",
+    "name": "184A-NGT-D",
+    "description": "Hadapsar Gadital To Swargate",
+    "length_km": 9.5
+  },
+  {
+    "id": "route_184A-NGT-U",
+    "name": "184A-NGT-U",
+    "description": "Swargate To Hadapsar Gadital",
+    "length_km": 9.5
+  },
+  {
+    "id": "route_184A-U",
+    "name": "184A-U",
+    "description": "Swargate To Bhekrainagar",
+    "length_km": 12.1
+  },
+  {
+    "id": "route_184B-D",
+    "name": "184B-D",
+    "description": "Fursungi To Swargate",
+    "length_km": 15.3
+  },
+  {
+    "id": "route_184B-U",
+    "name": "184B-U",
+    "description": "Swargate To Fursungi",
+    "length_km": 15.3
+  },
+  {
+    "id": "route_184-D",
+    "name": "184-D",
+    "description": "Fursungi To Padmawati",
+    "length_km": 19.6
+  },
+  {
+    "id": "route_184-U",
+    "name": "184-U",
+    "description": "Padmawati To Fursungi",
+    "length_km": 16.9
+  },
+  {
+    "id": "route_185-D",
+    "name": "185-D",
+    "description": "Manjari Kh To Hadapsar Gadital",
+    "length_km": 8.3
+  },
+  {
+    "id": "route_185-U",
+    "name": "185-U",
+    "description": "Hadapsar Gadital To Manjari Kh",
+    "length_km": 8.3
+  },
+  {
+    "id": "route_186A-D",
+    "name": "186A-D",
+    "description": "Swargate To Jspm College",
+    "length_km": 13.3
+  },
+  {
+    "id": "route_186A-U",
+    "name": "186A-U",
+    "description": "Jspm College To Swargate",
+    "length_km": 13.3
+  },
+  {
+    "id": "route_186B-D",
+    "name": "186B-D",
+    "description": "Hadapsar Gadital To JSPM college",
+    "length_km": 4.7
+  },
+  {
+    "id": "route_186B-U",
+    "name": "186B-U",
+    "description": "JSPM college To Hadapsar Gadital",
+    "length_km": 4.7
+  },
+  {
+    "id": "route_186-D",
+    "name": "186-D",
+    "description": "Pune Station To Jspm College",
+    "length_km": 14.2
+  },
+  {
+    "id": "route_186-U",
+    "name": "186-U",
+    "description": "Jspm College To Pune Station",
+    "length_km": 14.2
+  },
+  {
+    "id": "route_187-D",
+    "name": "187-D",
+    "description": "Pune Station To Bhekrainagar",
+    "length_km": 15.0
+  },
+  {
+    "id": "route_187-U",
+    "name": "187-U",
+    "description": "Bhekrainagar To Pune Station",
+    "length_km": 15.0
+  },
+  {
+    "id": "route_188-D",
+    "name": "188-D",
+    "description": "Katraj To Hadapsar Gadital",
+    "length_km": 18.0
+  },
+  {
+    "id": "route_188-U",
+    "name": "188-U",
+    "description": "Hadapsar Gadital To Katraj",
+    "length_km": 18.0
+  },
+  {
+    "id": "route_189-D",
+    "name": "189-D",
+    "description": "Devachi Uruli To Hadapsar Gadital",
+    "length_km": 6.7
+  },
+  {
+    "id": "route_189-U",
+    "name": "189-U",
+    "description": "Hadapsar Gadital To Devachi Uruli",
+    "length_km": 6.7
+  },
+  {
+    "id": "route_18-D",
+    "name": "18-D",
+    "description": "Bhansali Complex To Swargate",
+    "length_km": 8.5
+  },
+  {
+    "id": "route_18-U",
+    "name": "18-U",
+    "description": "Swargate To Bhansali Complex",
+    "length_km": 8.5
+  },
+  {
+    "id": "route_190A-D",
+    "name": "190A-D",
+    "description": "Vadkigaon To Hadapsar Gadital",
+    "length_km": 8.7
+  },
+  {
+    "id": "route_190A-U",
+    "name": "190A-U",
+    "description": "Hadapsar Gadital To Vadkigaon",
+    "length_km": 8.7
+  },
+  {
+    "id": "route_190-D",
+    "name": "190-D",
+    "description": "Fursungi To Hadapsar Gadital",
+    "length_km": 6.0
+  },
+  {
+    "id": "route_190-U",
+    "name": "190-U",
+    "description": "Hadapsar Gadital To Fursungi",
+    "length_km": 6.0
+  },
+  {
+    "id": "route_191-D",
+    "name": "191-D",
+    "description": "Trinity College To Pune Station",
+    "length_km": 14.5
+  },
+  {
+    "id": "route_191-U",
+    "name": "191-U",
+    "description": "Pune Station To Trinity College",
+    "length_km": 14.5
+  },
+  {
+    "id": "route_192A-D",
+    "name": "192A-D",
+    "description": "Mohammadwadigaon To Hadapsar Gadital",
+    "length_km": 6.0
+  },
+  {
+    "id": "route_192A-U",
+    "name": "192A-U",
+    "description": "Hadapsar Gadital To Mohammadwadigaon",
+    "length_km": 6.0
+  },
+  {
+    "id": "route_192-D",
+    "name": "192-D",
+    "description": "Undrigaon To Hadapsar Gadital",
+    "length_km": 8.0
+  },
+  {
+    "id": "route_192-U",
+    "name": "192-U",
+    "description": "Hadapsar Gadital To Undrigaon",
+    "length_km": 8.0
+  },
+  {
+    "id": "route_193-D",
+    "name": "193-D",
+    "description": "Uruli Kanchan To Hadapsar Gadital",
+    "length_km": 22.8
+  },
+  {
+    "id": "route_193-U",
+    "name": "193-U",
+    "description": "Hadapsar Gadital To Uruli Kanchan",
+    "length_km": 22.8
+  },
+  {
+    "id": "route_195-D",
+    "name": "195-D",
+    "description": "Holkarwadi To Hadapsar Gadital",
+    "length_km": 8.5
+  },
+  {
+    "id": "route_195-U",
+    "name": "195-U",
+    "description": "Hadapsar Gadital To Holkarwadi",
+    "length_km": 8.5
+  },
+  {
+    "id": "route_196A-D",
+    "name": "196A-D",
+    "description": "Mahammad Wadi To Swargate (Vai Ram Takedi)",
+    "length_km": 13.1
+  },
+  {
+    "id": "route_196A-U",
+    "name": "196A-U",
+    "description": "Swargate To Mahammad Wadi  (Vai Ram Takedi)",
+    "length_km": 13.1
+  },
+  {
+    "id": "route_196-D",
+    "name": "196-D",
+    "description": "Hadapsar Gadital To Pune Station",
+    "length_km": 12.4
+  },
+  {
+    "id": "route_196-U",
+    "name": "196-U",
+    "description": "Pune Station To Hadapsar Gadital",
+    "length_km": 12.4
+  },
+  {
+    "id": "route_197-D",
+    "name": "197-D",
+    "description": "Kothrud Depot To Hadapsar Gadital",
+    "length_km": 17.6
+  },
+  {
+    "id": "route_197-U",
+    "name": "197-U",
+    "description": "Hadapsar Gadital To Kothrud Depot",
+    "length_km": 17.6
+  },
+  {
+    "id": "route_198-D",
+    "name": "198-D",
+    "description": "Manjari Bk To Hadapsar Gadital",
+    "length_km": 11.0
+  },
+  {
+    "id": "route_198-U",
+    "name": "198-U",
+    "description": "Hadapsar Gadital To Manjari Bk",
+    "length_km": 11.0
+  },
+  {
+    "id": "route_19A-D",
+    "name": "19A-D",
+    "description": "Shivajinagar To Marketyard",
+    "length_km": 7.6
+  },
+  {
+    "id": "route_19A-U",
+    "name": "19A-U",
+    "description": "Marketyard To Shivajinagar",
+    "length_km": 7.6
+  },
+  {
+    "id": "route_19B-D",
+    "name": "19B-D",
+    "description": "Kondhwa Hospital To Marketyard",
+    "length_km": 9.0
+  },
+  {
+    "id": "route_19B-U",
+    "name": "19B-U",
+    "description": "Marketyard To Kondhwa Hospital",
+    "length_km": 9.0
+  },
+  {
+    "id": "route_19-D",
+    "name": "19-D",
+    "description": "Shivajinagar To Kondhwa Hospital",
+    "length_km": 16.6
+  },
+  {
+    "id": "route_19-U",
+    "name": "19-U",
+    "description": "Kondhwa Hospital To Shivajinagar",
+    "length_km": 16.6
+  },
+  {
+    "id": "route_200A-D",
+    "name": "200A-D",
+    "description": "Hadapsar Gadital To Sadesatranali",
+    "length_km": 3.0
+  },
+  {
+    "id": "route_200A-U",
+    "name": "200A-U",
+    "description": "Sadesatranali To Hadapsar Gadital",
+    "length_km": 3.0
+  },
+  {
+    "id": "route_200-D",
+    "name": "200-D",
+    "description": "Swargate To Sadesatranali",
+    "length_km": 12.4
+  },
+  {
+    "id": "route_200-U",
+    "name": "200-U",
+    "description": "Sadesatranali To Swargate",
+    "length_km": 12.4
+  },
+  {
+    "id": "route_201-D",
+    "name": "201-D",
+    "description": "Alandi To Bhekrainagar",
+    "length_km": 34.3
+  },
+  {
+    "id": "route_201-U",
+    "name": "201-U",
+    "description": "Bhekrainagar To Alandi",
+    "length_km": 34.3
+  },
+  {
+    "id": "route_202A-U",
+    "name": "202A-U",
+    "description": "Mahatma Gandhi Stand To Warje Malwadi",
+    "length_km": 13.1
+  },
+  {
+    "id": "route_202B-D",
+    "name": "202B-D",
+    "description": "Mahatma Gandhi Stand To Swargate",
+    "length_km": 13.1
+  },
+  {
+    "id": "route_202B-U",
+    "name": "202B-U",
+    "description": "Swargate To Mahatma Gandhi Stand",
+    "length_km": 3.0
+  },
+  {
+    "id": "route_202-D",
+    "name": "202-D",
+    "description": "Warje Malwadi To Hadapsar Gadital",
+    "length_km": 19.2
+  },
+  {
+    "id": "route_202-U",
+    "name": "202-U",
+    "description": "Hadapsar Gadital To Ganpati Matha",
+    "length_km": 19.2
+  },
+  {
+    "id": "route_203-D",
+    "name": "203-D",
+    "description": "Pune Station To Bhekrainagar",
+    "length_km": 12.6
+  },
+  {
+    "id": "route_203-NGT-D",
+    "name": "203-NGT-D",
+    "description": "Pune Station To Hadapsar Gadital",
+    "length_km": 10.0
+  },
+  {
+    "id": "route_203-NGT-U",
+    "name": "203-NGT-U",
+    "description": "Hadapsar Gadital To Pune Station",
+    "length_km": 10.0
+  },
+  {
+    "id": "route_203P-D",
+    "name": "203P-D",
+    "description": "Pune Station To Shewalwadi",
+    "length_km": 13.5
+  },
+  {
+    "id": "route_203P-U",
+    "name": "203P-U",
+    "description": "Shewalwadi To Pune Station",
+    "length_km": 13.5
+  },
+  {
+    "id": "route_203-U",
+    "name": "203-U",
+    "description": "Bhekrainagar To Pune Station",
+    "length_km": 12.6
+  },
+  {
+    "id": "route_204-D",
+    "name": "204-D",
+    "description": "Chinchwadgaon To Bhekrainagar",
+    "length_km": 31.9
+  },
+  {
+    "id": "route_204-U",
+    "name": "204-U",
+    "description": "Bhekrainagar To Chinchwadgaon",
+    "length_km": 31.9
+  },
+  {
+    "id": "route_205-D",
+    "name": "205-D",
+    "description": "Vasantdada Putala Sangvi To Hadapsar Gadital",
+    "length_km": 26.5
+  },
+  {
+    "id": "route_205-U",
+    "name": "205-U",
+    "description": "Hadapsar Gadital To Vasantdada Putala Sangvi",
+    "length_km": 26.5
+  },
+  {
+    "id": "route_206-D",
+    "name": "206-D",
+    "description": "Vishalnagar To Hadapsar Gadital",
+    "length_km": 26.8
+  },
+  {
+    "id": "route_206-U",
+    "name": "206-U",
+    "description": "Hadapsar Gadital To Vishalnagar",
+    "length_km": 26.8
+  },
+  {
+    "id": "route_207A-D",
+    "name": "207A-D",
+    "description": "Saswad To Hadapsar Gadital",
+    "length_km": 23.0
+  },
+  {
+    "id": "route_207A-U",
+    "name": "207A-U",
+    "description": "Hadapsar Gadital To Saswad",
+    "length_km": 23.0
+  },
+  {
+    "id": "route_207-D",
+    "name": "207-D",
+    "description": "Saswad To Swargate",
+    "length_km": 32.7
+  },
+  {
+    "id": "route_207-U",
+    "name": "207-U",
+    "description": "Swargate To Saswad",
+    "length_km": 32.7
+  },
+  {
+    "id": "route_208A-D",
+    "name": "208A-D",
+    "description": "Bhakti Shakti To Hadapsar Gadital",
+    "length_km": 28.2
+  },
+  {
+    "id": "route_208A-U",
+    "name": "208A-U",
+    "description": "Hadapsar Gadital To Bhakti Shakti",
+    "length_km": 28.2
+  },
+  {
+    "id": "route_208-D",
+    "name": "208-D",
+    "description": "Hinjawadi Maan Phase 3 To Hadapsar Gadital",
+    "length_km": 36.3
+  },
+  {
+    "id": "route_208-U",
+    "name": "208-U",
+    "description": "Hadapsar Gadital To Hinjawadi Maan Phase 3",
+    "length_km": 36.3
+  },
+  {
+    "id": "route_20A-D",
+    "name": "20A-D",
+    "description": "Sahkarnagar To Swargate Depo",
+    "length_km": 3.4
+  },
+  {
+    "id": "route_20A-U",
+    "name": "20A-U",
+    "description": "Swargate Depo To Sahkarnagar",
+    "length_km": 3.4
+  },
+  {
+    "id": "route_20B-D",
+    "name": "20B-D",
+    "description": "Hadapsar Gadital To Swargate",
+    "length_km": 9.5
+  },
+  {
+    "id": "route_20B-U",
+    "name": "20B-U",
+    "description": "Swargate To Hadapsar Gadital",
+    "length_km": 9.5
+  },
+  {
+    "id": "route_20-D",
+    "name": "20-D",
+    "description": "Pune Station To Sahkarnagar",
+    "length_km": 9.5
+  },
+  {
+    "id": "route_20-U",
+    "name": "20-U",
+    "description": "Sahkarnagar To Pune Station",
+    "length_km": 9.5
+  },
+  {
+    "id": "route_213-D",
+    "name": "213-D",
+    "description": "Vimannagar To Katraj",
+    "length_km": 21.9
+  },
+  {
+    "id": "route_213-U",
+    "name": "213-U",
+    "description": "Katraj To Vimannagar",
+    "length_km": 21.9
+  },
+  {
+    "id": "route_215A-U",
+    "name": "215A-U",
+    "description": "Chintamani Dnyanpith To Swargate",
+    "length_km": 8.6
+  },
+  {
+    "id": "route_215A-D",
+    "name": "215A-D",
+    "description": "SwargateTo Chintamani Dnyanpith",
+    "length_km": 8.6
+  },
+  {
+    "id": "route_215-D",
+    "name": "215-D",
+    "description": "Swargate To Chintamani Dnyanpith",
+    "length_km": 7.5
+  },
+  {
+    "id": "route_215-U",
+    "name": "215-U",
+    "description": "Chintamani Dnyanpith To Swargate",
+    "length_km": 7.5
+  },
+  {
+    "id": "route_216A-D",
+    "name": "216A-D",
+    "description": "Mandai To Katraj",
+    "length_km": 7.7
+  },
+  {
+    "id": "route_216A-U",
+    "name": "216A-U",
+    "description": "Katraj To Mandai",
+    "length_km": 7.7
+  },
+  {
+    "id": "route_216B-D",
+    "name": "216B-D",
+    "description": "Pune Vidhyapeeth To Bharati Vidyapeeth",
+    "length_km": 16.5
+  },
+  {
+    "id": "route_216B-U",
+    "name": "216B-U",
+    "description": "Bharati Vidyapeeth To Pune Vidhyapeeth",
+    "length_km": 16.5
+  },
+  {
+    "id": "route_216C-D",
+    "name": "216C-D",
+    "description": "Mandai To Bharati Vidyapeeth",
+    "length_km": 7.7
+  },
+  {
+    "id": "route_216C-U",
+    "name": "216C-U",
+    "description": "Bharati Vidyapeeth To Mandai",
+    "length_km": 7.7
+  },
+  {
+    "id": "route_216-R",
+    "name": "216-R",
+    "description": "Bharati Vidyapeeth To Bharati Vidyapeeth",
+    "length_km": 15.5
+  },
+  {
+    "id": "route_217A-D",
+    "name": "217A-D",
+    "description": "Gujarwadi To Katraj",
+    "length_km": 3.8
+  },
+  {
+    "id": "route_217A-U",
+    "name": "217A-U",
+    "description": "Katraj To Gujarwadi",
+    "length_km": 3.8
+  },
+  {
+    "id": "route_217B-D",
+    "name": "217B-D",
+    "description": "Gujarwadi To Swargate",
+    "length_km": 9.9
+  },
+  {
+    "id": "route_217B-U",
+    "name": "217B-U",
+    "description": "Swargate To Gujarwadi",
+    "length_km": 9.9
+  },
+  {
+    "id": "route_217-D",
+    "name": "217-D",
+    "description": "Gujarwadi To Jambhulwadi",
+    "length_km": 7.0
+  },
+  {
+    "id": "route_217-U",
+    "name": "217-U",
+    "description": "Jambhulwadi To Gujarwadi",
+    "length_km": 7.0
+  },
+  {
+    "id": "route_218-D",
+    "name": "218-D",
+    "description": "Balewadi Depot To Katraj",
+    "length_km": 23.0
+  },
+  {
+    "id": "route_218-U",
+    "name": "218-U",
+    "description": "Katraj To Balewadi Depot",
+    "length_km": 23.0
+  },
+  {
+    "id": "route_21A-D",
+    "name": "21A-D",
+    "description": "Ammunition Factory To Swargate",
+    "length_km": 9.5
+  },
+  {
+    "id": "route_21A-U",
+    "name": "21A-U",
+    "description": "Swargate To Ammunition Factory",
+    "length_km": 9.5
+  },
+  {
+    "id": "route_21B-D",
+    "name": "21B-D",
+    "description": "HEMRL Company To Swargate",
+    "length_km": 12.2
+  },
+  {
+    "id": "route_21B-U",
+    "name": "21B-U",
+    "description": "Swargate To HEMRL Company",
+    "length_km": 12.2
+  },
+  {
+    "id": "route_21-D",
+    "name": "21-D",
+    "description": "Vasantdada Putala Sangvi To Swargate",
+    "length_km": 14.85
+  },
+  {
+    "id": "route_21N-D",
+    "name": "21N-D",
+    "description": "Pimplenilakh To Swargate",
+    "length_km": 15.1
+  },
+  {
+    "id": "route_21N-U",
+    "name": "21N-U",
+    "description": "Swargate To Pimplenilakh",
+    "length_km": 15.1
+  },
+  {
+    "id": "route_21-U",
+    "name": "21-U",
+    "description": "Swargate To Vasantdada Putala Sangvi",
+    "length_km": 14.85
+  },
+  {
+    "id": "route_226-D",
+    "name": "226-D",
+    "description": "Dhayari Maruti Mandir To Pune Station",
+    "length_km": 15.9
+  },
+  {
+    "id": "route_226-U",
+    "name": "226-U",
+    "description": "Pune Station To Dhayari Maruti Mandir",
+    "length_km": 15.9
+  },
+  {
+    "id": "route_227A-D",
+    "name": "227A-D",
+    "description": "Shivajinagar To Marketyard",
+    "length_km": 7.6
+  },
+  {
+    "id": "route_227A-U",
+    "name": "227A-U",
+    "description": "Marketyard To Shivajinagar",
+    "length_km": 7.6
+  },
+  {
+    "id": "route_227-D",
+    "name": "227-D",
+    "description": "Marnewadi To Marketyard",
+    "length_km": 33.5
+  },
+  {
+    "id": "route_227-U",
+    "name": "227-U",
+    "description": "Marketyard To Marnewadi",
+    "length_km": 33.5
+  },
+  {
+    "id": "route_22A-D",
+    "name": "22A-D",
+    "description": "Khandoba Mandir To Swargate",
+    "length_km": 6.0
+  },
+  {
+    "id": "route_22A-U",
+    "name": "22A-U",
+    "description": "Swargate To Khandoba Mandir",
+    "length_km": 6.0
+  },
+  {
+    "id": "route_22-D",
+    "name": "22-D",
+    "description": "Shivajinagar To Khandoba Mandir",
+    "length_km": 10.0
+  },
+  {
+    "id": "route_22-U",
+    "name": "22-U",
+    "description": "Khandoba Mandir To Shivajinagar",
+    "length_km": 10.0
+  },
+  {
+    "id": "route_230-D",
+    "name": "230-D",
+    "description": "Pune Station To Bharati Vidyapeeth",
+    "length_km": 10.9
+  },
+  {
+    "id": "route_230-U",
+    "name": "230-U",
+    "description": "Bharati Vidyapeeth To Pune Station",
+    "length_km": 10.9
+  },
+  {
+    "id": "route_233-D",
+    "name": "233-D",
+    "description": "Paudgaon To Marketyard",
+    "length_km": 35.6
+  },
+  {
+    "id": "route_233-U",
+    "name": "233-U",
+    "description": "Marketyard To Paudgaon",
+    "length_km": 35.6
+  },
+  {
+    "id": "route_234-D",
+    "name": "234-D",
+    "description": "Kharadi Gaon To Ma Na Pa",
+    "length_km": 14.0
+  },
+  {
+    "id": "route_234-U",
+    "name": "234-U",
+    "description": "Ma Na Pa To Kharadi Gaon",
+    "length_km": 14.0
+  },
+  {
+    "id": "route_235-D",
+    "name": "235-D",
+    "description": "Kharadi Gaon To Katraj",
+    "length_km": 22.4
+  },
+  {
+    "id": "route_235-U",
+    "name": "235-U",
+    "description": "Katraj To Kharadi Gaon",
+    "length_km": 22.4
+  },
+  {
+    "id": "route_236-D",
+    "name": "236-D",
+    "description": "Khulewadi To Ma Na Pa",
+    "length_km": 13.5
+  },
+  {
+    "id": "route_236-U",
+    "name": "236-U",
+    "description": "Ma Na Pa To Khulewadi",
+    "length_km": 13.5
+  },
+  {
+    "id": "route_237-D",
+    "name": "237-D",
+    "description": "Kharadi Gaon To Warje Malwadi",
+    "length_km": 24.2
+  },
+  {
+    "id": "route_237-U",
+    "name": "237-U",
+    "description": "Warje Malwadi To Kharadi Gaon",
+    "length_km": 24.2
+  },
+  {
+    "id": "route_23-D",
+    "name": "23-D",
+    "description": "Pune Station To Upper Depot",
+    "length_km": 11.4
+  },
+  {
+    "id": "route_23-U",
+    "name": "23-U",
+    "description": "Upper Depot To Pune Station",
+    "length_km": 11.4
+  },
+  {
+    "id": "route_24A-D",
+    "name": "24A-D",
+    "description": "Maharashtra Housing Board Samtanagar To Katraj",
+    "length_km": 18.0
+  },
+  {
+    "id": "route_24A-U",
+    "name": "24A-U",
+    "description": "Katraj To Maharashtra Housing Board Samtanagar",
+    "length_km": 18.0
+  },
+  {
+    "id": "route_24B-D",
+    "name": "24B-D",
+    "description": "Lohgaon To Katraj",
+    "length_km": 21.1
+  },
+  {
+    "id": "route_24B-U",
+    "name": "24B-U",
+    "description": "Katraj To Lohgaon",
+    "length_km": 21.1
+  },
+  {
+    "id": "route_24-D",
+    "name": "24-D",
+    "description": "Maharashtra Housing Board Samtanagar To Katraj",
+    "length_km": 18.0
+  },
+  {
+    "id": "route_24-NGT-D",
+    "name": "24-NGT-D",
+    "description": "Pune Station To Katraj",
+    "length_km": 10.8
+  },
+  {
+    "id": "route_24-NGT-U",
+    "name": "24-NGT-U",
+    "description": "Katraj To Pune Station",
+    "length_km": 10.8
+  },
+  {
+    "id": "route_24-U",
+    "name": "24-U",
+    "description": "Katraj To Maharashtra Housing Board Samtanagar",
+    "length_km": 18.0
+  },
+  {
+    "id": "route_252A-D",
+    "name": "252A-D",
+    "description": "Charholigaon To Vishrantwadi",
+    "length_km": 12.4
+  },
+  {
+    "id": "route_252A-U",
+    "name": "252A-U",
+    "description": "Vishrantwadi To Charholigaon",
+    "length_km": 12.4
+  },
+  {
+    "id": "route_252-D",
+    "name": "252-D",
+    "description": "Charholigaon To Ma Na Pa",
+    "length_km": 21.6
+  },
+  {
+    "id": "route_252-U",
+    "name": "252-U",
+    "description": "Ma Na Pa To Charholigaon",
+    "length_km": 21.6
+  },
+  {
+    "id": "route_256B-D",
+    "name": "256B-D",
+    "description": "Banergaon To Ma Na Pa",
+    "length_km": 11.0
+  },
+  {
+    "id": "route_256B-U",
+    "name": "256B-U",
+    "description": "Ma Na Pa To Banergaon",
+    "length_km": 11.0
+  },
+  {
+    "id": "route_256-D",
+    "name": "256-D",
+    "description": "Balewadi Depot To Ma Na Pa",
+    "length_km": 13.5
+  },
+  {
+    "id": "route_256S-D",
+    "name": "256S-D",
+    "description": "Someshwarwadi To Ma Na Pa",
+    "length_km": 8.1
+  },
+  {
+    "id": "route_256S-U",
+    "name": "256S-U",
+    "description": "Ma Na Pa To Someshwarwadi",
+    "length_km": 8.1
+  },
+  {
+    "id": "route_256-U",
+    "name": "256-U",
+    "description": "Ma Na Pa To Balewadi Depot",
+    "length_km": 13.5
+  },
+  {
+    "id": "route_257-D",
+    "name": "257-D",
+    "description": "Alandi To Kesnand Phata",
+    "length_km": 24.0
+  },
+  {
+    "id": "route_257-U",
+    "name": "257-U",
+    "description": "Kesnand Phata To Alandi",
+    "length_km": 24.0
+  },
+  {
+    "id": "route_262A-D",
+    "name": "262A-D",
+    "description": "Dehugaon To Nigdi",
+    "length_km": 11.8
+  },
+  {
+    "id": "route_262A-U",
+    "name": "262A-U",
+    "description": "Nigdi To Dehugaon",
+    "length_km": 11.8
+  },
+  {
+    "id": "route_262-D",
+    "name": "262-D",
+    "description": "Dehugaon To Ma Na Pa",
+    "length_km": 31.3
+  },
+  {
+    "id": "route_262-U",
+    "name": "262-U",
+    "description": "Ma Na Pa To Dehugaon",
+    "length_km": 31.3
+  },
+  {
+    "id": "route_264-D",
+    "name": "264-D",
+    "description": "Bahulgaon To Ma Na Pa",
+    "length_km": 38.0
+  },
+  {
+    "id": "route_264-U",
+    "name": "264-U",
+    "description": "Ma Na Pa To Bahulgaon",
+    "length_km": 38.0
+  },
+  {
+    "id": "route_26-D",
+    "name": "26-D",
+    "description": "Shivajinagar To Dhankawadi",
+    "length_km": 10.2
+  },
+  {
+    "id": "route_26-U",
+    "name": "26-U",
+    "description": "Dhankawadi To Shivajinagar",
+    "length_km": 10.2
+  },
+  {
+    "id": "route_276-D",
+    "name": "276-D",
+    "description": "Chinchwadgaon To Warje Malwadi",
+    "length_km": 24.9
+  },
+  {
+    "id": "route_276-U",
+    "name": "276-U",
+    "description": "Warje Malwadi To Chinchwadgaon",
+    "length_km": 24.9
+  },
+  {
+    "id": "route_277A-D",
+    "name": "277A-D",
+    "description": "Kothrud Stand To Kondhwagate",
+    "length_km": 10.0
+  },
+  {
+    "id": "route_277A-U",
+    "name": "277A-U",
+    "description": "Kondhwagate To Kothrud Stand",
+    "length_km": 10.0
+  },
+  {
+    "id": "route_277-D",
+    "name": "277-D",
+    "description": "Khadki Bazar To Kondhwagate",
+    "length_km": 24.0
+  },
+  {
+    "id": "route_277-U",
+    "name": "277-U",
+    "description": "Kondhwagate To Khadki Bazar",
+    "length_km": 24.0
+  },
+  {
+    "id": "route_279A-U",
+    "name": "279A-U",
+    "description": "Kothrud Depo To Khamboli",
+    "length_km": 28.6
+  },
+  {
+    "id": "route_279B-U",
+    "name": "279B-U",
+    "description": "Deccan Gymkhana To Kothrud Depo",
+    "length_km": 6.0
+  },
+  {
+    "id": "route_279-D",
+    "name": "279-D",
+    "description": "Khamboli To Deccan Gymkhana",
+    "length_km": 34.6
+  },
+  {
+    "id": "route_279-U",
+    "name": "279-U",
+    "description": "Deccan Gymkhana To Khamboli",
+    "length_km": 34.6
+  },
+  {
+    "id": "route_27-D",
+    "name": "27-D",
+    "description": "Shivajinagar To Bharati Vidyapeeth",
+    "length_km": 10.9
+  },
+  {
+    "id": "route_27-U",
+    "name": "27-U",
+    "description": "Bharati Vidyapeeth To Shivajinagar",
+    "length_km": 10.9
+  },
+  {
+    "id": "route_280-D",
+    "name": "280-D",
+    "description": "Ma Na Pa To Warje Hanuman Chowk",
+    "length_km": 9.9
+  },
+  {
+    "id": "route_280-U",
+    "name": "280-U",
+    "description": "Warje Hanuman Chowk To Ma Na Pa",
+    "length_km": 9.9
+  },
+  {
+    "id": "route_281-D",
+    "name": "281-D",
+    "description": "Bhakti Shakti To Warje Malwadi",
+    "length_km": 28.4
+  },
+  {
+    "id": "route_281-U",
+    "name": "281-U",
+    "description": "Warje Malwadi To Bhakti Shakti",
+    "length_km": 28.4
+  },
+  {
+    "id": "route_282-D",
+    "name": "282-D",
+    "description": "Bhosarigaon To Warje Malwadi",
+    "length_km": 25.6
+  },
+  {
+    "id": "route_282-U",
+    "name": "282-U",
+    "description": "Warje Malwadi To Bhosarigaon",
+    "length_km": 25.6
+  },
+  {
+    "id": "route_283-D",
+    "name": "283-D",
+    "description": "Pune Station To Kumbare Park",
+    "length_km": 12.5
+  },
+  {
+    "id": "route_283-U",
+    "name": "283-U",
+    "description": "Kumbare Park To Pune Station",
+    "length_km": 12.5
+  },
+  {
+    "id": "route_284-D",
+    "name": "284-D",
+    "description": "Bhakti Shakti To Kothrud Depot",
+    "length_km": 26.5
+  },
+  {
+    "id": "route_284-U",
+    "name": "284-U",
+    "description": "Kothrud Depot To Bhakti Shakti",
+    "length_km": 26.5
+  },
+  {
+    "id": "route_286-D",
+    "name": "286-D",
+    "description": "Azadnagar To Warje Malwadi",
+    "length_km": 18.7
+  },
+  {
+    "id": "route_286-U",
+    "name": "286-U",
+    "description": "Warje Malwadi To Azadnagar",
+    "length_km": 18.7
+  },
+  {
+    "id": "route_28-D",
+    "name": "28-D",
+    "description": "Shivajinagar To Katraj",
+    "length_km": 11.1
+  },
+  {
+    "id": "route_28-U",
+    "name": "28-U",
+    "description": "Katraj To Shivajinagar",
+    "length_km": 11.1
+  },
+  {
+    "id": "route_290A-D",
+    "name": "290A-D",
+    "description": "Katraj To Shaninagar",
+    "length_km": 1.1
+  },
+  {
+    "id": "route_290A-U",
+    "name": "290A-U",
+    "description": "Shaninagar To Katraj",
+    "length_km": 1.1
+  },
+  {
+    "id": "route_290-D",
+    "name": "290-D",
+    "description": "Shivajinagar To Shaninagar",
+    "length_km": 11.6
+  },
+  {
+    "id": "route_290-U",
+    "name": "290-U",
+    "description": "Shaninagar To Shivajinagar",
+    "length_km": 11.6
+  },
+  {
+    "id": "route_291A-D",
+    "name": "291A-D",
+    "description": "Hadapsar Gadital To Upper Depot",
+    "length_km": 15.6
+  },
+  {
+    "id": "route_291A-U",
+    "name": "291A-U",
+    "description": "Upper Depot To Hadapsar Gadital",
+    "length_km": 15.6
+  },
+  {
+    "id": "route_291-D",
+    "name": "291-D",
+    "description": "Hadapsar Gadital To Katraj",
+    "length_km": 14.2
+  },
+  {
+    "id": "route_291-U",
+    "name": "291-U",
+    "description": "Katraj To Hadapsar Gadital",
+    "length_km": 14.2
+  },
+  {
+    "id": "route_292A-D",
+    "name": "292A-D",
+    "description": "Kalyangaon To Swargate",
+    "length_km": 34.0
+  },
+  {
+    "id": "route_292A-U",
+    "name": "292A-U",
+    "description": "Swargate To Kalyangaon",
+    "length_km": 34.0
+  },
+  {
+    "id": "route_292B-D",
+    "name": "292B-D",
+    "description": "Rahatwadegaon To Swargate",
+    "length_km": 30.0
+  },
+  {
+    "id": "route_292B-U",
+    "name": "292B-U",
+    "description": "Swargate To Rahatwadegaon",
+    "length_km": 30.0
+  },
+  {
+    "id": "route_292C-D",
+    "name": "292C-D",
+    "description": "Avsarwadi To Swargate",
+    "length_km": 31.0
+  },
+  {
+    "id": "route_292C-U",
+    "name": "292C-U",
+    "description": "Swargate To Avsarwadi",
+    "length_km": 31.0
+  },
+  {
+    "id": "route_292-D",
+    "name": "292-D",
+    "description": "Kondhanpur To Swargate",
+    "length_km": 29.0
+  },
+  {
+    "id": "route_292D-D",
+    "name": "292D-D",
+    "description": "Swargate To Kondhanpur",
+    "length_km": 29.0
+  },
+  {
+    "id": "route_292-U",
+    "name": "292-U",
+    "description": "Swargate To Kondhanpur",
+    "length_km": 29.0
+  },
+  {
+    "id": "route_293A-D",
+    "name": "293A-D",
+    "description": "Kusgaon To Swargate",
+    "length_km": 25.3
+  },
+  {
+    "id": "route_293A-U",
+    "name": "293A-U",
+    "description": "Swargate To Kusgaon",
+    "length_km": 25.3
+  },
+  {
+    "id": "route_293D-D",
+    "name": "293D-D",
+    "description": "Khed Shivapur To Swargate",
+    "length_km": 19.8
+  },
+  {
+    "id": "route_293D-U",
+    "name": "293D-U",
+    "description": "Swargate To Khed Shivapur",
+    "length_km": 19.8
+  },
+  {
+    "id": "route_294-D",
+    "name": "294-D",
+    "description": "Khadakwasla Dharan To Katraj",
+    "length_km": 13.0
+  },
+  {
+    "id": "route_294-U",
+    "name": "294-U",
+    "description": "Katraj To Khadakwasla Dharan",
+    "length_km": 13.0
+  },
+  {
+    "id": "route_295A-D",
+    "name": "295A-D",
+    "description": "Ambegaon To Katraj",
+    "length_km": 3.0
+  },
+  {
+    "id": "route_295A-U",
+    "name": "295A-U",
+    "description": "Katraj To Ambegaon",
+    "length_km": 3.0
+  },
+  {
+    "id": "route_295B-D",
+    "name": "295B-D",
+    "description": "Katraj To Pune Station",
+    "length_km": 13.7
+  },
+  {
+    "id": "route_295-D",
+    "name": "295-D",
+    "description": "Pune Station To Ambegaon",
+    "length_km": 16.7
+  },
+  {
+    "id": "route_295-U",
+    "name": "295-U",
+    "description": "Ambegaon To Pune Station",
+    "length_km": 16.7
+  },
+  {
+    "id": "route_296A-D",
+    "name": "296A-D",
+    "description": "Jambhulwadi To Katraj",
+    "length_km": 5.0
+  },
+  {
+    "id": "route_296A-U",
+    "name": "296A-U",
+    "description": "Katraj To Jambhulwadi",
+    "length_km": 5.0
+  },
+  {
+    "id": "route_296-D",
+    "name": "296-D",
+    "description": "Shivajinagar To Jambhulwadi",
+    "length_km": 13.3
+  },
+  {
+    "id": "route_296-U",
+    "name": "296-U",
+    "description": "Jambhulwadi To Shivajinagar",
+    "length_km": 13.3
+  },
+  {
+    "id": "route_297-D",
+    "name": "297-D",
+    "description": "Shivajinagar To Rajas Society",
+    "length_km": 11.5
+  },
+  {
+    "id": "route_297-U",
+    "name": "297-U",
+    "description": "Rajas Society To Shivajinagar",
+    "length_km": 11.5
+  },
+  {
+    "id": "route_298-D",
+    "name": "298-D",
+    "description": "Chinchwadgaon To Katraj",
+    "length_km": 26.75
+  },
+  {
+    "id": "route_298-U",
+    "name": "298-U",
+    "description": "Katraj To Chinchwadgaon",
+    "length_km": 26.75
+  },
+  {
+    "id": "route_299-D",
+    "name": "299-D",
+    "description": "Bhosarigaon To Katraj",
+    "length_km": 26.9
+  },
+  {
+    "id": "route_299-U",
+    "name": "299-U",
+    "description": "Katraj To Bhosarigaon",
+    "length_km": 26.9
+  },
+  {
+    "id": "route_29A-D",
+    "name": "29A-D",
+    "description": "Alandi To Swargate",
+    "length_km": 28.6
+  },
+  {
+    "id": "route_29A-U",
+    "name": "29A-U",
+    "description": "Swargate To Alandi",
+    "length_km": 28.6
+  },
+  {
+    "id": "route_29-D",
+    "name": "29-D",
+    "description": "Vishrantwadi To Swargate",
+    "length_km": 12.6
+  },
+  {
+    "id": "route_29-U",
+    "name": "29-U",
+    "description": "Swargate To Vishrantwadi",
+    "length_km": 12.6
+  },
+  {
+    "id": "route_2A-D",
+    "name": "2A-D",
+    "description": "Shivajinagar To Katraj Ladies Special",
+    "length_km": 10.5
+  },
+  {
+    "id": "route_2A-U",
+    "name": "2A-U",
+    "description": "Katraj To Shivajinagar Ladies Special",
+    "length_km": 10.5
+  },
+  {
+    "id": "route_2B-D",
+    "name": "2B-D",
+    "description": "Shivajinagar To Bhilarewadi",
+    "length_km": 12.0
+  },
+  {
+    "id": "route_2B-U",
+    "name": "2B-U",
+    "description": "Bhilarewadi To Shivajinagar",
+    "length_km": 12.0
+  },
+  {
+    "id": "route_2-D",
+    "name": "2-D",
+    "description": "Shivajinagar To Katraj",
+    "length_km": 10.5
+  },
+  {
+    "id": "route_2D-D",
+    "name": "2D-D",
+    "description": "Sachchai Mata Mandir To Katraj",
+    "length_km": 2.0
+  },
+  {
+    "id": "route_2E-D",
+    "name": "2E-D",
+    "description": "Sachchai Mata Mandir To Swargate",
+    "length_km": 8.0
+  },
+  {
+    "id": "route_2E-U",
+    "name": "2E-U",
+    "description": "Swargate To Sachchai Mata Mandir",
+    "length_km": 8.0
+  },
+  {
+    "id": "route_2F-D",
+    "name": "2F-D",
+    "description": "Taljai Pathar To Swargate",
+    "length_km": 6.5
+  },
+  {
+    "id": "route_2G-U",
+    "name": "2G-U",
+    "description": "Taljai Pathar To Shivajinagar",
+    "length_km": 10.1
+  },
+  {
+    "id": "route_2H-D",
+    "name": "2H-D",
+    "description": "Sachchai Mata Mandir To Shivajinagar",
+    "length_km": 12.4
+  },
+  {
+    "id": "route_2H-U",
+    "name": "2H-U",
+    "description": "Shivajinagar To Sachchai Mata Mandir",
+    "length_km": 12.4
+  },
+  {
+    "id": "route_2I-D",
+    "name": "2I-D",
+    "description": "Pune Vidhyapeeth To Katraj",
+    "length_km": 14.0
+  },
+  {
+    "id": "route_2I-U",
+    "name": "2I-U",
+    "description": "Katraj To Pune Vidhyapeeth",
+    "length_km": 14.0
+  },
+  {
+    "id": "route_2J-D",
+    "name": "2J-D",
+    "description": "Bhilarewadi To Katraj",
+    "length_km": 1.5
+  },
+  {
+    "id": "route_2J-U",
+    "name": "2J-U",
+    "description": "Katraj To Bhilarewadi",
+    "length_km": 1.5
+  },
+  {
+    "id": "route_2K-D",
+    "name": "2K-D",
+    "description": "Shivajinagar To Narhegaon",
+    "length_km": 13.0
+  },
+  {
+    "id": "route_2K-U",
+    "name": "2K-U",
+    "description": "Narhegaon To Shivajinagar",
+    "length_km": 13.0
+  },
+  {
+    "id": "route_2L-D",
+    "name": "2L-D",
+    "description": "Katraj To Narhegaon",
+    "length_km": 2.5
+  },
+  {
+    "id": "route_2L-U",
+    "name": "2L-U",
+    "description": "Narhegaon To Katraj",
+    "length_km": 2.5
+  },
+  {
+    "id": "route_2-NGT-D",
+    "name": "2-NGT-D",
+    "description": "Shivajinagar To Katraj Night Service",
+    "length_km": 10.5
+  },
+  {
+    "id": "route_2-NGT-U",
+    "name": "2-NGT-U",
+    "description": "Katraj To Shivajinagar Night Service",
+    "length_km": 10.5
+  },
+  {
+    "id": "route_2-U",
+    "name": "2-U",
+    "description": "Katraj To Shivajinagar",
+    "length_km": 10.5
+  },
+  {
+    "id": "route_301-D",
+    "name": "301-D",
+    "description": "Shewalwadi To Katraj",
+    "length_km": 19.0
+  },
+  {
+    "id": "route_301-U",
+    "name": "301-U",
+    "description": "Katraj To Shewalwadi",
+    "length_km": 19.0
+  },
+  {
+    "id": "route_302A-D",
+    "name": "302A-D",
+    "description": "Alandi To Pimprigaon",
+    "length_km": 17.7
+  },
+  {
+    "id": "route_302A-U",
+    "name": "302A-U",
+    "description": "Pimprigaon To Alandi",
+    "length_km": 17.7
+  },
+  {
+    "id": "route_302B-D",
+    "name": "302B-D",
+    "description": "Bopkhel To Pimprigaon",
+    "length_km": 19.85
+  },
+  {
+    "id": "route_302B-U",
+    "name": "302B-U",
+    "description": "Pimprigaon To Bopkhel",
+    "length_km": 19.5
+  },
+  {
+    "id": "route_302C-D",
+    "name": "302C-D",
+    "description": "Gavhanevasti Bhosari To Nehrunagar Depo",
+    "length_km": 3.5
+  },
+  {
+    "id": "route_302C-U",
+    "name": "302C-U",
+    "description": "Nehrunagar Depo To Gavhanevasti Bhosari",
+    "length_km": 3.5
+  },
+  {
+    "id": "route_302-D",
+    "name": "302-D",
+    "description": "Gavhanevasti Bhosari To Pimprigaon",
+    "length_km": 8.65
+  },
+  {
+    "id": "route_302D-D",
+    "name": "302D-D",
+    "description": "Pimprigaon To Nehrunagar Depo",
+    "length_km": 5.7
+  },
+  {
+    "id": "route_302D-U",
+    "name": "302D-U",
+    "description": "Nehrunagar Depo To Pimprigaon",
+    "length_km": 5.7
+  },
+  {
+    "id": "route_302-U",
+    "name": "302-U",
+    "description": "Pimprigaon To Gavhanevasti Bhosari",
+    "length_km": 8.65
+  },
+  {
+    "id": "route_303A-D",
+    "name": "303A-D",
+    "description": "Mukai Chowk To Nigdi",
+    "length_km": 8.6
+  },
+  {
+    "id": "route_303A-U",
+    "name": "303A-U",
+    "description": "Nigdi To  Mukai Chowk",
+    "length_km": 8.6
+  },
+  {
+    "id": "route_303-D",
+    "name": "303-D",
+    "description": "Akurdi Railway Station To Nigdi",
+    "length_km": 6.2
+  },
+  {
+    "id": "route_303-U",
+    "name": "303-U",
+    "description": "Nigdi To Akurdi Railway Station",
+    "length_km": 6.2
+  },
+  {
+    "id": "route_304A-D",
+    "name": "304A-D",
+    "description": "Bhosari To Nehrunagar Depo",
+    "length_km": 3.5
+  },
+  {
+    "id": "route_304A-U",
+    "name": "304A-U",
+    "description": "Nehrunagar Depo To Bhosari",
+    "length_km": 3.5
+  },
+  {
+    "id": "route_304-D",
+    "name": "304-D",
+    "description": "Gavhanevasti Bhosari To Chinchwadgaon",
+    "length_km": 10.2
+  },
+  {
+    "id": "route_304-U",
+    "name": "304-U",
+    "description": "Chinchwadgaon To Gavhanevasti Bhosari",
+    "length_km": 10.2
+  },
+  {
+    "id": "route_305A-D",
+    "name": "305A-D",
+    "description": "Dy Patil College Wadgaonmawal To Nigdi",
+    "length_km": 22.0
+  },
+  {
+    "id": "route_305A-U",
+    "name": "305A-U",
+    "description": "Nigdi To Dy Patil College Wadgaonmawal",
+    "length_km": 22.0
+  },
+  {
+    "id": "route_305B-D",
+    "name": "305B-D",
+    "description": "Navlakh Umbre To Nigdi",
+    "length_km": 26.0
+  },
+  {
+    "id": "route_305B-U",
+    "name": "305B-U",
+    "description": "Nigdi To Navlakh Umbre",
+    "length_km": 26.0
+  },
+  {
+    "id": "route_305-D",
+    "name": "305-D",
+    "description": "Vadgaon Mawal To Nigdi",
+    "length_km": 22.0
+  },
+  {
+    "id": "route_305-U",
+    "name": "305-U",
+    "description": "Nigdi To Vadgaon Mawal",
+    "length_km": 22.0
+  },
+  {
+    "id": "route_306-D",
+    "name": "306-D",
+    "description": "Hinjawadi Maan Phase 3 To Dange Chowk",
+    "length_km": 13.3
+  },
+  {
+    "id": "route_306-U",
+    "name": "306-U",
+    "description": "Dange Chowk To Hinjawadi Maan Phase 3",
+    "length_km": 13.3
+  },
+  {
+    "id": "route_307A-D",
+    "name": "307A-D",
+    "description": "Chinchwadgaon To Bhakti Shakti",
+    "length_km": 4.6
+  },
+  {
+    "id": "route_307A-U",
+    "name": "307A-U",
+    "description": "Bhakti Shakti To Chinchwadgaon",
+    "length_km": 4.6
+  },
+  {
+    "id": "route_307-D",
+    "name": "307-D",
+    "description": "Walhekarwadi To Chinchwadgaon",
+    "length_km": 2.3
+  },
+  {
+    "id": "route_307-U",
+    "name": "307-U",
+    "description": "Chinchwadgaon To Walhekarwadi",
+    "length_km": 2.3
+  },
+  {
+    "id": "route_308-D",
+    "name": "308-D",
+    "description": "Gharkul Vasahat Chikhli To Bhakti Shakti",
+    "length_km": 5.4
+  },
+  {
+    "id": "route_308-U",
+    "name": "308-U",
+    "description": "Bhakti Shakti To Gharkul Vasahat Chikhli",
+    "length_km": 5.4
+  },
+  {
+    "id": "route_309-D",
+    "name": "309-D",
+    "description": "Dehugaon To Alandi",
+    "length_km": 16.0
+  },
+  {
+    "id": "route_309-U",
+    "name": "309-U",
+    "description": "Alandi To Dehugaon",
+    "length_km": 16.0
+  },
+  {
+    "id": "route_30A-D",
+    "name": "30A-D",
+    "description": "Rautwadi To Marketyard",
+    "length_km": 28.0
+  },
+  {
+    "id": "route_30A-U",
+    "name": "30A-U",
+    "description": "Marketyard To Rautwadi",
+    "length_km": 28.0
+  },
+  {
+    "id": "route_30-D",
+    "name": "30-D",
+    "description": "Ghotawade Phata To Marketyard",
+    "length_km": 31.5
+  },
+  {
+    "id": "route_30-U",
+    "name": "30-U",
+    "description": "Marketyard To Ghotawade Phata",
+    "length_km": 31.5
+  },
+  {
+    "id": "route_310A-D",
+    "name": "310A-D",
+    "description": "Walhekarwadi To Nehrunagar Depo",
+    "length_km": 7.7
+  },
+  {
+    "id": "route_310A-U",
+    "name": "310A-U",
+    "description": "Nehrunagar Depo To Walhekarwadi",
+    "length_km": 7.7
+  },
+  {
+    "id": "route_310-D",
+    "name": "310-D",
+    "description": "Walhekarwadi To Pune Station",
+    "length_km": 24.8
+  },
+  {
+    "id": "route_310-U",
+    "name": "310-U",
+    "description": "Pune Station To Walhekarwadi",
+    "length_km": 24.8
+  },
+  {
+    "id": "route_311-D",
+    "name": "311-D",
+    "description": "Pimprigaon To Pune Station",
+    "length_km": 21.8
+  },
+  {
+    "id": "route_311-U",
+    "name": "311-U",
+    "description": "Pune Station To Pimprigaon",
+    "length_km": 21.8
+  },
+  {
+    "id": "route_312-D",
+    "name": "312-D",
+    "description": "Chinchwadgaon To Pune Station",
+    "length_km": 22.5
+  },
+  {
+    "id": "route_312-U",
+    "name": "312-U",
+    "description": "Pune Station To Chinchwadgaon",
+    "length_km": 22.5
+  },
+  {
+    "id": "route_313A-D",
+    "name": "313A-D",
+    "description": "Kasarsai Karkhana To Chinchwadgaon",
+    "length_km": 17.2
+  },
+  {
+    "id": "route_313A-U",
+    "name": "313A-U",
+    "description": "Chinchwadgaon To Kasarsai Karkhana",
+    "length_km": 17.2
+  },
+  {
+    "id": "route_313B-D",
+    "name": "313B-D",
+    "description": "Bhakti Shakti To Kasarsai Karkhana",
+    "length_km": 21.5
+  },
+  {
+    "id": "route_313C-D",
+    "name": "313C-D",
+    "description": "Nehrunagar Depo To Chandkhed",
+    "length_km": 25.7
+  },
+  {
+    "id": "route_313-D",
+    "name": "313-D",
+    "description": "Chandkhed To Chinchwadgaon",
+    "length_km": 19.3
+  },
+  {
+    "id": "route_313D-D",
+    "name": "313D-D",
+    "description": "Bhakti Shakti To Chandkhed",
+    "length_km": 21.5
+  },
+  {
+    "id": "route_313-U",
+    "name": "313-U",
+    "description": "Chinchwadgaon To Chandkhed",
+    "length_km": 19.3
+  },
+  {
+    "id": "route_314-D",
+    "name": "314-D",
+    "description": "Mhalunge MIDC To Bhakti Shakti",
+    "length_km": 11.2
+  },
+  {
+    "id": "route_314-U",
+    "name": "314-U",
+    "description": "Bhakti Shakti To Mhalunge MIDC",
+    "length_km": 11.2
+  },
+  {
+    "id": "route_315A-D",
+    "name": "315A-D",
+    "description": "Moshigaon To Pune Station",
+    "length_km": 25.6
+  },
+  {
+    "id": "route_315A-U",
+    "name": "315A-U",
+    "description": "Pune Station To Moshigaon",
+    "length_km": 25.6
+  },
+  {
+    "id": "route_315-D",
+    "name": "315-D",
+    "description": "Bhosari To Pune Station (Vai Alandi Road)",
+    "length_km": 18.5
+  },
+  {
+    "id": "route_315D-U",
+    "name": "315D-U",
+    "description": "Ma Na Pa To Dhanorigaon",
+    "length_km": 11.6
+  },
+  {
+    "id": "route_315-U",
+    "name": "315-U",
+    "description": "Pune Station To Bhosari (Vai Alandi Road)",
+    "length_km": 18.5
+  },
+  {
+    "id": "route_316-D",
+    "name": "316-D",
+    "description": "Hinjawadi Maan Phase 3 To Chinchwadgaon",
+    "length_km": 14.2
+  },
+  {
+    "id": "route_316-U",
+    "name": "316-U",
+    "description": "Chinchwadgaon To Hinjawadi Maan Phase 3",
+    "length_km": 14.2
+  },
+  {
+    "id": "route_317A-D",
+    "name": "317A-D",
+    "description": "Dapodi To Sambhajinagar",
+    "length_km": 14.2
+  },
+  {
+    "id": "route_317B-D",
+    "name": "317B-D",
+    "description": "Pune Station To Dapodi",
+    "length_km": 9.8
+  },
+  {
+    "id": "route_317-D",
+    "name": "317-D",
+    "description": "Sambhajinagar To Pune Station",
+    "length_km": 23.7
+  },
+  {
+    "id": "route_317-U",
+    "name": "317-U",
+    "description": "Pune Station To Sambhajinagar",
+    "length_km": 23.7
+  },
+  {
+    "id": "route_318A-D",
+    "name": "318A-D",
+    "description": "Gharkul Vasahat Chikali To Pune Station",
+    "length_km": 25.6
+  },
+  {
+    "id": "route_318A-U",
+    "name": "318A-U",
+    "description": "Pune Station To Gharkul Vasahat Chikali",
+    "length_km": 25.6
+  },
+  {
+    "id": "route_318-D",
+    "name": "318-D",
+    "description": "Krishanagar To Pune Station",
+    "length_km": 26.0
+  },
+  {
+    "id": "route_318-U",
+    "name": "318-U",
+    "description": "Pune Station To Krushnanagar",
+    "length_km": 26.0
+  },
+  {
+    "id": "route_319-D",
+    "name": "319-D",
+    "description": "Vadgaon Mawal To Alandi",
+    "length_km": 32.8
+  },
+  {
+    "id": "route_319-U",
+    "name": "319-U",
+    "description": "Alandi To Vadgaon Mawal",
+    "length_km": 32.8
+  },
+  {
+    "id": "route_31A-D",
+    "name": "31A-D",
+    "description": "Pune Station To Padmawati",
+    "length_km": 10.1
+  },
+  {
+    "id": "route_31A-U",
+    "name": "31A-U",
+    "description": "Padmawati To Pune Station",
+    "length_km": 10.1
+  },
+  {
+    "id": "route_31-D",
+    "name": "31-D",
+    "description": "Pune Station To Taljai Pathar",
+    "length_km": 12.0
+  },
+  {
+    "id": "route_31-U",
+    "name": "31-U",
+    "description": "Taljai Pathar To Pune Station",
+    "length_km": 12.0
+  },
+  {
+    "id": "route_320-D",
+    "name": "320-D",
+    "description": "Mahalungegaon To Alandi",
+    "length_km": 30.5
+  },
+  {
+    "id": "route_320-U",
+    "name": "320-U",
+    "description": "Alandi To Mahalungegaon",
+    "length_km": 30.5
+  },
+  {
+    "id": "route_321A-D",
+    "name": "321A-D",
+    "description": "Hinjawadi Maan Phase 3 To Pimpale Gurav",
+    "length_km": 21.8
+  },
+  {
+    "id": "route_321A-U",
+    "name": "321A-U",
+    "description": "Pimple Gurav To Hinjawadi Maan Phase 3",
+    "length_km": 21.8
+  },
+  {
+    "id": "route_321-D",
+    "name": "321-D",
+    "description": "Hinjawadi Maan Phase 3 To Vasasantdada Putla Sangvi",
+    "length_km": 23.1
+  },
+  {
+    "id": "route_321-U",
+    "name": "321-U",
+    "description": "Vasasantdada Putla Sangvi To Hinjawadi Maan Phase 3",
+    "length_km": 23.1
+  },
+  {
+    "id": "route_322A-D",
+    "name": "322A-D",
+    "description": "Akurdi Railway Station To Warje Malwadi",
+    "length_km": 30.8
+  },
+  {
+    "id": "route_322A-U",
+    "name": "322A-U",
+    "description": "Warje Malwadi To Akurdi Railway Station",
+    "length_km": 30.8
+  },
+  {
+    "id": "route_322K-D",
+    "name": "322K-D",
+    "description": "Akurdi Railway Station To Ma Na Pa",
+    "length_km": 23.5
+  },
+  {
+    "id": "route_322K-U",
+    "name": "322K-U",
+    "description": "Ma Na Pa To Akurdi Railway Station",
+    "length_km": 23.5
+  },
+  {
+    "id": "route_323A-D",
+    "name": "323A-D",
+    "description": "Gharkul Vasahat Chikhli To Ma Na Pa",
+    "length_km": 23.4
+  },
+  {
+    "id": "route_323A-U",
+    "name": "323A-U",
+    "description": "Ma Na Pa To Gharkul Vasahat Chikhli",
+    "length_km": 23.4
+  },
+  {
+    "id": "route_323B-D",
+    "name": "323B-D",
+    "description": "Chikhali To Nehrunagar Depo",
+    "length_km": 8.9
+  },
+  {
+    "id": "route_323B-U",
+    "name": "323B-U",
+    "description": "Nehrunagar Depo To Chikhali",
+    "length_km": 8.9
+  },
+  {
+    "id": "route_323C-D",
+    "name": "323C-D",
+    "description": "Gharkul Vasahat Chikhali To Nehrunagar Depo",
+    "length_km": 6.6
+  },
+  {
+    "id": "route_323C-U",
+    "name": "323C-U",
+    "description": "Nehrunagar Depo To Gharkul Vasahat Chikhali",
+    "length_km": 6.6
+  },
+  {
+    "id": "route_323-D",
+    "name": "323-D",
+    "description": "Chikhali To Ma Na Pa",
+    "length_km": 23.4
+  },
+  {
+    "id": "route_323-U",
+    "name": "323-U",
+    "description": "Ma Na Pa To Chikhali",
+    "length_km": 23.4
+  },
+  {
+    "id": "route_324-D",
+    "name": "324-D",
+    "description": "Hinjawadi Maan Phase 3 To Bhosari",
+    "length_km": 25.3
+  },
+  {
+    "id": "route_324-U",
+    "name": "324-U",
+    "description": "Bhosari To Hinjawadi Maan Phase 3",
+    "length_km": 25.3
+  },
+  {
+    "id": "route_325A-D",
+    "name": "325A-D",
+    "description": "Masulkar Colony To Nehrunagar Depo",
+    "length_km": 2.7
+  },
+  {
+    "id": "route_325A-U",
+    "name": "325A-U",
+    "description": "Nehrunagar Depo To Masulkar Colony",
+    "length_km": 2.7
+  },
+  {
+    "id": "route_325-D",
+    "name": "325-D",
+    "description": "Masulkar Colony To Pune Station",
+    "length_km": 18.7
+  },
+  {
+    "id": "route_325-U",
+    "name": "325-U",
+    "description": "Pune Station To Masulkar Colony",
+    "length_km": 18.7
+  },
+  {
+    "id": "route_326A-D",
+    "name": "326A-D",
+    "description": "Chikhali To Nehrunagar Depo",
+    "length_km": 7.4
+  },
+  {
+    "id": "route_326A-U",
+    "name": "326A-U",
+    "description": "Nehrunagar Depo To Chikhali",
+    "length_km": 7.4
+  },
+  {
+    "id": "route_326B-D",
+    "name": "326B-D",
+    "description": "Nehrunagar Depo To Chikhali",
+    "length_km": 7.4
+  },
+  {
+    "id": "route_326-D",
+    "name": "326-D",
+    "description": "Chikhali To Pimprigaon",
+    "length_km": 10.1
+  },
+  {
+    "id": "route_326-U",
+    "name": "326-U",
+    "description": "Pimprigaon To Chikhali",
+    "length_km": 10.1
+  },
+  {
+    "id": "route_327A-D",
+    "name": "327A-D",
+    "description": "Hinjawadi Maan Phase 3 To Nehrunagar Depo",
+    "length_km": 21.3
+  },
+  {
+    "id": "route_327A-U",
+    "name": "327A-U",
+    "description": "Nehrunagar Depo To Hinjawadi Maan Phase 3",
+    "length_km": 21.3
+  },
+  {
+    "id": "route_327B-D",
+    "name": "327B-D",
+    "description": "Bhosari To Hinjawadi Maan Phase 3",
+    "length_km": 27.1
+  },
+  {
+    "id": "route_327C-D",
+    "name": "327C-D",
+    "description": "Alandi To Nehrunagar Depo",
+    "length_km": 13.3
+  },
+  {
+    "id": "route_327C-U",
+    "name": "327C-U",
+    "description": "Nehrunagar Depo To Alandi",
+    "length_km": 13.3
+  },
+  {
+    "id": "route_327-D",
+    "name": "327-D",
+    "description": "Hinjawadi Maan Phase 3 To Alandi",
+    "length_km": 35.7
+  },
+  {
+    "id": "route_327-U",
+    "name": "327-U",
+    "description": "Alandi To Hinjawadi Maan Phase 3",
+    "length_km": 35.7
+  },
+  {
+    "id": "route_328A-D",
+    "name": "328A-D",
+    "description": "Rupeenagar To Nigdi",
+    "length_km": 3.0
+  },
+  {
+    "id": "route_328A-U",
+    "name": "328A-U",
+    "description": "Nigdi To Rupeenagar",
+    "length_km": 3.0
+  },
+  {
+    "id": "route_329A-D",
+    "name": "329A-D",
+    "description": "Dehugaon To Pune Station (Via Yarwada)",
+    "length_km": 34.0
+  },
+  {
+    "id": "route_329A-U",
+    "name": "329A-U",
+    "description": "Pune Station To Dehugaon (Via Yarwada)",
+    "length_km": 34.0
+  },
+  {
+    "id": "route_329-D",
+    "name": "329-D",
+    "description": "Dehugaon To Pune Station (Via Wakdevadi)",
+    "length_km": 33.0
+  },
+  {
+    "id": "route_329-U",
+    "name": "329-U",
+    "description": "Pune Station To Dehugaon (Via Wakdevadi)",
+    "length_km": 33.0
+  },
+  {
+    "id": "route_32-D",
+    "name": "32-D",
+    "description": "Alandi To Bharati Vidyapeeth",
+    "length_km": 34.1
+  },
+  {
+    "id": "route_32-U",
+    "name": "32-U",
+    "description": "Bharati Vidyapeeth To Alandi",
+    "length_km": 34.1
+  },
+  {
+    "id": "route_331A-D",
+    "name": "331A-D",
+    "description": "Rahatnigaon To Gavhanevasti Bhosari",
+    "length_km": 13.0
+  },
+  {
+    "id": "route_331A-U",
+    "name": "331A-U",
+    "description": "Gavhanevasti Bhosari To Rahatnigaon",
+    "length_km": 13.0
+  },
+  {
+    "id": "route_331B-D",
+    "name": "331B-D",
+    "description": "Rahatnigaon To Charholigaon",
+    "length_km": 22.0
+  },
+  {
+    "id": "route_331B-U",
+    "name": "331B-U",
+    "description": "Charholigaon To Rahatnigaon",
+    "length_km": 22.0
+  },
+  {
+    "id": "route_331C-U",
+    "name": "331C-U",
+    "description": "Nehrunagar Depo To Rahatnigaon",
+    "length_km": 9.5
+  },
+  {
+    "id": "route_331-D",
+    "name": "331-D",
+    "description": "Rahatnigaon To Charholigaon",
+    "length_km": 22.0
+  },
+  {
+    "id": "route_331D-U",
+    "name": "331D-U",
+    "description": "Charholigaon To Nehrunagar Depo",
+    "length_km": 12.5
+  },
+  {
+    "id": "route_331-U",
+    "name": "331-U",
+    "description": "Charholigaon To Rahatnigaon",
+    "length_km": 22.0
+  },
+  {
+    "id": "route_332A-D",
+    "name": "332A-D",
+    "description": "Pimple Saudagar To Ma Na Pa",
+    "length_km": 15.7
+  },
+  {
+    "id": "route_332A-U",
+    "name": "332A-U",
+    "description": "Ma Na Pa To Pimple Saudagar",
+    "length_km": 15.7
+  },
+  {
+    "id": "route_332-D",
+    "name": "332-D",
+    "description": "Pimpri To Pune Station",
+    "length_km": 26.4
+  },
+  {
+    "id": "route_332-U",
+    "name": "332-U",
+    "description": "Pune Station To Pimpri",
+    "length_km": 26.4
+  },
+  {
+    "id": "route_333-D",
+    "name": "333-D",
+    "description": "Hinjawadi Maan Phase 3 To Pune Station",
+    "length_km": 26.6
+  },
+  {
+    "id": "route_333-U",
+    "name": "333-U",
+    "description": "Pune Station To Hinjawadi Maan Phase 3",
+    "length_km": 26.6
+  },
+  {
+    "id": "route_334-D",
+    "name": "334-D",
+    "description": "Gharkul Vasahat Chikhali To Pimprigaon",
+    "length_km": 8.2
+  },
+  {
+    "id": "route_334-U",
+    "name": "334-U",
+    "description": "Pimprigaon To Gharkul Vasahat Chikhli",
+    "length_km": 8.2
+  },
+  {
+    "id": "route_335A-D",
+    "name": "335A-D",
+    "description": "Jambe To Dange Chowk",
+    "length_km": 7.6
+  },
+  {
+    "id": "route_335A-U",
+    "name": "335A-U",
+    "description": "Dange Chowk To Jambe",
+    "length_km": 7.6
+  },
+  {
+    "id": "route_335B-D",
+    "name": "335B-D",
+    "description": "Dange Chowk To Nehrunagar Depo",
+    "length_km": 8.9
+  },
+  {
+    "id": "route_335B-U",
+    "name": "335B-U",
+    "description": "Nehrunagar Depo To Dange Chowk",
+    "length_km": 8.9
+  },
+  {
+    "id": "route_336-D",
+    "name": "336-D",
+    "description": "Bhakti Shakti To Kesnand Phata",
+    "length_km": 31.0
+  },
+  {
+    "id": "route_336-U",
+    "name": "336-U",
+    "description": "Kesnand Phata To Bhakti Shakti",
+    "length_km": 31.0
+  },
+  {
+    "id": "route_337-D",
+    "name": "337-D",
+    "description": "Bhakti Shakti To Dhayari Maruti Mandir",
+    "length_km": 37.7
+  },
+  {
+    "id": "route_337-U",
+    "name": "337-U",
+    "description": "Dhayari Maruti Mandir To Bhakti Shakti",
+    "length_km": 37.7
+  },
+  {
+    "id": "route_339B-D",
+    "name": "339B-D",
+    "description": "Indrayaninagar To Pune Station",
+    "length_km": 22.6
+  },
+  {
+    "id": "route_339B-U",
+    "name": "339B-U",
+    "description": "Pune Station To Indrayaninagar",
+    "length_km": 22.6
+  },
+  {
+    "id": "route_339-D",
+    "name": "339-D",
+    "description": "Santnagar MIDC Police Station To Katraj",
+    "length_km": 32.5
+  },
+  {
+    "id": "route_339-U",
+    "name": "339-U",
+    "description": "Katraj To Santnagar MIDC Police Station",
+    "length_km": 32.5
+  },
+  {
+    "id": "route_33A-D",
+    "name": "33A-D",
+    "description": "Na Ta Wadi To Padmawati",
+    "length_km": 8.0
+  },
+  {
+    "id": "route_33A-U",
+    "name": "33A-U",
+    "description": "Padmawati To Na Ta Wadi",
+    "length_km": 8.0
+  },
+  {
+    "id": "route_33-D",
+    "name": "33-D",
+    "description": "Na Ta Wadi To Taljai Pathar",
+    "length_km": 10.2
+  },
+  {
+    "id": "route_33-U",
+    "name": "33-U",
+    "description": "Taljai Pathar To Na Ta Wadi",
+    "length_km": 10.2
+  },
+  {
+    "id": "route_341-D",
+    "name": "341-D",
+    "description": "Mohannagar To Ma Na Pa",
+    "length_km": 22.2
+  },
+  {
+    "id": "route_341-U",
+    "name": "341-U",
+    "description": "Ma Na Pa To Mohannagar",
+    "length_km": 22.2
+  },
+  {
+    "id": "route_344A-U",
+    "name": "344A-U",
+    "description": "Nehrunagar Depo To Pimple Nilakh",
+    "length_km": 13.7
+  },
+  {
+    "id": "route_344B-U",
+    "name": "344B-U",
+    "description": "Alandi To Nehrunagar Depo",
+    "length_km": 13.7
+  },
+  {
+    "id": "route_344-D",
+    "name": "344-D",
+    "description": "Pimple Nilakh To Alandi",
+    "length_km": 26.1
+  },
+  {
+    "id": "route_344-U",
+    "name": "344-U",
+    "description": "Alandi To Pimple Nilakh",
+    "length_km": 26.1
+  },
+  {
+    "id": "route_345-D",
+    "name": "345-D",
+    "description": "Thergaon To Pune Station",
+    "length_km": 19.3
+  },
+  {
+    "id": "route_345-U",
+    "name": "345-U",
+    "description": "Pune Station To Thergaon",
+    "length_km": 19.3
+  },
+  {
+    "id": "route_347A-U",
+    "name": "347A-U",
+    "description": "Nehrunagar Depo To Dapodi Mantri Niketan",
+    "length_km": 18.4
+  },
+  {
+    "id": "route_347-D",
+    "name": "347-D",
+    "description": "Dapodi To Alandi",
+    "length_km": 30.9
+  },
+  {
+    "id": "route_347-U",
+    "name": "347-U",
+    "description": "Alandi To Dapodi",
+    "length_km": 30.9
+  },
+  {
+    "id": "route_348-D",
+    "name": "348-D",
+    "description": "Nigdi To Pune Station",
+    "length_km": 24.0
+  },
+  {
+    "id": "route_348-U",
+    "name": "348-U",
+    "description": "Pune Station To Nigdi",
+    "length_km": 24.0
+  },
+  {
+    "id": "route_350A-D",
+    "name": "350A-D",
+    "description": "Dehugaon To Pimprigaon",
+    "length_km": 17.1
+  },
+  {
+    "id": "route_350A-U",
+    "name": "350A-U",
+    "description": "Pimprigaon To Dehugaon",
+    "length_km": 17.1
+  },
+  {
+    "id": "route_350B-D",
+    "name": "350B-D",
+    "description": "Bhakti Shakti To Pimprigaon",
+    "length_km": 8.3
+  },
+  {
+    "id": "route_350B-U",
+    "name": "350B-U",
+    "description": "Pimprigaon To Bhakti Shakti",
+    "length_km": 8.3
+  },
+  {
+    "id": "route_350-D",
+    "name": "350-D",
+    "description": "Dehugaon To Nigdi",
+    "length_km": 8.8
+  },
+  {
+    "id": "route_350-U",
+    "name": "350-U",
+    "description": "Nigdi To Dehugaon",
+    "length_km": 8.8
+  },
+  {
+    "id": "route_351A-D",
+    "name": "351A-D",
+    "description": "Jambe To Bhosari",
+    "length_km": 24.0
+  },
+  {
+    "id": "route_351A-U",
+    "name": "351A-U",
+    "description": "Bhosari To Jambe",
+    "length_km": 24.0
+  },
+  {
+    "id": "route_351-D",
+    "name": "351-D",
+    "description": "Jambe To Alandi",
+    "length_km": 32.5
+  },
+  {
+    "id": "route_351-U",
+    "name": "351-U",
+    "description": "Alandi To Jambe",
+    "length_km": 32.5
+  },
+  {
+    "id": "route_354A-D",
+    "name": "354A-D",
+    "description": "Pimpri To Marketyard",
+    "length_km": 28.5
+  },
+  {
+    "id": "route_354A-U",
+    "name": "354A-U",
+    "description": "Marketyard To Pimpri",
+    "length_km": 28.5
+  },
+  {
+    "id": "route_354-D",
+    "name": "354-D",
+    "description": "Pimprigaon To Marketyard",
+    "length_km": 28.8
+  },
+  {
+    "id": "route_354-U",
+    "name": "354-U",
+    "description": "Marketyard To Pimprigaon",
+    "length_km": 28.8
+  },
+  {
+    "id": "route_355-D",
+    "name": "355-D",
+    "description": "Chikhali To Dange Chowk",
+    "length_km": 13.0
+  },
+  {
+    "id": "route_355-U",
+    "name": "355-U",
+    "description": "Dange Chowk To Chikhali",
+    "length_km": 13.0
+  },
+  {
+    "id": "route_357-D",
+    "name": "357-D",
+    "description": "Rajgurunagar To Pune Station",
+    "length_km": 46.6
+  },
+  {
+    "id": "route_357-U",
+    "name": "357-U",
+    "description": "Pune Station To Rajgurunagar",
+    "length_km": 46.6
+  },
+  {
+    "id": "route_358-D",
+    "name": "358-D",
+    "description": "Rajgurunagar To Bhosari",
+    "length_km": 27.6
+  },
+  {
+    "id": "route_358-U",
+    "name": "358-U",
+    "description": "Bhosari To Rajgurunagar",
+    "length_km": 27.6
+  },
+  {
+    "id": "route_360-D",
+    "name": "360-D",
+    "description": "Balewadi Depot To Alandi",
+    "length_km": 35.0
+  },
+  {
+    "id": "route_360-U",
+    "name": "360-U",
+    "description": "Alandi To Balewadi Depot",
+    "length_km": 35.0
+  },
+  {
+    "id": "route_361-D",
+    "name": "361-D",
+    "description": "Bhosari Terminal To Alandi",
+    "length_km": 8.5
+  },
+  {
+    "id": "route_361-U",
+    "name": "361-U",
+    "description": "Alandi To Bhosari Terminal",
+    "length_km": 8.5
+  },
+  {
+    "id": "route_362A-D",
+    "name": "362A-D",
+    "description": "Alandi To YCM Hospital (Via Moshi)",
+    "length_km": 16.0
+  },
+  {
+    "id": "route_362A-U",
+    "name": "362A-U",
+    "description": "YCM Hospital To Alandi (Via Moshi)",
+    "length_km": 16.0
+  },
+  {
+    "id": "route_362B-D",
+    "name": "362B-D",
+    "description": "YCM Hospital To Bhosari",
+    "length_km": 5.5
+  },
+  {
+    "id": "route_362B-U",
+    "name": "362B-U",
+    "description": "Bhosari To YCM Hospital",
+    "length_km": 5.5
+  },
+  {
+    "id": "route_362-D",
+    "name": "362-D",
+    "description": "YCM Hospital To Alandi",
+    "length_km": 14.0
+  },
+  {
+    "id": "route_362-U",
+    "name": "362-U",
+    "description": "Alandi To YCM Hospital",
+    "length_km": 14.0
+  },
+  {
+    "id": "route_363A-D",
+    "name": "363A-D",
+    "description": "Kiwalegaon To Nigdi",
+    "length_km": 10.7
+  },
+  {
+    "id": "route_363A-U",
+    "name": "363A-U",
+    "description": "Nigdi To Kiwalegaon",
+    "length_km": 10.7
+  },
+  {
+    "id": "route_363-D",
+    "name": "363-D",
+    "description": "Adarshnagar To Nigdi",
+    "length_km": 9.0
+  },
+  {
+    "id": "route_363-U",
+    "name": "363-U",
+    "description": "Nigdi To Adarshnagar",
+    "length_km": 9.0
+  },
+  {
+    "id": "route_366A-D",
+    "name": "366A-D",
+    "description": "Bhapkar Petrol Pump To Bhakti Shakti",
+    "length_km": 24.9
+  },
+  {
+    "id": "route_366A-U",
+    "name": "366A-U",
+    "description": "Bhakti Shakti To Bhapkar Petrol Pump",
+    "length_km": 25.9
+  },
+  {
+    "id": "route_366B-U",
+    "name": "366B-U",
+    "description": "Pune Station To Pimpri",
+    "length_km": 16.9
+  },
+  {
+    "id": "route_366C-D",
+    "name": "366C-D",
+    "description": "Katraj To Pimpri",
+    "length_km": 24.7
+  },
+  {
+    "id": "route_366-D",
+    "name": "366-D",
+    "description": "Bhakti Shakti To Pune Station (Via Yerwada)",
+    "length_km": 22.7
+  },
+  {
+    "id": "route_366-U",
+    "name": "366-U",
+    "description": "Pune Station To Bhakti Shakti (Via Yerwada)",
+    "length_km": 22.7
+  },
+  {
+    "id": "route_367A-D",
+    "name": "367A-D",
+    "description": "Santnagar MIDC Police Station To Akurdi Railway Station",
+    "length_km": 18.5
+  },
+  {
+    "id": "route_367A-U",
+    "name": "367A-U",
+    "description": "Akurdi Railway Station To Santnagar MIDC Police Station",
+    "length_km": 18.5
+  },
+  {
+    "id": "route_367B-D",
+    "name": "367B-D",
+    "description": "Gharkul Vasahat To Bhosari Terminal",
+    "length_km": 11.4
+  },
+  {
+    "id": "route_367B-U",
+    "name": "367B-U",
+    "description": "Bhosari Terminal To Gharkul Vasahat",
+    "length_km": 11.4
+  },
+  {
+    "id": "route_367C-D",
+    "name": "367C-D",
+    "description": "Akurdi Railway Station To Bhosari",
+    "length_km": 17.0
+  },
+  {
+    "id": "route_367C-U",
+    "name": "367C-U",
+    "description": "Bhosari To Akurdi Railway Station",
+    "length_km": 17.0
+  },
+  {
+    "id": "route_367-D",
+    "name": "367-D",
+    "description": "Gavhanevasti Bhosari To Nigdi",
+    "length_km": 10.8
+  },
+  {
+    "id": "route_367-U",
+    "name": "367-U",
+    "description": "Nigdi To Gavhanevasti Bhosari",
+    "length_km": 10.8
+  },
+  {
+    "id": "route_36-D",
+    "name": "36-D",
+    "description": "Chinchwadgaon To Ma Na Pa",
+    "length_km": 17.1
+  },
+  {
+    "id": "route_36-U",
+    "name": "36-U",
+    "description": "Ma Na Pa To Chinchwadgaon",
+    "length_km": 17.1
+  },
+  {
+    "id": "route_370-R",
+    "name": "370-R",
+    "description": "Pimpri To Pimpri",
+    "length_km": 14.5
+  },
+  {
+    "id": "route_372-D",
+    "name": "372-D",
+    "description": "Hinjawadi Maan Phase 3 To Bhakti Shakti",
+    "length_km": 20.9
+  },
+  {
+    "id": "route_372-U",
+    "name": "372-U",
+    "description": "Bhakti Shakti To Hinjawadi Maan Phase 3",
+    "length_km": 20.9
+  },
+  {
+    "id": "route_373-D",
+    "name": "373-D",
+    "description": "Hinjawadi Maan Phase 3 To Wakad pul",
+    "length_km": 10.0
+  },
+  {
+    "id": "route_373-U",
+    "name": "373-U",
+    "description": "Wakad Pul To Hinjawadi Maan Phase 3",
+    "length_km": 10.0
+  },
+  {
+    "id": "route_376A-D",
+    "name": "376A-D",
+    "description": "Bhakti Shakti To Warje Malwadi (Vai YCM)",
+    "length_km": 31.2
+  },
+  {
+    "id": "route_376A-U",
+    "name": "376A-U",
+    "description": "Warje Malwadi To Bhakti Shakti (Vai YCM)",
+    "length_km": 31.2
+  },
+  {
+    "id": "route_376B-D",
+    "name": "376B-D",
+    "description": "Bhakti Shakti To Shewalwadi (Vai YCM)",
+    "length_km": 35.7
+  },
+  {
+    "id": "route_376B-U",
+    "name": "376B-U",
+    "description": "Shewalwadi To Bhakti Shakti (Vai YCM)",
+    "length_km": 35.7
+  },
+  {
+    "id": "route_376-D",
+    "name": "376-D",
+    "description": "Bhakti Shakti To Katraj (Vai YCM)",
+    "length_km": 30.9
+  },
+  {
+    "id": "route_376D-D",
+    "name": "376D-D",
+    "description": "Bhakti Shakti To Nehrunagar Depo",
+    "length_km": 9.3
+  },
+  {
+    "id": "route_376D-U",
+    "name": "376D-U",
+    "description": "Nehrunagar Depo To Bhakti Shakti",
+    "length_km": 9.3
+  },
+  {
+    "id": "route_376E-D",
+    "name": "376E-D",
+    "description": "Warje Malwadi To Nehrunagar Depo (Vai YCM)",
+    "length_km": 23.5
+  },
+  {
+    "id": "route_376F-D",
+    "name": "376F-D",
+    "description": "Sambhajinagar To Nehrunagar Depo",
+    "length_km": 23.0
+  },
+  {
+    "id": "route_376F-U",
+    "name": "376F-U",
+    "description": "Nehrunagar Depo To Sambhajinagar",
+    "length_km": 9.6
+  },
+  {
+    "id": "route_376G-D",
+    "name": "376G-D",
+    "description": "Shewalwadi To Nehrunagar Depo (Vai YCM)",
+    "length_km": 28.0
+  },
+  {
+    "id": "route_376H-U",
+    "name": "376H-U",
+    "description": "Katraj To Nehrunagar Depo (Vai YCM)",
+    "length_km": 23.2
+  },
+  {
+    "id": "route_376K-D",
+    "name": "376K-D",
+    "description": "Sambhajinagar To Katraj (Vai YCM)",
+    "length_km": 32.9
+  },
+  {
+    "id": "route_376K-U",
+    "name": "376K-U",
+    "description": "Katraj To Sambhajinagar (Vai YCM)",
+    "length_km": 32.9
+  },
+  {
+    "id": "route_376-U",
+    "name": "376-U",
+    "description": "Katraj To Bhakti Shakti (Vai YCM)",
+    "length_km": 30.9
+  },
+  {
+    "id": "route_37-D",
+    "name": "37-D",
+    "description": "Na Ta Wadi To Sahkarnagar",
+    "length_km": 7.0
+  },
+  {
+    "id": "route_37-U",
+    "name": "37-U",
+    "description": "Sahkarnagar To Na Ta Wadi",
+    "length_km": 7.0
+  },
+  {
+    "id": "route_38-D",
+    "name": "38-D",
+    "description": "Na Ta Wadi To Dhankawadi",
+    "length_km": 9.0
+  },
+  {
+    "id": "route_38-U",
+    "name": "38-U",
+    "description": "Dhankawadi To Na Ta Wadi",
+    "length_km": 9.0
+  },
+  {
+    "id": "route_39-D",
+    "name": "39-D",
+    "description": "Pune Station To Dhankawadi",
+    "length_km": 10.5
+  },
+  {
+    "id": "route_39-U",
+    "name": "39-U",
+    "description": "Dhankawadi To Pune Station",
+    "length_km": 10.5
+  },
+  {
+    "id": "route_3-D",
+    "name": "3-D",
+    "description": "Pune Station To Swargate",
+    "length_km": 7.5
+  },
+  {
+    "id": "route_3-U",
+    "name": "3-U",
+    "description": "Swargate To Pune Station",
+    "length_km": 7.5
+  },
+  {
+    "id": "route_40-D",
+    "name": "40-D",
+    "description": "Mandai To Saket Society",
+    "length_km": 5.3
+  },
+  {
+    "id": "route_40-U",
+    "name": "40-U",
+    "description": "Saket Society To Mandai",
+    "length_km": 5.3
+  },
+  {
+    "id": "route_41-U",
+    "name": "41-U",
+    "description": "Upper Depot To Sangvi",
+    "length_km": 19.0
+  },
+  {
+    "id": "route_41-D",
+    "name": "41-D",
+    "description": "Sangvi To Upper Depot",
+    "length_km": 19.0
+  },
+  {
+    "id": "route_42-D",
+    "name": "42-D",
+    "description": "Bhakti Shakti To Katraj",
+    "length_km": 28.95
+  },
+  {
+    "id": "route_42-U",
+    "name": "42-U",
+    "description": "Katraj To Bhakti Shakti",
+    "length_km": 28.95
+  },
+  {
+    "id": "route_43A-D",
+    "name": "43A-D",
+    "description": "Hinjawadi Maan Phase 3 To Katraj",
+    "length_km": 33.7
+  },
+  {
+    "id": "route_43A-U",
+    "name": "43A-U",
+    "description": "Katraj To Hinjawadi Maan Phase 3",
+    "length_km": 33.7
+  },
+  {
+    "id": "route_43-D",
+    "name": "43-D",
+    "description": "Bhakti Shakti To Katraj",
+    "length_km": 33.7
+  },
+  {
+    "id": "route_43-U",
+    "name": "43-U",
+    "description": "Katraj To Bhakti Shakti",
+    "length_km": 33.7
+  },
+  {
+    "id": "route_46-D",
+    "name": "46-D",
+    "description": "Lohgaon To  Upper Depot",
+    "length_km": 25.9
+  },
+  {
+    "id": "route_46-U",
+    "name": "46-U",
+    "description": "Upper Depot To Lohgaon",
+    "length_km": 25.9
+  },
+  {
+    "id": "route_47A-D",
+    "name": "47A-D",
+    "description": "Vadgaon Bk To Shaniwarwada Stand",
+    "length_km": 9.4
+  },
+  {
+    "id": "route_47A-U",
+    "name": "47A-U",
+    "description": "Shaniwarwada Stand To Vadgaon Bk",
+    "length_km": 9.4
+  },
+  {
+    "id": "route_47-D",
+    "name": "47-D",
+    "description": "Sanaswadi Nandoshi To Shaniwarwada",
+    "length_km": 17.7
+  },
+  {
+    "id": "route_47-U",
+    "name": "47-U",
+    "description": "Shaniwarwada To Sanaswadi Nandoshi",
+    "length_km": 17.7
+  },
+  {
+    "id": "route_48-D",
+    "name": "48-D",
+    "description": "Venutai Chavan College To Pune Station",
+    "length_km": 16.8
+  },
+  {
+    "id": "route_48-U",
+    "name": "48-U",
+    "description": "Pune Station To Venutai Chavan College",
+    "length_km": 16.8
+  },
+  {
+    "id": "route_49-D",
+    "name": "49-D",
+    "description": "Khanapur To Pune Station",
+    "length_km": 27.7
+  },
+  {
+    "id": "route_49-U",
+    "name": "49-U",
+    "description": "Pune Station To Khanapur",
+    "length_km": 27.7
+  },
+  {
+    "id": "route_50B-D",
+    "name": "50B-D",
+    "description": "Sinhgad Paytha To Natraj Stand",
+    "length_km": 22.8
+  },
+  {
+    "id": "route_50B-U",
+    "name": "50B-U",
+    "description": "Natraj Stand To Sinhgad Paytha",
+    "length_km": 22.8
+  },
+  {
+    "id": "route_50-D",
+    "name": "50-D",
+    "description": "Sinhagad To Shaniwarwada",
+    "length_km": 24.8
+  },
+  {
+    "id": "route_50-U",
+    "name": "50-U",
+    "description": "Shaniwarwada To Sinhagad",
+    "length_km": 24.8
+  },
+  {
+    "id": "route_51A-D",
+    "name": "51A-D",
+    "description": "DSK Vishwa To Shivajinagar",
+    "length_km": 13.2
+  },
+  {
+    "id": "route_51A-U",
+    "name": "51A-U",
+    "description": "Shivajinagar To DSK Vishwa",
+    "length_km": 13.2
+  },
+  {
+    "id": "route_51-D",
+    "name": "51-D",
+    "description": "Dhayari Maruti Mandi To Shivajinagar",
+    "length_km": 13.2
+  },
+  {
+    "id": "route_51-U",
+    "name": "51-U",
+    "description": "Shivajinagar To Dhayari Maruti Mandi",
+    "length_km": 13.2
+  },
+  {
+    "id": "route_52A-D",
+    "name": "52A-D",
+    "description": "Osade Phata To Swargate",
+    "length_km": 30.1
+  },
+  {
+    "id": "route_52A-U",
+    "name": "52A-U",
+    "description": "Swargate To Osade Phata",
+    "length_km": 30.1
+  },
+  {
+    "id": "route_52B-D",
+    "name": "52B-D",
+    "description": "Khanapur To Marketyard",
+    "length_km": 26.0
+  },
+  {
+    "id": "route_52B-U",
+    "name": "52B-U",
+    "description": "Marketyard To Khanapur",
+    "length_km": 26.0
+  },
+  {
+    "id": "route_52-D",
+    "name": "52-D",
+    "description": "Khanapur To Swargate",
+    "length_km": 23.2
+  },
+  {
+    "id": "route_52-U",
+    "name": "52-U",
+    "description": "Swargate To Khanapur",
+    "length_km": 23.2
+  },
+  {
+    "id": "route_53B-D",
+    "name": "53B-D",
+    "description": "Swargate To Shivajinagar",
+    "length_km": 4.3
+  },
+  {
+    "id": "route_53-D",
+    "name": "53-D",
+    "description": "DSK Vishwa To Shivajinagar",
+    "length_km": 15.4
+  },
+  {
+    "id": "route_53-U",
+    "name": "53-U",
+    "description": "Shivajinagar To DSK Vishwa",
+    "length_km": 14.4
+  },
+  {
+    "id": "route_54A-D",
+    "name": "54A-D",
+    "description": "Vadgaon Bk To Na Ta Wadi",
+    "length_km": 11.5
+  },
+  {
+    "id": "route_54A-U",
+    "name": "54A-U",
+    "description": "Na Ta Wadi To Vadgaon Bk",
+    "length_km": 11.5
+  },
+  {
+    "id": "route_54B-D",
+    "name": "54B-D",
+    "description": "Na Ta Wadi To Swargate",
+    "length_km": 4.3
+  },
+  {
+    "id": "route_54B-U",
+    "name": "54B-U",
+    "description": "Swargate To Na Ta Wadi",
+    "length_km": 4.3
+  },
+  {
+    "id": "route_54-D",
+    "name": "54-D",
+    "description": "Venutai Chavan College To Na Ta Wadi",
+    "length_km": 13.9
+  },
+  {
+    "id": "route_54-U",
+    "name": "54-U",
+    "description": "Na Ta Wadi To Venutai Chavan College",
+    "length_km": 13.9
+  },
+  {
+    "id": "route_55-D",
+    "name": "55-D",
+    "description": "Mandai To Suncity",
+    "length_km": 7.8
+  },
+  {
+    "id": "route_55-U",
+    "name": "55-U",
+    "description": "Suncity To Mandai",
+    "length_km": 7.8
+  },
+  {
+    "id": "route_56-D",
+    "name": "56-D",
+    "description": "Mandai To Vadgaon Bk",
+    "length_km": 9.4
+  },
+  {
+    "id": "route_56-U",
+    "name": "56-U",
+    "description": "Vadgaon Bk To Mandai",
+    "length_km": 9.4
+  },
+  {
+    "id": "route_57A-D",
+    "name": "57A-D",
+    "description": "Suncity To Pune Station",
+    "length_km": 10.3
+  },
+  {
+    "id": "route_57A-U",
+    "name": "57A-U",
+    "description": "Pune Station To Suncity",
+    "length_km": 10.3
+  },
+  {
+    "id": "route_57-D",
+    "name": "57-D",
+    "description": "Vadgaon Bk To Pune Station",
+    "length_km": 12.3
+  },
+  {
+    "id": "route_57-U",
+    "name": "57-U",
+    "description": "Pune Station To Vadgaon Bk",
+    "length_km": 12.3
+  },
+  {
+    "id": "route_58A-D",
+    "name": "58A-D",
+    "description": "Pandavnagar To Shanipar",
+    "length_km": 7.5
+  },
+  {
+    "id": "route_58A-U",
+    "name": "58A-U",
+    "description": "Shanipar To Pandavnagar",
+    "length_km": 7.5
+  },
+  {
+    "id": "route_58-D",
+    "name": "58-D",
+    "description": "Gokhalenagar To Shanipar",
+    "length_km": 5.6
+  },
+  {
+    "id": "route_58P-D",
+    "name": "58P-D",
+    "description": "Pandavnagar Senapati Bapat Road To Shanipar",
+    "length_km": 7.8
+  },
+  {
+    "id": "route_58P-U",
+    "name": "58P-U",
+    "description": "Shanipar To Pandavnagar Senapati Bapat Road",
+    "length_km": 7.8
+  },
+  {
+    "id": "route_58-U",
+    "name": "58-U",
+    "description": "Shanipar To Gokhalenagar",
+    "length_km": 5.6
+  },
+  {
+    "id": "route_59-D",
+    "name": "59-D",
+    "description": "Niljyoti To Shanipar",
+    "length_km": 6.2
+  },
+  {
+    "id": "route_59-U",
+    "name": "59-U",
+    "description": "Shanipar To Niljyoti",
+    "length_km": 6.2
+  },
+  {
+    "id": "route_5A-D",
+    "name": "5A-D",
+    "description": "Tadiwala Road To Swargate",
+    "length_km": 6.3
+  },
+  {
+    "id": "route_5A-U",
+    "name": "5A-U",
+    "description": "Swargate To Tadiwala Road",
+    "length_km": 6.3
+  },
+  {
+    "id": "route_5-D",
+    "name": "5-D",
+    "description": "Pune Station To Swargate",
+    "length_km": 5.45
+  },
+  {
+    "id": "route_5-U",
+    "name": "5-U",
+    "description": "Swargate To Pune Station",
+    "length_km": 5.45
+  },
+  {
+    "id": "route_60A-D",
+    "name": "60A-D",
+    "description": "Ghulenagar To Natraj Stand",
+    "length_km": 9.0
+  },
+  {
+    "id": "route_60A-U",
+    "name": "60A-U",
+    "description": "Natraj Stand To Ghulenagar",
+    "length_km": 9.0
+  },
+  {
+    "id": "route_60-D",
+    "name": "60-D",
+    "description": "Ghulenager To  Shaniwarwada Stand",
+    "length_km": 12.0
+  },
+  {
+    "id": "route_60-U",
+    "name": "60-U",
+    "description": "Shaniwarwada Stand To Ghulenager",
+    "length_km": 12.0
+  },
+  {
+    "id": "route_61-D",
+    "name": "61-D",
+    "description": "Nasrapur To Swargate",
+    "length_km": 32.0
+  },
+  {
+    "id": "route_61-U",
+    "name": "61-U",
+    "description": "Swargate To Nasrapur",
+    "length_km": 32.0
+  },
+  {
+    "id": "route_62A-D",
+    "name": "62A-D",
+    "description": "Marketyard To Sangamwadi",
+    "length_km": 10.2
+  },
+  {
+    "id": "route_62-D",
+    "name": "62-D",
+    "description": "Sangamwadi To Sukhsagarnagar",
+    "length_km": 15.5
+  },
+  {
+    "id": "route_62-U",
+    "name": "62-U",
+    "description": "Sukhsagarnagar To Sangamwadi",
+    "length_km": 15.5
+  },
+  {
+    "id": "route_63-D",
+    "name": "63-D",
+    "description": "Kalyaninagar To Swargate",
+    "length_km": 11.5
+  },
+  {
+    "id": "route_63-U",
+    "name": "63-U",
+    "description": "Swargate To Kalyaninagar",
+    "length_km": 11.5
+  },
+  {
+    "id": "route_64A-D",
+    "name": "64A-D",
+    "description": "Warje Malwadi To Swargate",
+    "length_km": 10.0
+  },
+  {
+    "id": "route_64A-U",
+    "name": "64A-U",
+    "description": "Swargate To Warje Malwadi",
+    "length_km": 10.0
+  },
+  {
+    "id": "route_64B-D",
+    "name": "64B-D",
+    "description": "Gujrat Colony To Upper Depot",
+    "length_km": 11.7
+  },
+  {
+    "id": "route_64B-U",
+    "name": "64B-U",
+    "description": "Upper Depot To Gujrat Colony",
+    "length_km": 11.7
+  },
+  {
+    "id": "route_64C-D",
+    "name": "64C-D",
+    "description": "Swargate To Gujrat Colony",
+    "length_km": 6.5
+  },
+  {
+    "id": "route_64-D",
+    "name": "64-D",
+    "description": "Warje Malwadi To Hadapsar Gadital",
+    "length_km": 20.0
+  },
+  {
+    "id": "route_64-U",
+    "name": "64-U",
+    "description": "Hadapsar Gadital To Warje Malwadi",
+    "length_km": 20.0
+  },
+  {
+    "id": "route_65A-D",
+    "name": "65A-D",
+    "description": "Marketyard To Upper Depo",
+    "length_km": 4.8
+  },
+  {
+    "id": "route_65A-U",
+    "name": "65A-U",
+    "description": "Upper Depo To Marketyard",
+    "length_km": 4.8
+  },
+  {
+    "id": "route_65-D",
+    "name": "65-D",
+    "description": "Maharashtra Housing Board Samtanagar To Upper Depot",
+    "length_km": 16.5
+  },
+  {
+    "id": "route_65-U",
+    "name": "65-U",
+    "description": "Upper Depot To Maharashtra Housing Board Samtanagar",
+    "length_km": 16.5
+  },
+  {
+    "id": "route_66A-D",
+    "name": "66A-D",
+    "description": "Shaniwarwada To Marketyard",
+    "length_km": 6.0
+  },
+  {
+    "id": "route_66A-U",
+    "name": "66A-U",
+    "description": "Marketyard To Shaniwarwada",
+    "length_km": 6.0
+  },
+  {
+    "id": "route_66-D",
+    "name": "66-D",
+    "description": "Agalambegaon To Marketyard",
+    "length_km": 29.1
+  },
+  {
+    "id": "route_66-U",
+    "name": "66-U",
+    "description": "Marketyard To Agalambegaon",
+    "length_km": 29.0
+  },
+  {
+    "id": "route_67-D",
+    "name": "67-D",
+    "description": "Kharadi Gaon To Swargate",
+    "length_km": 17.2
+  },
+  {
+    "id": "route_67-U",
+    "name": "67-U",
+    "description": "Swargate To Kharadi Gaon",
+    "length_km": 17.2
+  },
+  {
+    "id": "route_68A-D",
+    "name": "68A-D",
+    "description": "Sukhsagarnagar To Kumbare Park",
+    "length_km": 13.5
+  },
+  {
+    "id": "route_68A-U",
+    "name": "68A-U",
+    "description": "Kumbare Park To Sukhsagarnagar",
+    "length_km": 13.5
+  },
+  {
+    "id": "route_68B-D",
+    "name": "68B-D",
+    "description": "Venutai Chavan College To Kothrud Depo",
+    "length_km": 15.0
+  },
+  {
+    "id": "route_68B-U",
+    "name": "68B-U",
+    "description": "Kothrud Depo To Venutai Chavan College",
+    "length_km": 15.0
+  },
+  {
+    "id": "route_68S-D",
+    "name": "68S-D",
+    "description": "Upper Depot To Sutardara",
+    "length_km": 14.8
+  },
+  {
+    "id": "route_68S-U",
+    "name": "68S-U",
+    "description": "Sutardara To  Upper Depot",
+    "length_km": 14.8
+  },
+  {
+    "id": "route_69-D",
+    "name": "69-D",
+    "description": "Ghotawadegaon To Marketyard",
+    "length_km": 31.3
+  },
+  {
+    "id": "route_69-U",
+    "name": "69-U",
+    "description": "Marketyard To Ghotawadegaon",
+    "length_km": 31.3
+  },
+  {
+    "id": "route_70A-D",
+    "name": "70A-D",
+    "description": "Shasakiya Vishramgruha Paudgaon To Deccan Gymkhana",
+    "length_km": 28.0
+  },
+  {
+    "id": "route_70A-U",
+    "name": "70A-U",
+    "description": "Deccan Gymkhana To Shasakiya Vishramgruha Paudgaon",
+    "length_km": 28.0
+  },
+  {
+    "id": "route_70B-D",
+    "name": "70B-D",
+    "description": "Shasakiya Vishramgruha Paudgaon To Kothrud Depo",
+    "length_km": 22.0
+  },
+  {
+    "id": "route_70B-U",
+    "name": "70B-U",
+    "description": "Kothrud Depo To Shasakiya Vishramgruha Paudgaon",
+    "length_km": 22.0
+  },
+  {
+    "id": "route_70C-D",
+    "name": "70C-D",
+    "description": "Sheregaon To Kothrud Depo",
+    "length_km": 27.3
+  },
+  {
+    "id": "route_70C-U",
+    "name": "70C-U",
+    "description": "Kothrud Depo To Sheregaon",
+    "length_km": 27.3
+  },
+  {
+    "id": "route_70-D",
+    "name": "70-D",
+    "description": "Sheregaon To Deccan Gymkhana",
+    "length_km": 33.3
+  },
+  {
+    "id": "route_70-U",
+    "name": "70-U",
+    "description": "Deccan Gymkhana To Sheregaon",
+    "length_km": 33.3
+  },
+  {
+    "id": "route_71-D",
+    "name": "71-D",
+    "description": "Sukhsagarnagar To Kothrud Depot",
+    "length_km": 14.3
+  },
+  {
+    "id": "route_71-U",
+    "name": "71-U",
+    "description": "Kothrud Depot To Sukhsagarnagar",
+    "length_km": 14.3
+  },
+  {
+    "id": "route_72A-D",
+    "name": "72A-D",
+    "description": "Swargate To Upper Depo",
+    "length_km": 5.2
+  },
+  {
+    "id": "route_72A-U",
+    "name": "72A-U",
+    "description": "Upper Depo To Swargate",
+    "length_km": 5.2
+  },
+  {
+    "id": "route_72-D",
+    "name": "72-D",
+    "description": "Kondhwagate To Upper Depot",
+    "length_km": 20.9
+  },
+  {
+    "id": "route_72-U",
+    "name": "72-U",
+    "description": "Upper Depot To Kondhwagate",
+    "length_km": 20.9
+  },
+  {
+    "id": "route_73-D",
+    "name": "73-D",
+    "description": "Kothrud Depot To Hadapsar Gadital",
+    "length_km": 18.7
+  },
+  {
+    "id": "route_73-U",
+    "name": "73-U",
+    "description": "Hadapsar Gadital To Kothrud Depot",
+    "length_km": 18.7
+  },
+  {
+    "id": "route_75-D",
+    "name": "75-D",
+    "description": "Vidyanagar To Deccan Gymkhana",
+    "length_km": 13.5
+  },
+  {
+    "id": "route_75-U",
+    "name": "75-U",
+    "description": "Deccan Gymkhana To Vidyanagar",
+    "length_km": 13.5
+  },
+  {
+    "id": "route_76-D",
+    "name": "76-D",
+    "description": "Upper Depot To Kumbare Park",
+    "length_km": 13.8
+  },
+  {
+    "id": "route_76-U",
+    "name": "76-U",
+    "description": "Kumbare Park To Upper Depot",
+    "length_km": 13.8
+  },
+  {
+    "id": "route_77-R",
+    "name": "77-R",
+    "description": "Warje Malwadi To Warje Malwadi",
+    "length_km": 24.5
+  },
+  {
+    "id": "route_78A-D",
+    "name": "78A-D",
+    "description": "Warje Malwadi To Marketyard",
+    "length_km": 14.2
+  },
+  {
+    "id": "route_78A-U",
+    "name": "78A-U",
+    "description": "Marketyard To Warje Malwadi",
+    "length_km": 14.2
+  },
+  {
+    "id": "route_78-D",
+    "name": "78-D",
+    "description": "Kondhwagate To Marketyard",
+    "length_km": 19.1
+  },
+  {
+    "id": "route_78-U",
+    "name": "78-U",
+    "description": "Marketyard To Kondhwagate",
+    "length_km": 19.1
+  },
+  {
+    "id": "route_79B-U",
+    "name": "79B-U",
+    "description": "Kothrud Depo To Ghotawade Phata",
+    "length_km": 13.9
+  },
+  {
+    "id": "route_79C-D",
+    "name": "79C-D",
+    "description": "Deccan Gymkhana To Kothrud Depo",
+    "length_km": 6.0
+  },
+  {
+    "id": "route_79C-U",
+    "name": "79C-U",
+    "description": "Kothrud Depo To Deccan Gymkhana",
+    "length_km": 6.0
+  },
+  {
+    "id": "route_79-D",
+    "name": "79-D",
+    "description": "Mugawade To Deccan Gymkhana",
+    "length_km": 29.9
+  },
+  {
+    "id": "route_79D-D",
+    "name": "79D-D",
+    "description": "Deccan Gymkhana To Warje Malwadi",
+    "length_km": 7.9
+  },
+  {
+    "id": "route_79D-U",
+    "name": "79D-U",
+    "description": "Warje Malwadi To Deccan Gymkhana",
+    "length_km": 7.9
+  },
+  {
+    "id": "route_79-U",
+    "name": "79-U",
+    "description": "Deccan Gymkhana To Mugawade",
+    "length_km": 29.9
+  },
+  {
+    "id": "route_7A-D",
+    "name": "7A-D",
+    "description": "Uruli Kanchan To Hadapsar Gadital",
+    "length_km": 20.8
+  },
+  {
+    "id": "route_7A-U",
+    "name": "7A-U",
+    "description": "Hadapsar Gadital To Uruli Kanchan",
+    "length_km": 20.8
+  },
+  {
+    "id": "route_7B-D",
+    "name": "7B-D",
+    "description": "Manjari Kh To Hadapsar Gadital",
+    "length_km": 8.3
+  },
+  {
+    "id": "route_7B-U",
+    "name": "7B-U",
+    "description": "Hadapsar Gadital To Manjari Kh",
+    "length_km": 8.3
+  },
+  {
+    "id": "route_7-D",
+    "name": "7-D",
+    "description": "Uruli Kanchan To Sarasbaug",
+    "length_km": 31.5
+  },
+  {
+    "id": "route_7-U",
+    "name": "7-U",
+    "description": "Sarasbaug To Uruli Kanchan",
+    "length_km": 31.5
+  },
+  {
+    "id": "route_80A-D",
+    "name": "80A-D",
+    "description": "Aditya Garden City To Ma Na Pa",
+    "length_km": 12.3
+  },
+  {
+    "id": "route_80A-U",
+    "name": "80A-U",
+    "description": "Ma Na Pa To Aditya Garden City",
+    "length_km": 12.3
+  },
+  {
+    "id": "route_80B-D",
+    "name": "80B-D",
+    "description": "Popularnagar To Ma Na Pa",
+    "length_km": 9.5
+  },
+  {
+    "id": "route_80B-U",
+    "name": "80B-U",
+    "description": "Ma Na Pa To Popularnagar",
+    "length_km": 9.5
+  },
+  {
+    "id": "route_80-D",
+    "name": "80-D",
+    "description": "Cipla Center To Ma Na Pa",
+    "length_km": 10.7
+  },
+  {
+    "id": "route_80-U",
+    "name": "80-U",
+    "description": "Ma Na Pa To Cipla Center",
+    "length_km": 10.4
+  },
+  {
+    "id": "route_81-D",
+    "name": "81-D",
+    "description": "Pune Station To Kumbare Park",
+    "length_km": 12.9
+  },
+  {
+    "id": "route_81-U",
+    "name": "81-U",
+    "description": "Kumbare Park To Pune Station",
+    "length_km": 12.9
+  },
+  {
+    "id": "route_82A-D",
+    "name": "82A-D",
+    "description": "Ma Na Pa To Warje Malwadi",
+    "length_km": 9.9
+  },
+  {
+    "id": "route_82A-U",
+    "name": "82A-U",
+    "description": "Warje Malwadi To Ma Na Pa",
+    "length_km": 9.9
+  },
+  {
+    "id": "route_82B-D",
+    "name": "82B-D",
+    "description": "Kondhwagate To Kothrud Stand",
+    "length_km": 9.0
+  },
+  {
+    "id": "route_82C-U",
+    "name": "82C-U",
+    "description": "Kondhwagate To Warje Malwadi",
+    "length_km": 5.6
+  },
+  {
+    "id": "route_82D-U",
+    "name": "82D-U",
+    "description": "Kothrud Depo To Kondhwagate",
+    "length_km": 23.6
+  },
+  {
+    "id": "route_82E-U",
+    "name": "82E-U",
+    "description": "Kondhwagate To Ma Na Pa",
+    "length_km": 16.4
+  },
+  {
+    "id": "route_82-R",
+    "name": "82-R",
+    "description": "Kondhwagate To Kondhwagate",
+    "length_km": 30.8
+  },
+  {
+    "id": "route_84A-D",
+    "name": "84A-D",
+    "description": "Kondhur Phata To Deccan Gymkhana",
+    "length_km": 37.4
+  },
+  {
+    "id": "route_84A-U",
+    "name": "84A-U",
+    "description": "Deccan Gymkhana To Kondhur Phata",
+    "length_km": 37.4
+  },
+  {
+    "id": "route_84B-U",
+    "name": "84B-U",
+    "description": "Kothrud Stand To Sangrun",
+    "length_km": 24.5
+  },
+  {
+    "id": "route_84C-D",
+    "name": "84C-D",
+    "description": "Kondhur Phata To Kothrud Stand",
+    "length_km": 33.5
+  },
+  {
+    "id": "route_84C-U",
+    "name": "84C-U",
+    "description": "Kothrud Stand To Kondhur Phata",
+    "length_km": 33.5
+  },
+  {
+    "id": "route_84-D",
+    "name": "84-D",
+    "description": "Sangrun To Deccan Gymkhana",
+    "length_km": 28.4
+  },
+  {
+    "id": "route_84-U",
+    "name": "84-U",
+    "description": "Deccan Gymkhana To Sangrun",
+    "length_km": 28.4
+  },
+  {
+    "id": "route_85A-U",
+    "name": "85A-U",
+    "description": "Khothrud Stand To Mohakarwadi",
+    "length_km": 15.3
+  },
+  {
+    "id": "route_85-D",
+    "name": "85-D",
+    "description": "Mohakarwadi To Ma Na Pa",
+    "length_km": 20.8
+  },
+  {
+    "id": "route_85-U",
+    "name": "85-U",
+    "description": "Ma Na Pa To Mohakarwadi",
+    "length_km": 20.8
+  },
+  {
+    "id": "route_86-R",
+    "name": "86-R",
+    "description": "Kothrud Depot To Kothrud Depot",
+    "length_km": 16.9
+  },
+  {
+    "id": "route_87-D",
+    "name": "87-D",
+    "description": "Sutarwadi To Deccan Gymkhana (Vai Bhagvatinagar)",
+    "length_km": 12.0
+  },
+  {
+    "id": "route_87-U",
+    "name": "87-U",
+    "description": "Deccan Gymkhana To Sutarwadi (Vai Bhagvatinagar)",
+    "length_km": 12.0
+  },
+  {
+    "id": "route_87A-D",
+    "name": "87A-D",
+    "description": "SusgaonTo Deccan Gymkhana",
+    "length_km": 15.0
+  },
+  {
+    "id": "route_87A-U",
+    "name": "87A-U",
+    "description": "Deccan Gymkhana To Susgaon",
+    "length_km": 15.0
+  },
+  {
+    "id": "route_87B-D",
+    "name": "87B-D",
+    "description": "Sutarwadi Pashan To Mandai",
+    "length_km": 10.8
+  },
+  {
+    "id": "route_87B-U",
+    "name": "87B-U",
+    "description": "Mandai To Sutarwadi Pashan",
+    "length_km": 10.8
+  },
+  {
+    "id": "route_87C-D",
+    "name": "87C-D",
+    "description": "HMR Company To Deccan Gymkhana",
+    "length_km": 12.5
+  },
+  {
+    "id": "route_87C-U",
+    "name": "87C-U",
+    "description": "Deccan Gymkhana To HMR Company",
+    "length_km": 12.5
+  },
+  {
+    "id": "route_87D-D",
+    "name": "87D-D",
+    "description": "Sutarwadi To Deccan Gymkhana (Vai Sai Chowk)",
+    "length_km": 12.0
+  },
+  {
+    "id": "route_87D-U",
+    "name": "87D-U",
+    "description": "Deccan Gymkhana To Sutarwadi (Vai Sai Chowk)",
+    "length_km": 12.0
+  },
+  {
+    "id": "route_87F-D",
+    "name": "87F-D",
+    "description": "Balewadi Mhalunge Phata To Deccan Gymkhana",
+    "length_km": 15.5
+  },
+  {
+    "id": "route_87F-U",
+    "name": "87F-U",
+    "description": "Deccan Gymkhana To Balewadi Mhalunge Phata",
+    "length_km": 15.5
+  },
+  {
+    "id": "route_88A-D",
+    "name": "88A-D",
+    "description": "Swargate To Medi Point",
+    "length_km": 11.6
+  },
+  {
+    "id": "route_88-D",
+    "name": "88-D",
+    "description": "Medi Point To Upper Depot",
+    "length_km": 16.8
+  },
+  {
+    "id": "route_88-U",
+    "name": "88-U",
+    "description": "Upper Depot To Medi Point",
+    "length_km": 16.8
+  },
+  {
+    "id": "route_89-D",
+    "name": "89-D",
+    "description": "Niljyoti To Swargate",
+    "length_km": 7.5
+  },
+  {
+    "id": "route_89-U",
+    "name": "89-U",
+    "description": "Swargate To Niljyoti",
+    "length_km": 7.5
+  },
+  {
+    "id": "route_8-D",
+    "name": "8-D",
+    "description": "Mhatobachi Alandi To Hadapsar Gadital",
+    "length_km": 19.0
+  },
+  {
+    "id": "route_8-U",
+    "name": "8-U",
+    "description": "Hadapsar Gadital To Mhatobachi Alandi",
+    "length_km": 19.0
+  },
+  {
+    "id": "route_90-D",
+    "name": "90-D",
+    "description": "Gokhalenagar To Swargate",
+    "length_km": 7.3
+  },
+  {
+    "id": "route_90P-D",
+    "name": "90P-D",
+    "description": "Pandavnagar Senapati Bapat Road To Swargate",
+    "length_km": 9.0
+  },
+  {
+    "id": "route_90P-U",
+    "name": "90P-U",
+    "description": "Swargate To Pandavnagar Senapati Bapat Road",
+    "length_km": 9.0
+  },
+  {
+    "id": "route_90-U",
+    "name": "90-U",
+    "description": "Swargate To Gokhalenagar",
+    "length_km": 7.3
+  },
+  {
+    "id": "route_91-D",
+    "name": "91-D",
+    "description": "Ishanyanagari To Ma Na Pa",
+    "length_km": 9.0
+  },
+  {
+    "id": "route_91-U",
+    "name": "91-U",
+    "description": "Ma Na Pa To Ishanyanagari",
+    "length_km": 9.0
+  },
+  {
+    "id": "route_92-D",
+    "name": "92-D",
+    "description": "Pune Station To Gujrat Colony",
+    "length_km": 9.5
+  },
+  {
+    "id": "route_92-U",
+    "name": "92-U",
+    "description": "Gujrat Colony To Pune Station",
+    "length_km": 9.5
+  },
+  {
+    "id": "route_93-D",
+    "name": "93-D",
+    "description": "Pimplenilakh To Deccan Gymkhana",
+    "length_km": 12.6
+  },
+  {
+    "id": "route_93-U",
+    "name": "93-U",
+    "description": "Deccan Gymkhana To Pimplenilakh",
+    "length_km": 12.6
+  },
+  {
+    "id": "route_94A-D",
+    "name": "94A-D",
+    "description": "Vadgaonsheri To Kumbre park",
+    "length_km": 19.1
+  },
+  {
+    "id": "route_94A-U",
+    "name": "94A-U",
+    "description": "Kumbre park To Vadgaonsheri",
+    "length_km": 19.1
+  },
+  {
+    "id": "route_94B-U",
+    "name": "94B-U",
+    "description": "Kumbare Park To Pune Station",
+    "length_km": 11.2
+  },
+  {
+    "id": "route_94-D",
+    "name": "94-D",
+    "description": "Pune Station To Kothrud Depot",
+    "length_km": 11.4
+  },
+  {
+    "id": "route_94-U",
+    "name": "94-U",
+    "description": "Kothrud Depot To Pune Station",
+    "length_km": 11.4
+  },
+  {
+    "id": "route_95A-D",
+    "name": "95A-D",
+    "description": "Pimplegurav To Gujrat Colony",
+    "length_km": 18.2
+  },
+  {
+    "id": "route_95A-U",
+    "name": "95A-U",
+    "description": "Gujrat Colony To  Pimplegurav",
+    "length_km": 18.2
+  },
+  {
+    "id": "route_95-D",
+    "name": "95-D",
+    "description": "Pimplegurav To Kothrud Depot",
+    "length_km": 21.1
+  },
+  {
+    "id": "route_95-U",
+    "name": "95-U",
+    "description": "Kothrud Depot To Pimplegurav",
+    "length_km": 21.1
+  },
+  {
+    "id": "route_96-D",
+    "name": "96-D",
+    "description": "Gharkul Vasahat Warje To Pimplegurav",
+    "length_km": 23.3
+  },
+  {
+    "id": "route_96-U",
+    "name": "96-U",
+    "description": "Pimplegurav To Gharkul Vasahat Warje",
+    "length_km": 23.3
+  },
+  {
+    "id": "route_97-D",
+    "name": "97-D",
+    "description": "Sahkarnagar To Warje Malwadi",
+    "length_km": 12.5
+  },
+  {
+    "id": "route_97-U",
+    "name": "97-U",
+    "description": "Warje Malwadi To Sahkarnagar",
+    "length_km": 12.5
+  },
+  {
+    "id": "route_9-D",
+    "name": "9-D",
+    "description": "Uruli Railway Station To Hadapsar Gadital",
+    "length_km": 27.1
+  },
+  {
+    "id": "route_9-U",
+    "name": "9-U",
+    "description": "Hadapsar Gadital To Uruli Railway Station",
+    "length_km": 27.1
+  },
+  {
+    "id": "route_VJR1-D",
+    "name": "VJR1-D",
+    "description": "Dhayari Maruti Mandir To Hadapsar Gadital",
+    "length_km": 21.7
+  },
+  {
+    "id": "route_VJR1-U",
+    "name": "VJR1-U",
+    "description": "Hadapsar Gadital To Dhayari Maruti Mandir",
+    "length_km": 21.7
+  },
+  {
+    "id": "route_VJR2-D",
+    "name": "VJR2-D",
+    "description": "Kesnand Phata To Warje Malwadi",
+    "length_km": 29.4
+  },
+  {
+    "id": "route_VJR2-U",
+    "name": "VJR2-U",
+    "description": "Warje Malwadi To Kesnand Phata",
+    "length_km": 29.4
+  },
+  {
+    "id": "route_VJR3-D",
+    "name": "VJR3-D",
+    "description": "Hadapsar Gadital To Kothrud Depot",
+    "length_km": 17.9
+  },
+  {
+    "id": "route_VJR3-U",
+    "name": "VJR3-U",
+    "description": "Kothrud Depot To Hadapsar Gadital",
+    "length_km": 17.9
+  },
+  {
+    "id": "route_VJR4-D",
+    "name": "VJR4-D",
+    "description": "Vishrantwadi To Kothrud Depot",
+    "length_km": 15.9
+  },
+  {
+    "id": "route_VJR4-U",
+    "name": "VJR4-U",
+    "description": "Kothrud Depot To Vishrantwadi",
+    "length_km": 15.9
+  },
+  {
+    "id": "route_VJR5-D",
+    "name": "VJR5-D",
+    "description": "Mukai Chowk To Ma Na Pa",
+    "length_km": 20.6
+  },
+  {
+    "id": "route_VJR5-U",
+    "name": "VJR5-U",
+    "description": "Ma Na Pa To Mukai Chowk",
+    "length_km": 20.6
+  },
+  {
+    "id": "route_VJR6-D",
+    "name": "VJR6-D",
+    "description": "Hinjawadi Maan Phase 3 To Bhosari",
+    "length_km": 24.0
+  },
+  {
+    "id": "route_VJR6-U",
+    "name": "VJR6-U",
+    "description": "Bhosari To Hinjawadi Maan Phase 3",
+    "length_km": 24.0
+  },
+  {
+    "id": "route_VJR2A-U",
+    "name": "VJR2A-U",
+    "description": "Kothrud Stand To Kesnand Phata",
+    "length_km": 25.4
+  },
+  {
+    "id": "route_14A-D",
+    "name": "14A-D",
+    "description": "Kesnand Phata To Swargate",
+    "length_km": 19.4
+  },
+  {
+    "id": "route_14A-U",
+    "name": "14A-U",
+    "description": "Swargate  To Kesnand Phata",
+    "length_km": 19.4
+  },
+  {
+    "id": "route_58B-U",
+    "name": "58B-U",
+    "description": "Swargate To Police Ground",
+    "length_km": 4.5
+  },
+  {
+    "id": "route_58B-D",
+    "name": "58B-D",
+    "description": "Police Ground To Swargate",
+    "length_km": 4.5
+  },
+  {
+    "id": "route_103D-U",
+    "name": "103D-U",
+    "description": "Katraj To MIT College",
+    "length_km": 12.5
+  },
+  {
+    "id": "route_103D-D",
+    "name": "103D-D",
+    "description": "MIT College To Katraj",
+    "length_km": 12.5
+  },
+  {
+    "id": "route_363B-D",
+    "name": "363B-D",
+    "description": "Sainagar Mamurdi To Nigdi",
+    "length_km": 8.5
+  },
+  {
+    "id": "route_363B-U",
+    "name": "363B-U",
+    "description": "Nigdi To Sainagar Mamurdi",
+    "length_km": 8.5
+  },
+  {
+    "id": "route_293S-U",
+    "name": "293S-U",
+    "description": "Salunke Vihar To Khed Shivapur",
+    "length_km": 21.9
+  },
+  {
+    "id": "route_293S-D",
+    "name": "293S-D",
+    "description": "Khed Shivapur To Salunke Vihar",
+    "length_km": 21.9
+  },
+  {
+    "id": "route_139S-U",
+    "name": "139S-U",
+    "description": "Salunke Vihar To Bhakti Shakti",
+    "length_km": 26.5
+  },
+  {
+    "id": "route_139S-D",
+    "name": "139S-D",
+    "description": "Bhakti Shakti To  Salunke Vihar",
+    "length_km": 26.5
+  },
+  {
+    "id": "route_135 NGT-D",
+    "name": "135 NGT-D",
+    "description": "Kesnand Phata To Pune Station",
+    "length_km": 15.3
+  },
+  {
+    "id": "route_135 NGT-U",
+    "name": "135 NGT-U",
+    "description": "Pune Station To Kesnand Phata",
+    "length_km": 15.3
+  },
+  {
+    "id": "route_117 NGT-D",
+    "name": "117 NGT-D",
+    "description": "Dhayari GaonTo Swargate",
+    "length_km": 9.3
+  },
+  {
+    "id": "route_117 NGT-U",
+    "name": "117 NGT-U",
+    "description": "Swargate To Dhayari Gaon",
+    "length_km": 9.3
+  },
+  {
+    "id": "route_174 NGT-D",
+    "name": "174 NGT-D",
+    "description": "Kondhwa Gate To Pune Station",
+    "length_km": 18.8
+  },
+  {
+    "id": "route_174 NGT-U",
+    "name": "174 NGT-U",
+    "description": "Pune Station To Kondhwa Gate",
+    "length_km": 18.8
+  },
+  {
+    "id": "route_348 NGT-D",
+    "name": "348 NGT-D",
+    "description": "Bhakti Shakti To Pune Station",
+    "length_km": 24.0
+  },
+  {
+    "id": "route_348 NGT-U",
+    "name": "348 NGT-U",
+    "description": "Pune Station To Bhakti Shakti",
+    "length_km": 24.0
+  },
+  {
+    "id": "route_12 NGT-D",
+    "name": "12 NGT-D",
+    "description": "Bhakti Shakti To  Swargate",
+    "length_km": 23.0
+  },
+  {
+    "id": "route_12 NGT-U",
+    "name": "12 NGT-U",
+    "description": "Swargate To Bhakti Shakti",
+    "length_km": 23.0
+  },
+  {
+    "id": "route_158B-U",
+    "name": "158B-U",
+    "description": "Ma Na Pa To  D.Y. Patil Vidhypith Lohgaon",
+    "length_km": 17.9
+  },
+  {
+    "id": "route_158B-D",
+    "name": "158B-D",
+    "description": "D.Y. Patil Vidhypith Lohgaon To Ma Na Pa",
+    "length_km": 17.9
+  },
+  {
+    "id": "route_19D-U",
+    "name": "19D-U",
+    "description": "Trinity College To Shivajinagar",
+    "length_km": 18.1
+  },
+  {
+    "id": "route_19D-D",
+    "name": "19D-D",
+    "description": "Shivajinagar To Trinity College",
+    "length_km": 18.1
+  },
+  {
+    "id": "route_253-D",
+    "name": "253-D",
+    "description": "Vidyanagar To  Upper Depot",
+    "length_km": 22.8
+  },
+  {
+    "id": "route_253-U",
+    "name": "253-U",
+    "description": "Upper Depot To Vidyanagar",
+    "length_km": 22.8
+  }
+]
