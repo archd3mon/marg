@@ -1,172 +1,172 @@
-import { useState, useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Polyline, useMapEvents } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
-import { getStops, searchRoutes } from './api';
+import { useState, useEffect, useCallback } from 'react';
+import { searchRoutes } from './api';
+import SearchPanel from './components/SearchPanel';
+import RouteList from './components/RouteList';
+import ItineraryPanel from './components/ItineraryPanel';
+import BottomSheet from './components/BottomSheet';
+import MapView from './map/MapView';
 import './index.css';
 
-// Fix leaflet icon paths
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
-  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-});
+/**
+ * App — Layout orchestrator.
+ * Mobile (<768px): map fullscreen + search bar at top + bottom sheet
+ * Desktop (≥768px): sidebar on left + map on right
+ */
 
-// Map click handler component
-function MapClickHandler({ setSource, setDest, selectingSource }) {
-  useMapEvents({
-    click(e) {
-      if (selectingSource) {
-        setSource(e.latlng);
-      } else {
-        setDest(e.latlng);
-      }
-    },
-  });
-  return null;
+function useIsMobile(breakpoint = 768) {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < breakpoint);
+  useEffect(() => {
+    const mq = window.matchMedia(`(max-width: ${breakpoint - 1}px)`);
+    const handler = (e) => setIsMobile(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, [breakpoint]);
+  return isMobile;
 }
 
 export default function App() {
+  const isMobile = useIsMobile();
+
+  // --- State ---
   const [source, setSource] = useState(null);
   const [dest, setDest] = useState(null);
   const [selectingSource, setSelectingSource] = useState(true);
-
   const [routes, setRoutes] = useState([]);
   const [selectedRouteIdx, setSelectedRouteIdx] = useState(0);
+  const [expandedRoute, setExpandedRoute] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [departureTime] = useState(new Date());
 
-  // default pune coords
-  const puneCenter = [18.5204, 73.8567];
+  // --- Handlers ---
+  const handleMapClick = useCallback((latlng) => {
+    if (selectingSource) {
+      setSource(latlng);
+      setSelectingSource(false);
+    } else {
+      setDest(latlng);
+      setSelectingSource(true);
+    }
+  }, [selectingSource]);
 
-  const handleSearch = async () => {
+  const handleSearch = useCallback(async () => {
     if (!source || !dest) return;
     setLoading(true);
+    setExpandedRoute(null);
     try {
-      const data = await searchRoutes(source, dest, new Date());
+      const data = await searchRoutes(source, dest, departureTime);
       setRoutes(data.routes || []);
       setSelectedRouteIdx(0);
     } catch (err) {
-      console.error(err);
-      alert("Error finding routes. Check backend connection.");
+      console.error('Route search error:', err);
     } finally {
       setLoading(false);
     }
-  };
+  }, [source, dest, departureTime]);
 
-  const getLegColor = (mode) => {
-    if (mode === 'metro') return '#0ea5e9';
-    if (mode === 'bus') return '#ef4444';
-    return '#8b5cf6'; // walk
-  };
+  const handleSwap = useCallback(() => {
+    setSource(dest);
+    setDest(source);
+    setRoutes([]);
+    setExpandedRoute(null);
+  }, [source, dest]);
 
-  return (
-    <div className="app-container">
-      {/* SIDEBAR */}
-      <div className="sidebar">
-        <div className="sidebar-header">
-          <h1>Marg</h1>
-          <p>Pune Urban Mobility Planner</p>
-        </div>
+  const handleSelectRoute = useCallback((idx) => {
+    setSelectedRouteIdx(idx);
+    setExpandedRoute(null);
+  }, []);
 
-        <div className="search-form">
-          <div className="input-group">
-            <label>Source {selectingSource && "(Click on Map)"}</label>
-            <input
-              type="text"
-              readOnly
-              value={source ? `${source.lat.toFixed(4)}, ${source.lng.toFixed(4)}` : ''}
-              placeholder="Select on Map"
-              onClick={() => setSelectingSource(true)}
-              style={{ borderColor: selectingSource ? '#2563eb' : '#e2e8f0' }}
-            />
-          </div>
+  const handleExpandRoute = useCallback((idx) => {
+    setExpandedRoute(idx);
+  }, []);
 
-          <div className="input-group">
-            <label>Destination {!selectingSource && "(Click on Map)"}</label>
-            <input
-              type="text"
-              readOnly
-              value={dest ? `${dest.lat.toFixed(4)}, ${dest.lng.toFixed(4)}` : ''}
-              placeholder="Select on Map"
-              onClick={() => setSelectingSource(false)}
-              style={{ borderColor: !selectingSource ? '#2563eb' : '#e2e8f0' }}
-            />
-          </div>
+  const handleCloseItinerary = useCallback(() => {
+    setExpandedRoute(null);
+  }, []);
 
-          <button
-            className="search-btn"
-            onClick={handleSearch}
-            disabled={!source || !dest || loading}
-          >
-            {loading ? 'Crunching Routes...' : 'Find Routes'}
-          </button>
-        </div>
+  const selectedRoute = routes[selectedRouteIdx] || null;
 
-        <div className="results-area">
-          {routes.length === 0 && !loading && (
-            <p style={{ color: '#64748b', textAlign: 'center' }}>No routes generated. Pick start and end nodes.</p>
-          )}
-
-          {routes.map((route, idx) => (
-            <div
-              key={idx}
-              className={`route-card ${selectedRouteIdx === idx ? 'selected' : ''}`}
-              onClick={() => setSelectedRouteIdx(idx)}
-            >
-              <div className="route-header">
-                <span className="route-time">{route.total_time_mins} min</span>
-                <span className="route-transfers">{route.transfers} transfer{route.transfers !== 1 ? 's' : ''}</span>
-              </div>
-
-              <div className="leg-visualizer">
-                {route.legs.map((leg, lIdx) => (
-                  <div key={lIdx} className="leg-item">
-                    <div className={`leg-icon ${leg.mode}`}>
-                      {leg.mode === 'metro' ? '🚇' : leg.mode === 'bus' ? '🚌' : '🚶'}
-                    </div>
-                    <span>
-                      {leg.mode.toUpperCase()} for {leg.duration_mins} min ({(leg.length_m / 1000).toFixed(1)} km)
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* MAP AREA */}
-      <div className="map-area">
-        <MapContainer center={puneCenter} zoom={13} style={{ height: '100%', width: '100%' }}>
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-            url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+  // --- Desktop Layout ---
+  if (!isMobile) {
+    return (
+      <div className="app app--desktop">
+        <aside className="sidebar">
+          <SearchPanel
+            source={source}
+            dest={dest}
+            selectingSource={selectingSource}
+            setSelectingSource={setSelectingSource}
+            onSearch={handleSearch}
+            loading={loading}
+            onSwap={handleSwap}
+            isMobile={false}
           />
-          <MapClickHandler setSource={setSource} setDest={setDest} selectingSource={selectingSource} />
 
-          {source && <Marker position={source} />}
-          {dest && <Marker position={dest} />}
-
-          {/* Render selected route polylines */}
-          {routes[selectedRouteIdx] && routes[selectedRouteIdx].legs.map((leg, idx) => {
-            const startNode = leg.from_node;
-            const endNode = leg.to_node;
-            return (
-              <Polyline
-                key={idx}
-                positions={[
-                  [startNode.lat, startNode.lon],
-                  [endNode.lat, endNode.lon]
-                ]}
-                color={getLegColor(leg.mode)}
-                weight={leg.mode === 'walk' ? 4 : 6}
-                dashArray={leg.mode === 'walk' ? '5, 10' : ''}
+          <div className="sidebar__results">
+            {expandedRoute !== null && routes[expandedRoute] ? (
+              <ItineraryPanel
+                route={routes[expandedRoute]}
+                onClose={handleCloseItinerary}
               />
-            )
-          })}
-        </MapContainer>
+            ) : (
+              <RouteList
+                routes={routes}
+                selectedRouteIdx={selectedRouteIdx}
+                onSelectRoute={handleSelectRoute}
+                onExpandRoute={handleExpandRoute}
+                loading={loading}
+                departureTime={departureTime}
+              />
+            )}
+          </div>
+        </aside>
+
+        <main className="main-map">
+          <MapView
+            source={source}
+            dest={dest}
+            selectedRoute={selectedRoute}
+            onMapClick={handleMapClick}
+            isMobile={false}
+          />
+        </main>
       </div>
+    );
+  }
+
+  // --- Mobile Layout ---
+  return (
+    <div className="app app--mobile">
+      <div className="mobile-search">
+        <SearchPanel
+          source={source}
+          dest={dest}
+          selectingSource={selectingSource}
+          setSelectingSource={setSelectingSource}
+          onSearch={handleSearch}
+          loading={loading}
+          onSwap={handleSwap}
+          isMobile={true}
+        />
+      </div>
+
+      <MapView
+        source={source}
+        dest={dest}
+        selectedRoute={selectedRoute}
+        onMapClick={handleMapClick}
+        isMobile={true}
+      />
+
+      <BottomSheet
+        routes={routes}
+        selectedRouteIdx={selectedRouteIdx}
+        onSelectRoute={handleSelectRoute}
+        expandedRoute={expandedRoute}
+        onExpandRoute={handleExpandRoute}
+        onCloseItinerary={handleCloseItinerary}
+        loading={loading}
+        departureTime={departureTime}
+      />
     </div>
   );
 }
