@@ -1,8 +1,10 @@
 from contextlib import asynccontextmanager
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from typing import Optional
 import json
+import httpx
 from pathlib import Path
 import os
 
@@ -39,6 +41,11 @@ DEFAULT_DATA_DIR = Path("/home/jayant/gitgud/marg/marg/pump/data/processed")
 DATA_DIR_ENV = os.getenv("PUMP_DATA_DIR")
 DATA_DIR = Path(DATA_DIR_ENV) if DATA_DIR_ENV else DEFAULT_DATA_DIR
 
+# Nominatim settings
+NOMINATIM_URL = "https://nominatim.openstreetmap.org/search"
+NOMINATIM_USER_AGENT = "Marg-PuneTransitPlanner/1.0"
+PUNE_VIEWBOX = "73.68,18.72,74.10,18.33"  # lon1,lat1,lon2,lat2
+
 
 # --- Schemas ---
 class Point(BaseModel):
@@ -49,6 +56,7 @@ class RouteRequest(BaseModel):
     source: Point
     destination: Point
     departure_time: str  # "YYYY-MM-DDTHH:MM:SS"
+    mode_preferences: Optional[dict] = None  # {"prefer_metro": True, ...}
 
 
 # --- Error Responses ---
@@ -98,6 +106,46 @@ def get_stops():
     return {"stops": stops}
 
 
+@app.get("/api/v1/geocode/search")
+async def geocode_search(q: str = Query(..., min_length=2, description="Search query")):
+    """
+    Geocode a place name using OSM Nominatim, scoped to Pune.
+    Returns up to 5 results with name, display_name, lat, lon.
+    """
+    try:
+        async with httpx.AsyncClient(timeout=5.0) as client:
+            resp = await client.get(
+                NOMINATIM_URL,
+                params={
+                    "q": q,
+                    "format": "json",
+                    "limit": 5,
+                    "viewbox": PUNE_VIEWBOX,
+                    "bounded": 1,
+                    "addressdetails": 1,
+                },
+                headers={"User-Agent": NOMINATIM_USER_AGENT},
+            )
+            resp.raise_for_status()
+            results = resp.json()
+
+        return {
+            "results": [
+                {
+                    "name": r.get("name", r.get("display_name", "").split(",")[0]),
+                    "display_name": r.get("display_name", ""),
+                    "lat": float(r["lat"]),
+                    "lon": float(r["lon"]),
+                }
+                for r in results
+            ]
+        }
+    except httpx.TimeoutException:
+        return {"results": [], "error": "Geocoding service timed out"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Geocoding error: {str(e)}")
+
+
 @app.post("/api/v1/routes/search")
 def search_routes(request: RouteRequest):
     # Validate engine is loaded
@@ -127,8 +175,13 @@ def search_routes(request: RouteRequest):
         if not k_paths:
             return RouteError.not_found()
 
-        # Score & Rank
-        ranked = score_and_rank_routes(k_paths, departure_hour=hour, departure_day=day)
+        # Score & Rank (with mode preferences)
+        ranked = score_and_rank_routes(
+            k_paths,
+            departure_hour=hour,
+            departure_day=day,
+            mode_preferences=request.mode_preferences,
+        )
 
         return {"routes": ranked}
 

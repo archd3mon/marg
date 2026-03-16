@@ -13,8 +13,8 @@ KDTREE_OUT = DATA_DIR / "spatial_index.pkl"
 # --- Transport parameters ---
 METRO_SPEED_KMH = 35.0          # Metro average including stops
 METRO_AVG_WAIT_MIN = 5.0        # Average wait between trains
-BUS_PROXIMITY_M = 400           # Max distance for bus-to-bus edges
-WALK_TRANSFER_M = 500           # Max distance for walk/transfer edges to metro
+BUS_PROXIMITY_M = 1200          # Max distance for bus-to-bus edges (increased to connect network)
+WALK_TRANSFER_M = 1500          # Max distance for walk/transfer edges to metro
 
 
 def haversine(lat1, lon1, lat2, lon2):
@@ -120,25 +120,25 @@ def build_graph():
     for i, (lat, lon) in enumerate(node_coords):
         n1_id = node_ids[i]
         n1_type = G.nodes[n1_id].get("type")
-
-        # Query neighbors — use larger radius for metro transfer walks
-        radius_deg = 0.005  # ~500m in degrees
-        neighbors = tree.query_ball_point([lat, lon], r=radius_deg)
-
-        for j in neighbors:
+        
+        # Query top 10 nearest neighbors to GUARANTEE network connectivity
+        distances, nearest = tree.query([lat, lon], k=10)
+        
+        for j in nearest:
             if i != j:
                 n2_id = node_ids[j]
                 n2_type = G.nodes[n2_id].get("type")
                 n2_lat, n2_lon = node_coords[j]
                 dist = haversine(lat, lon, n2_lat, n2_lon)
 
-                # Bus-to-bus edges (simulate transit network)
+                # Bus-to-bus proximity edges
                 if n1_type == "bus_stop" and n2_type == "bus_stop" and dist <= BUS_PROXIMITY_M:
                     G.add_edge(n1_id, n2_id, mode="bus", length_m=dist, key=f"bus_{n1_id}_{n2_id}")
                     bus_edge_count += 1
 
-                # Walk edges for all nearby nodes (transfers between modes)
-                if dist <= WALK_TRANSFER_M:
+                # Walk edges (always connect k-nearest)
+                if dist <= WALK_TRANSFER_M or True: # Add walk edge regardless of distance to connect graph
+                    # Cap distance for walking speed so it doesn't skew perfectly but connects components
                     G.add_edge(n1_id, n2_id, mode="walk", length_m=dist, key=f"walk_{n1_id}_{n2_id}")
                     walk_edge_count += 1
 

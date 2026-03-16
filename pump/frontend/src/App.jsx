@@ -30,30 +30,58 @@ export default function App() {
   // --- State ---
   const [source, setSource] = useState(null);
   const [dest, setDest] = useState(null);
+  const [sourceName, setSourceName] = useState('');
+  const [destName, setDestName] = useState('');
   const [selectingSource, setSelectingSource] = useState(true);
   const [routes, setRoutes] = useState([]);
   const [selectedRouteIdx, setSelectedRouteIdx] = useState(0);
   const [expandedRoute, setExpandedRoute] = useState(null);
   const [loading, setLoading] = useState(false);
   const [departureTime] = useState(new Date());
+  const [modePreferences, setModePreferences] = useState({
+    prefer_metro: false,
+    prefer_bus: false,
+    avoid_walking: false,
+  });
 
   // --- Handlers ---
   const handleMapClick = useCallback((latlng) => {
     if (selectingSource) {
       setSource(latlng);
+      setSourceName('');
       setSelectingSource(false);
     } else {
       setDest(latlng);
+      setDestName('');
       setSelectingSource(true);
     }
   }, [selectingSource]);
+
+  const handleSelectSource = useCallback((point, name) => {
+    setSource(point);
+    setSourceName(name || '');
+    setSelectingSource(false);
+  }, []);
+
+  const handleSelectDest = useCallback((point, name) => {
+    setDest(point);
+    setDestName(name || '');
+    setSelectingSource(true);
+  }, []);
 
   const handleSearch = useCallback(async () => {
     if (!source || !dest) return;
     setLoading(true);
     setExpandedRoute(null);
     try {
-      const data = await searchRoutes(source, dest, departureTime);
+      // Build mode prefs — only send non-false values
+      const activePrefs = {};
+      for (const [k, v] of Object.entries(modePreferences)) {
+        if (v) activePrefs[k] = true;
+      }
+      const prefs = Object.keys(activePrefs).length > 0 ? activePrefs : null;
+
+      const data = await searchRoutes(source, dest, departureTime, prefs);
       setRoutes(data.routes || []);
       setSelectedRouteIdx(0);
     } catch (err) {
@@ -61,14 +89,17 @@ export default function App() {
     } finally {
       setLoading(false);
     }
-  }, [source, dest, departureTime]);
+  }, [source, dest, departureTime, modePreferences]);
 
   const handleSwap = useCallback(() => {
     setSource(dest);
     setDest(source);
+    const tmpName = sourceName;
+    setSourceName(destName);
+    setDestName(tmpName);
     setRoutes([]);
     setExpandedRoute(null);
-  }, [source, dest]);
+  }, [source, dest, sourceName, destName]);
 
   const handleSelectRoute = useCallback((idx) => {
     setSelectedRouteIdx(idx);
@@ -83,6 +114,10 @@ export default function App() {
     setExpandedRoute(null);
   }, []);
 
+  const handleModePreferenceChange = useCallback((key) => {
+    setModePreferences((prev) => ({ ...prev, [key]: !prev[key] }));
+  }, []);
+
   const selectedRoute = routes[selectedRouteIdx] || null;
 
   // --- Desktop Layout ---
@@ -93,12 +128,18 @@ export default function App() {
           <SearchPanel
             source={source}
             dest={dest}
+            sourceName={sourceName}
+            destName={destName}
+            onSelectSource={handleSelectSource}
+            onSelectDest={handleSelectDest}
             selectingSource={selectingSource}
             setSelectingSource={setSelectingSource}
             onSearch={handleSearch}
             loading={loading}
             onSwap={handleSwap}
             isMobile={false}
+            modePreferences={modePreferences}
+            onModePreferenceChange={handleModePreferenceChange}
           />
 
           <div className="sidebar__results">
@@ -140,12 +181,18 @@ export default function App() {
         <SearchPanel
           source={source}
           dest={dest}
+          sourceName={sourceName}
+          destName={destName}
+          onSelectSource={handleSelectSource}
+          onSelectDest={handleSelectDest}
           selectingSource={selectingSource}
           setSelectingSource={setSelectingSource}
           onSearch={handleSearch}
           loading={loading}
           onSwap={handleSwap}
           isMobile={true}
+          modePreferences={modePreferences}
+          onModePreferenceChange={handleModePreferenceChange}
         />
       </div>
 

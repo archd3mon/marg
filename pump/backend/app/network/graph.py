@@ -84,9 +84,30 @@ class RouteEngine:
 
         return G_simple
 
+    def _get_transit_nodes(self, node_list, G_simple):
+        """Extract the set of transit (bus/metro) node IDs from a path."""
+        transit_nodes = set()
+        for i in range(len(node_list) - 1):
+            edge_data = G_simple.get_edge_data(node_list[i], node_list[i + 1])
+            mode = edge_data.get("mode", "walk") if edge_data else "walk"
+            if mode in ("bus", "metro"):
+                transit_nodes.add(node_list[i])
+                transit_nodes.add(node_list[i + 1])
+        return transit_nodes
+
+    def _get_mode_sequence(self, node_list, G_simple):
+        """Get the simplified mode sequence (consecutive duplicates collapsed)."""
+        seq = []
+        for i in range(len(node_list) - 1):
+            edge_data = G_simple.get_edge_data(node_list[i], node_list[i + 1])
+            mode = edge_data.get("mode", "walk") if edge_data else "walk"
+            if not seq or seq[-1] != mode:
+                seq.append(mode)
+        return tuple(seq)
+
     def k_shortest_paths(self, source_lat, source_lon, dest_lat, dest_lon,
                           k=5, departure_hour=10, departure_day=0):
-        """Find top k shortest multimodal paths using Yen's algorithm."""
+        """Find top k structurally diverse shortest multimodal paths."""
         if self.G is None:
             raise ValueError("Engine not loaded")
 
@@ -100,14 +121,44 @@ class RouteEngine:
         G_simple = self._build_simple_graph(departure_hour, departure_day)
 
         try:
-            paths_gen = nx.shortest_simple_paths(
-                G_simple, source=source_id, target=dest_id, weight="dynamic_time"
-            )
-            top_k = []
-            for path in islice(paths_gen, k):
-                top_k.append(self._format_path(path, G_simple))
-            return top_k
-        except nx.NetworkXNoPath:
+            diverse_paths = []
+            accepted_transit_sets = []
+            
+            # Penalized graph copy for diverse routing
+            G_penalized = G_simple.copy()
+
+            # We will try up to k*4 times to find diverse paths
+            for attempt in range(k * 4):
+                try:
+                    path = nx.shortest_path(G_penalized, source=source_id, target=dest_id, weight="dynamic_time")
+                except nx.NetworkXNoPath:
+                    break
+
+                # Check diversity
+                path_set = set(path)
+                is_diverse = True
+                
+                for existing_path in accepted_transit_sets:
+                    overlap = len(path_set & existing_path) / max(len(path_set | existing_path), 1)
+                    if overlap > 0.80:
+                        is_diverse = False
+                        break
+
+                if is_diverse:
+                    diverse_paths.append(path)
+                    accepted_transit_sets.append(path_set)
+
+                if len(diverse_paths) >= k:
+                    break
+                    
+                # Penalize edges of this path globally to push the next search to alternate routes
+                for u, v in zip(path[:-1], path[1:]):
+                    if G_penalized.has_edge(u, v):
+                        # Penalize time by 50% to encourage different path next iteration
+                        G_penalized[u][v]["dynamic_time"] = G_penalized[u][v].get("dynamic_time", 1.0) * 1.5
+
+            return [self._format_path(p, G_simple) for p in diverse_paths]
+        except Exception:
             return []
 
     def _format_path(self, node_list, G_simple):
@@ -136,15 +187,21 @@ class RouteEngine:
         }
 
     def _count_transfers(self, legs):
+        """Count transfers between distinct transit lines or modes."""
         transfers = 0
-        if not legs:
-            return 0
-        current_mode = legs[0]["mode"]
-        for leg in legs[1:]:
-            if leg["mode"] != current_mode and current_mode != "walk":
-                if leg["mode"] in ("bus", "metro"):
-                    transfers += 1
-            current_mode = leg["mode"]
+        last_transit_leg = None
+        for leg in legs:
+            mode = leg["mode"]
+            if mode in ("bus", "metro"):
+                if last_transit_leg is not None:
+                    # Transfer if modes differ, or if same mode but different/empty lines
+                    same_line = False
+                    if last_transit_leg.get("line") and leg.get("line"):
+                        same_line = (last_transit_leg["line"] == leg["line"])
+                    
+                    if mode != last_transit_leg["mode"] or not same_line:
+                        transfers += 1
+                last_transit_leg = leg
         return transfers
 
 

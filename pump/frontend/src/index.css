@@ -210,6 +210,11 @@ body {
   gap: var(--sp-sm);
 }
 
+.search-panel__input-wrapper {
+  flex: 1;
+  position: relative;
+}
+
 .search-panel__dot {
   width: 12px;
   height: 12px;
@@ -228,7 +233,7 @@ body {
 }
 
 .search-panel__input {
-  flex: 1;
+  width: 100%;
   padding: var(--sp-md) var(--sp-lg);
   border: 2px solid var(--border);
   border-radius: var(--radius-sm);
@@ -236,22 +241,95 @@ body {
   font-size: 0.875rem;
   color: var(--text-main);
   background: var(--bg-primary);
-  cursor: pointer;
   transition: all 0.2s var(--ease-out);
   text-align: left;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  outline: none;
+}
+
+.search-panel__input::placeholder {
+  color: var(--text-muted);
 }
 
 .search-panel__input:hover {
   border-color: var(--text-muted);
 }
 
+.search-panel__input:focus {
+  border-color: var(--brand);
+  background: var(--brand-faint);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
 .search-panel__input--active {
   border-color: var(--brand);
   background: var(--brand-faint);
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Autocomplete Dropdown */
+.autocomplete-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 4px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-lg);
+  z-index: 2000;
+  max-height: 240px;
+  overflow-y: auto;
+  animation: dropdownFade 0.15s var(--ease-out);
+}
+
+@keyframes dropdownFade {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.autocomplete-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-sm);
+  padding: var(--sp-md) var(--sp-lg);
+  cursor: pointer;
+  transition: background 0.12s;
+  border-bottom: 1px solid var(--bg-primary);
+}
+
+.autocomplete-item:last-child {
+  border-bottom: none;
+}
+
+.autocomplete-item:hover,
+.autocomplete-item--active {
+  background: var(--bg-selected);
+}
+
+.autocomplete-item__icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.autocomplete-item__text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.autocomplete-item__name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.autocomplete-item__detail {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .search-panel__swap {
@@ -276,6 +354,43 @@ body {
 .search-panel__swap:hover {
   color: var(--brand);
   border-color: var(--brand);
+}
+
+/* Mode Toggles */
+.mode-toggles {
+  display: flex;
+  gap: var(--sp-sm);
+  margin-top: var(--sp-md);
+  flex-wrap: wrap;
+}
+
+.mode-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-xs);
+  padding: 6px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-full);
+  background: var(--bg-panel);
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s var(--ease-out);
+  white-space: nowrap;
+}
+
+.mode-toggle:hover {
+  border-color: var(--brand);
+  color: var(--brand);
+}
+
+.mode-toggle--active {
+  background: var(--brand-faint);
+  border-color: var(--brand);
+  color: var(--brand);
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
 }
 
 /* Button */
@@ -660,6 +775,20 @@ body {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+}
+
+.itinerary__line-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: white;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.3px;
+}
+
+.itinerary__total-walk {
+  font-size: 0.875rem;
+  color: var(--text-muted);
 }
 
 .itinerary__step-time {

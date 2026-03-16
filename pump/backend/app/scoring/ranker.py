@@ -1,12 +1,12 @@
 import math
 from app.ml.inference import predictor
 
-# --- Scoring Parameters ---
+# --- Default Scoring Parameters ---
 TRANSFER_PENALTY_MINS = 8.0
 WALK_DISTANCE_PENALTY_PER_KM = 12.0   # Extra penalty per km walked
 MAX_COMFORTABLE_WALK_M = 800           # Walking distance before heavy penalty kicks in
 
-MODE_PENALTY = {
+DEFAULT_MODE_PENALTY = {
     "bus": 4.0,
     "metro": 0.5,     # Metro is strongly preferred
     "walk": 8.0,
@@ -16,13 +16,39 @@ MODE_PENALTY = {
 METRO_COMFORT_BONUS = -5.0  # Negative = reduces score (better)
 
 
-def score_and_rank_routes(top_k_paths, departure_hour=10, departure_day=0):
+def _build_mode_penalties(mode_preferences):
+    """Adjust mode penalties based on user preferences."""
+    penalties = dict(DEFAULT_MODE_PENALTY)
+
+    if not mode_preferences:
+        return penalties
+
+    if mode_preferences.get("prefer_metro"):
+        penalties["metro"] = 0.0
+        penalties["bus"] = 8.0
+
+    if mode_preferences.get("prefer_bus"):
+        penalties["bus"] = 0.0
+        penalties["metro"] = 8.0
+
+    if mode_preferences.get("avoid_walking"):
+        penalties["walk"] = DEFAULT_MODE_PENALTY["walk"] * 3.0
+
+    return penalties
+
+
+def score_and_rank_routes(top_k_paths, departure_hour=10, departure_day=0,
+                          mode_preferences=None):
     """
     Score and rank routes using ML-predicted travel times + penalty heuristics.
 
     Score = TravelTime + (Transfers × TransferPenalty) + ModePenalties + WalkingPenalty + ComfortBonus
     Lower score is better.
+
+    mode_preferences: dict with optional keys:
+        prefer_metro (bool), prefer_bus (bool), avoid_walking (bool)
     """
+    mode_penalty = _build_mode_penalties(mode_preferences)
     ranked_routes = []
 
     for path in top_k_paths:
@@ -42,7 +68,7 @@ def score_and_rank_routes(top_k_paths, departure_hour=10, departure_day=0):
             leg["duration_mins"] = math.ceil(duration_sec / 60)
 
             total_time_sec += duration_sec
-            total_mode_penalty += MODE_PENALTY.get(leg["mode"], 5.0)
+            total_mode_penalty += mode_penalty.get(leg["mode"], 5.0)
 
             if leg["mode"] == "walk":
                 total_walk_m += leg["length_m"]

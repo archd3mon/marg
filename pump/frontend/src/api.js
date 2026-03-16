@@ -17,11 +17,19 @@ export const getStops = async () => {
     return res.data;
 };
 
-export const searchRoutes = async (source, dest, date) => {
+export const searchRoutes = async (source, dest, date, modePreferences = null) => {
     const res = await api.post('/routes/search', {
         source: { lat: source.lat, lng: source.lng },
         destination: { lat: dest.lat, lng: dest.lng },
-        departure_time: date.toISOString()
+        departure_time: date.toISOString(),
+        mode_preferences: modePreferences,
+    });
+    return res.data;
+};
+
+export const geocodeSearch = async (query) => {
+    const res = await api.get('/geocode/search', {
+        params: { q: query },
     });
     return res.data;
 };

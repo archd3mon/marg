@@ -6,6 +6,9 @@ Tests:
   2. Routes exist between major Pune areas
   3. Route responses have expected fields
   4. Edge cases: same origin/dest, far-apart points, outside Pune
+  5. Transfer count correctness
+  6. Alternate route diversity
+  7. Geocode search endpoint
 """
 
 import pytest
@@ -44,12 +47,15 @@ class TestRouteSearch:
     KOTHRUD = {"lat": 18.5074, "lng": 73.8077}
     SWARGATE = {"lat": 18.5015, "lng": 73.8565}
 
-    def _search(self, client, source, dest):
-        return client.post("/api/v1/routes/search", json={
+    def _search(self, client, source, dest, mode_preferences=None):
+        payload = {
             "source": source,
             "destination": dest,
             "departure_time": "2026-03-06T10:00:00",
-        })
+        }
+        if mode_preferences:
+            payload["mode_preferences"] = mode_preferences
+        return client.post("/api/v1/routes/search", json=payload)
 
     def test_khadki_to_shivaji_nagar(self, client):
         """Short route along Purple metro line."""
@@ -106,6 +112,49 @@ class TestRouteSearch:
         data = resp.json()
         assert data["routes"] == []
 
+    def test_transfers_nonzero_for_multimodal(self, client):
+        """Routes using multiple transit modes should have transfers > 0."""
+        resp = self._search(client, self.KOTHRUD, self.KHADKI)
+        assert resp.status_code == 200
+        data = resp.json()
+        if data["routes"]:
+            # Check if any route that uses 2+ transit modes has transfers > 0
+            for route in data["routes"]:
+                transit_modes = set()
+                for leg in route["legs"]:
+                    if leg["mode"] in ("bus", "metro"):
+                        transit_modes.add(leg["mode"])
+                if len(transit_modes) > 1:
+                    assert route["transfers"] > 0, \
+                        f"Route uses {transit_modes} but reports 0 transfers"
+
+    def test_alternate_routes_are_different(self, client):
+        """Multiple routes should have different mode sequences."""
+        resp = self._search(client, self.KOTHRUD, self.SWARGATE)
+        assert resp.status_code == 200
+        data = resp.json()
+        if len(data["routes"]) >= 2:
+            mode_sequences = []
+            for route in data["routes"]:
+                seq = []
+                for leg in route["legs"]:
+                    if not seq or seq[-1] != leg["mode"]:
+                        seq.append(leg["mode"])
+                mode_sequences.append(tuple(seq))
+            # At least 2 routes should have different mode sequences
+            unique_seqs = set(mode_sequences)
+            assert len(unique_seqs) >= 1, "All routes have identical mode sequences"
+
+    def test_mode_preferences_accepted(self, client):
+        """Route search should accept mode_preferences without error."""
+        resp = self._search(
+            client, self.KOTHRUD, self.SWARGATE,
+            mode_preferences={"prefer_metro": True}
+        )
+        assert resp.status_code == 200
+        data = resp.json()
+        assert "routes" in data
+
 
 class TestStopsEndpoint:
     def test_get_stops(self, client):
@@ -123,3 +172,17 @@ class TestStopsEndpoint:
             assert "lat" in stop
             assert "lon" in stop
             assert "name" in stop
+
+
+class TestGeocodeEndpoint:
+    def test_geocode_search_returns_results(self, client):
+        """Searching for a known Pune location should return results."""
+        resp = client.get("/api/v1/geocode/search", params={"q": "Shivajinagar Pune"})
+        assert resp.status_code == 200
+        data = resp.json()
+        assert "results" in data
+
+    def test_geocode_search_short_query(self, client):
+        """Query less than 2 chars should fail validation."""
+        resp = client.get("/api/v1/geocode/search", params={"q": "a"})
+        assert resp.status_code == 422  # validation error

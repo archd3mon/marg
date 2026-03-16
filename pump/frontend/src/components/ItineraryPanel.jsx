@@ -7,12 +7,13 @@ import ModeIcon from './ModeIcon';
 export default function ItineraryPanel({ route, onClose }) {
     if (!route || !route.legs) return null;
 
-    // Merge consecutive legs of the same mode into consolidated steps
+    // Merge consecutive legs of the same mode + line into consolidated steps
     const steps = [];
     let currentStep = null;
 
     for (const leg of route.legs) {
-        if (currentStep && currentStep.mode === leg.mode) {
+        const sameLine = currentStep && currentStep.line && leg.line && currentStep.line === leg.line;
+        if (currentStep && currentStep.mode === leg.mode && (currentStep.mode === 'walk' || sameLine)) {
             // Extend current step
             currentStep.distance_m += leg.length_m;
             currentStep.duration_mins += (leg.duration_mins || 0);
@@ -27,6 +28,7 @@ export default function ItineraryPanel({ route, onClose }) {
                 duration_mins: leg.duration_mins || 0,
                 startNode: leg.from_node,
                 endNode: leg.to_node,
+                line: leg.line || '',
                 legCount: 1,
             };
         }
@@ -45,10 +47,14 @@ export default function ItineraryPanel({ route, onClose }) {
             case 'walk':
                 if (idx === 0) return `Walk ${distStr} from your starting point`;
                 return `Walk ${distStr} to ${toName}`;
-            case 'bus':
-                return `Board bus near ${fromName} — ride ${distStr} (${step.legCount} stop${step.legCount !== 1 ? 's' : ''})`;
-            case 'metro':
-                return `Board Metro at ${fromName} — ride ${distStr} (${step.legCount} station${step.legCount !== 1 ? 's' : ''})`;
+            case 'bus': {
+                const lineInfo = step.line ? ` (Route ${step.line})` : '';
+                return `Board bus${lineInfo} near ${fromName} — ride ${distStr} (${step.legCount} stop${step.legCount !== 1 ? 's' : ''}) — alight near ${toName}`;
+            }
+            case 'metro': {
+                const lineInfo = step.line ? ` ${step.line} Line` : '';
+                return `Board${lineInfo} Metro at ${fromName} — ride ${distStr} (${step.legCount} station${step.legCount !== 1 ? 's' : ''}) — exit at ${toName}`;
+            }
             default:
                 return `Travel ${distStr}`;
         }
@@ -68,6 +74,13 @@ export default function ItineraryPanel({ route, onClose }) {
             <div className="itinerary__summary">
                 <span className="itinerary__total-time">{route.total_time_mins} min total</span>
                 <span className="itinerary__total-transfers">{route.transfers} transfer{route.transfers !== 1 ? 's' : ''}</span>
+                {route.total_walk_m > 0 && (
+                    <span className="itinerary__total-walk">
+                        {route.total_walk_m >= 1000
+                            ? `${(route.total_walk_m / 1000).toFixed(1)} km walk`
+                            : `${route.total_walk_m} m walk`}
+                    </span>
+                )}
             </div>
 
             <div className="itinerary__steps">
@@ -101,6 +114,11 @@ export default function ItineraryPanel({ route, onClose }) {
                                     <span className="itinerary__mode-label" style={{ color }}>
                                         {step.mode.charAt(0).toUpperCase() + step.mode.slice(1)}
                                     </span>
+                                    {step.line && (
+                                        <span className="itinerary__line-badge" style={{ backgroundColor: color }}>
+                                            {step.line}
+                                        </span>
+                                    )}
                                     <span className="itinerary__step-time">{step.duration_mins} min</span>
                                 </div>
                                 <p className="itinerary__instruction">{getInstruction(step, idx)}</p>
