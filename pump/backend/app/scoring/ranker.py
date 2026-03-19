@@ -58,12 +58,13 @@ def score_and_rank_routes(top_k_paths, departure_hour=10, departure_day=0,
         uses_metro = False
 
         for leg in path["legs"]:
-            duration_sec = predictor.predict_leg_time(
-                mode_str=leg["mode"],
-                distance_m=leg["length_m"],
-                hour=departure_hour,
-                day_of_week=departure_day,
-            )
+            # Use deterministic travel time from graph 
+            if leg.get("travel_time", 0) > 0:
+                duration_sec = leg["travel_time"]
+            else:
+                # Fallback to walk speed (1.4m/s) if missing
+                duration_sec = leg["length_m"] / 1.4
+                
             leg["duration_sec"] = duration_sec
             leg["duration_mins"] = math.ceil(duration_sec / 60)
 

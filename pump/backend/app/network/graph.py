@@ -1,12 +1,27 @@
 import pickle
 from pathlib import Path
 import networkx as nx
-from itertools import islice
 import os
+import math
+from scipy.spatial import KDTree
+from app.transit.raptor import raptor_engine
 
+ENABLE_RAPTOR = True
 DATA_DIR = Path(os.getenv("PUMP_DATA_DIR", "/home/jayant/gitgud/marg/marg/pump/data/processed"))
 GRAPH_PATH = DATA_DIR / "multimodal_graph.gpickle"
 KDTREE_PATH = DATA_DIR / "spatial_index.pkl"
+
+# Transfer penalty: added once when boarding a new bus (not for continuing same route)
+BUS_BOARDING_PENALTY_SEC = 420  # 7 min average wait
+
+
+def haversine(lat1, lon1, lat2, lon2):
+    R = 6371000
+    phi1, phi2 = math.radians(lat1), math.radians(lat2)
+    dphi = math.radians(lat2 - lat1)
+    dlambda = math.radians(lon2 - lon1)
+    a = math.sin(dphi / 2) ** 2 + math.cos(phi1) * math.cos(phi2) * math.sin(dlambda / 2) ** 2
+    return 2 * R * math.atan2(math.sqrt(a), math.sqrt(1 - a))
 
 
 class RouteEngine:
@@ -15,194 +30,305 @@ class RouteEngine:
         self.tree = None
         self.node_ids = None
         self.coords = None
-        self._simple_cache = {}  # Cache simplified DiGraphs per time-bucket
 
     def load(self):
         print("Loading Route Engine Graph and KD-Tree...")
         with open(GRAPH_PATH, "rb") as f:
-            self.G = pickle.load(f)
+            multi_G = pickle.load(f)
         with open(KDTREE_PATH, "rb") as f:
             index_data = pickle.load(f)
             self.tree = index_data["tree"]
             self.node_ids = index_data["node_ids"]
             self.coords = index_data["coords"]
-        print(f"Loaded {len(self.G.nodes)} nodes, {len(self.G.edges)} edges into engine.")
+
+        # Convert MultiDiGraph → simple DiGraph by keeping min-weight edge per pair
+        # This is required because nx.astar_path doesn't support MultiDiGraph
+        self.G = nx.DiGraph()
+        for n, data in multi_G.nodes(data=True):
+            self.G.add_node(n, **data)
+        for u, v, data in multi_G.edges(data=True):
+            tt = float(data.get("travel_time", 9999))
+            if self.G.has_edge(u, v):
+                if tt < self.G[u][v].get("travel_time", 9999):
+                    self.G[u][v].update(data)
+                    self.G[u][v]["travel_time"] = tt
+            else:
+                self.G.add_edge(u, v, **data)
+                self.G[u][v]["travel_time"] = tt
+
+        # Count edge types for debug logging
+        modes = {}
+        for u, v, d in self.G.edges(data=True):
+            m = d.get("mode", "unknown")
+            modes[m] = modes.get(m, 0) + 1
+        print(f"Loaded {len(self.G.nodes)} nodes, {len(self.G.edges)} edges (simplified DiGraph).")
+        print(f"  Edge modes: {modes}")
 
     def get_nearest_node(self, lat, lon):
         dist, idx = self.tree.query([lat, lon])
         return self.node_ids[idx], dist
 
-    def _get_time_bucket(self, hour, day):
-        """Bucket by peak/off-peak and weekday/weekend for caching."""
-        is_rush = (8 <= hour <= 11) or (17 <= hour <= 20)
-        is_weekend = day >= 5
-        return f"{'rush' if is_rush else 'off'}_{('we' if is_weekend else 'wd')}"
-
-    def _build_simple_graph(self, departure_hour, departure_day):
-        """Build a simplified DiGraph with dynamic time-based weights."""
-        bucket = self._get_time_bucket(departure_hour, departure_day)
-
-        if bucket in self._simple_cache:
-            return self._simple_cache[bucket]
-
-        G_simple = nx.DiGraph()
-
-        for u, v, key, d in self.G.edges(keys=True, data=True):
-            mode = d.get("mode", "walk")
-            length = d.get("length_m", 0.0)
-
-            # Speed calculation
-            if mode == "metro":
-                speed_kmh = d.get("speed_kmh", 35.0)
-                speed_m_s = speed_kmh / 3.6
-                # Add wait time penalty (converted to equivalent distance)
-                wait_penalty = d.get("avg_wait_min", 5.0) * 60.0 * 0.1  # small fraction
-            elif mode == "bus":
-                base_speed = 5.0  # m/s (~18 km/h)
-                if (8 <= departure_hour <= 11) or (17 <= departure_hour <= 20):
-                    base_speed *= 0.5
-                speed_m_s = base_speed
-                wait_penalty = 0
-            else:  # walk
-                speed_m_s = 1.4  # ~5 km/h
-                wait_penalty = 0
-
-            dynamic_time = (length / max(speed_m_s, 0.5)) + wait_penalty
-
-            if G_simple.has_edge(u, v):
-                if dynamic_time < G_simple[u][v]["dynamic_time"]:
-                    G_simple.add_edge(u, v, **d)
-                    G_simple[u][v]["dynamic_time"] = dynamic_time
-            else:
-                G_simple.add_edge(u, v, **d)
-                G_simple[u][v]["dynamic_time"] = dynamic_time
-
-        # Cache up to 4 buckets
-        if len(self._simple_cache) >= 4:
-            self._simple_cache.clear()
-        self._simple_cache[bucket] = G_simple
-
-        return G_simple
-
-    def _get_transit_nodes(self, node_list, G_simple):
-        """Extract the set of transit (bus/metro) node IDs from a path."""
-        transit_nodes = set()
-        for i in range(len(node_list) - 1):
-            edge_data = G_simple.get_edge_data(node_list[i], node_list[i + 1])
-            mode = edge_data.get("mode", "walk") if edge_data else "walk"
-            if mode in ("bus", "metro"):
-                transit_nodes.add(node_list[i])
-                transit_nodes.add(node_list[i + 1])
-        return transit_nodes
-
-    def _get_mode_sequence(self, node_list, G_simple):
-        """Get the simplified mode sequence (consecutive duplicates collapsed)."""
-        seq = []
-        for i in range(len(node_list) - 1):
-            edge_data = G_simple.get_edge_data(node_list[i], node_list[i + 1])
-            mode = edge_data.get("mode", "walk") if edge_data else "walk"
-            if not seq or seq[-1] != mode:
-                seq.append(mode)
-        return tuple(seq)
+    def _heuristic(self, u, v):
+        """Admissible heuristic for A* based on max network speed (80 km/h = 22.2 m/s)."""
+        node_u = self.G.nodes[u]
+        node_v = self.G.nodes[v]
+        if 'lat' not in node_u or 'lat' not in node_v:
+            return 0
+        dist = haversine(node_u['lat'], node_u['lon'], node_v['lat'], node_v['lon'])
+        return dist / 22.2
 
     def k_shortest_paths(self, source_lat, source_lon, dest_lat, dest_lon,
-                          k=5, departure_hour=10, departure_day=0):
-        """Find top k structurally diverse shortest multimodal paths."""
+                          k=5, departure_hour=10, departure_day=0,
+                          preference="fastest"):
+        """
+        Find k optimal routes using A* search.
+
+        preference: "fastest" (default) or "least_walking"
+        """
         if self.G is None:
             raise ValueError("Engine not loaded")
 
         source_id, s_dist = self.get_nearest_node(source_lat, source_lon)
         dest_id, d_dist = self.get_nearest_node(dest_lat, dest_lon)
+        
+        # --- PHASE 4 & 7: RAPTOR INTEGRATION WITH A* FALLBACK ---
+        if ENABLE_RAPTOR and self.tree is not None:
+            try:
+                def get_nearby_stops(lat, lon, r_deg=0.015):
+                    # 0.015 degrees is roughly 1.5km
+                    indices = self.tree.query_ball_point([lat, lon], r=r_deg)
+                    stops = {}
+                    for idx in indices:
+                        n_id = str(self.node_ids[idx])
+                        if n_id.startswith("gtfs_"):
+                            # Haversine distance for walk time
+                            n_lat, n_lon = self.coords[idx]
+                            # Fast approximate distance
+                            dist_m = haversine(lat, lon, n_lat, n_lon)
+                            walk_sec = dist_m / 1.38 # 5 km/h
+                            stops[n_id[5:]] = walk_sec
+                    return stops
+                    
+                source_stops = get_nearby_stops(source_lat, source_lon)
+                dest_stops = get_nearby_stops(dest_lat, dest_lon)
+                
+                # Convert departure_hour to seconds since midnight
+                departure_sec = departure_hour * 3600
+                
+                if source_stops and dest_stops:
+                    raptor_result = raptor_engine.route(source_stops, dest_stops, departure_sec)
+                    if raptor_result:
+                        print("[ROUTER] Successfully used RAPTOR engine.")
+                        return [raptor_result]
+                        
+            except Exception as e:
+                print(f"[ROUTER] RAPTOR failed, falling back to graph A*: {e}")
+                import traceback
+                traceback.print_exc()
 
-        # Max ~1.5km walk to nearest node
-        if s_dist > 0.015 or d_dist > 0.015:
+        if s_dist > 0.025 or d_dist > 0.025:
             return []
 
-        G_simple = self._build_simple_graph(departure_hour, departure_day)
-
+        import heapq
+        
         try:
-            diverse_paths = []
-            accepted_transit_sets = []
+            TRANSFER_PENALTY = 300 # 5 minutes penalty for transferring
             
-            # Penalized graph copy for diverse routing
-            G_penalized = G_simple.copy()
+            # Queue: (f, g, u, current_route_tuple)
+            queue = [(0, 0, source_id, None)]
+            min_g_score = {(source_id, None): 0}
+            came_from = {}
+            final_state = None
 
-            # We will try up to k*4 times to find diverse paths
-            for attempt in range(k * 4):
-                try:
-                    path = nx.shortest_path(G_penalized, source=source_id, target=dest_id, weight="dynamic_time")
-                except nx.NetworkXNoPath:
-                    break
-
-                # Check diversity
-                path_set = set(path)
-                is_diverse = True
+            while queue:
+                f, g, u, current_route = heapq.heappop(queue)
                 
-                for existing_path in accepted_transit_sets:
-                    overlap = len(path_set & existing_path) / max(len(path_set | existing_path), 1)
-                    if overlap > 0.80:
-                        is_diverse = False
-                        break
-
-                if is_diverse:
-                    diverse_paths.append(path)
-                    accepted_transit_sets.append(path_set)
-
-                if len(diverse_paths) >= k:
+                if u == dest_id:
+                    final_state = (u, current_route)
                     break
                     
-                # Penalize edges of this path globally to push the next search to alternate routes
-                for u, v in zip(path[:-1], path[1:]):
-                    if G_penalized.has_edge(u, v):
-                        # Penalize time by 50% to encourage different path next iteration
-                        G_penalized[u][v]["dynamic_time"] = G_penalized[u][v].get("dynamic_time", 1.0) * 1.5
-
-            return [self._format_path(p, G_simple) for p in diverse_paths]
-        except Exception:
+                if g > min_g_score.get((u, current_route), float('inf')):
+                    continue
+                    
+                for v, edge_data in self.G[u].items():
+                    mode = edge_data.get("mode", "walk")
+                    next_route = None
+                    
+                    if mode in ("road", "walk"):
+                        walk_time = float(edge_data.get("length_m", 0.0)) / 1.38
+                        edge_cost = walk_time * 3.0 if preference == "least_walking" else walk_time
+                    else:
+                        edge_cost = float(edge_data.get("travel_time", 9999))
+                        if mode == "bus":
+                            next_route = tuple(sorted(edge_data.get("route_ids", [])))
+                        elif mode == "metro":
+                            next_route = (edge_data.get("line", ""),)
+                            
+                    # Calculate real-world transfer penalty for transit
+                    penalty = 0
+                    if mode in ("bus", "metro"):
+                        if current_route is not None:
+                            # Transferring between different transit routes
+                            if not set(current_route).intersection(set(next_route)):
+                                penalty = TRANSFER_PENALTY
+                        else:
+                            # First boarding (from walking) - adding half penalty for wait time
+                            penalty = TRANSFER_PENALTY / 2
+                            
+                    new_g = g + edge_cost + penalty
+                    h = self._heuristic(v, dest_id)
+                    next_state = (v, next_route)
+                    
+                    if new_g < min_g_score.get(next_state, float('inf')):
+                        min_g_score[next_state] = new_g
+                        came_from[next_state] = (u, current_route)
+                        heapq.heappush(queue, (new_g + h, new_g, v, next_route))
+                        
+            if final_state is None:
+                return []
+                
+            node_list = []
+            curr_s = final_state
+            while curr_s in came_from:
+                node_list.append(curr_s[0])
+                curr_s = came_from[curr_s]
+            node_list.append(curr_s[0]) # Start node
+            node_list.reverse()
+            
+            return [self._format_path(node_list)]
+            
+        except Exception as e:
+            print(f"Routing error: {e}")
+            import traceback
+            traceback.print_exc()
             return []
 
-    def _format_path(self, node_list, G_simple):
-        """Convert raw node list into structured route data."""
-        legs = []
+    def _format_path(self, node_list):
+        """Convert raw node list into structured route data with smart leg merging."""
+        raw_legs = []
         path_distance = 0.0
 
         for i in range(len(node_list) - 1):
             n1, n2 = node_list[i], node_list[i + 1]
-            edge_data = G_simple.get_edge_data(n1, n2)
+            edge_data = self.G[n1][n2]
+
+            mode = edge_data.get("mode", "walk")
+            display_mode = "walk" if mode == "road" else mode
+            
+            # Recalculate realistic travel time for display
+            length_m = float(edge_data.get("length_m", 0.0))
+            if mode in ("road", "walk"):
+                leg_travel_time = length_m / 1.38
+            else:
+                leg_travel_time = float(edge_data.get("travel_time", 0.0))
 
             leg = {
                 "from_node": dict(self.G.nodes[n1]),
                 "to_node": dict(self.G.nodes[n2]),
-                "mode": edge_data.get("mode", "walk"),
-                "length_m": edge_data.get("length_m", 0.0),
+                "mode": display_mode,
+                "length_m": length_m,
                 "line": edge_data.get("line", ""),
+                "travel_time": leg_travel_time,
+                # Carry route metadata for bus legs to enable smart merging
+                "route_ids": edge_data.get("route_ids", []),
+                "route_names": edge_data.get("route_names", []),
             }
             path_distance += leg["length_m"]
-            legs.append(leg)
+            raw_legs.append(leg)
+
+        # Smart merge: collapse consecutive legs of the same mode
+        # For bus legs, only merge if they share at least one common route_id
+        # (meaning the passenger can stay on the same bus — NOT a transfer)
+        merged_legs = []
+        for leg in raw_legs:
+            if not merged_legs:
+                merged_legs.append(leg)
+                continue
+
+            prev = merged_legs[-1]
+
+            # Walk/road merging: always merge consecutive walk segments
+            if leg["mode"] == "walk" and prev["mode"] == "walk":
+                prev["to_node"] = leg["to_node"]
+                prev["length_m"] += leg["length_m"]
+                prev["travel_time"] += leg["travel_time"]
+                continue
+
+            # Bus merging: merge ONLY if they share a common route_id
+            # This is the critical logic: riding the same bus through multiple
+            # stops is NOT a transfer. The bus just continues.
+            if leg["mode"] == "bus" and prev["mode"] == "bus":
+                prev_routes = set(prev.get("route_ids", []))
+                curr_routes = set(leg.get("route_ids", []))
+                shared = prev_routes & curr_routes
+
+                if shared:
+                    # Same bus route — merge (passenger stays on the bus)
+                    prev["to_node"] = leg["to_node"]
+                    prev["length_m"] += leg["length_m"]
+                    prev["travel_time"] += leg["travel_time"]
+                    # Narrow down to only the shared routes
+                    prev["route_ids"] = list(shared)
+                    prev["route_names"] = [
+                        n for n in prev.get("route_names", [])
+                        if any(rid in shared for rid in prev_routes)
+                    ] or leg.get("route_names", [])
+                    continue
+
+            # Different mode or different bus route — new leg
+            merged_legs.append(leg)
+
+        transfers = self._count_transfers(merged_legs)
+        # 300 seconds penalty per transfer
+        total_time = sum(leg["travel_time"] for leg in merged_legs) + (transfers * 300)
+
+        # Map to phase 9 format
+        segments = []
+        for leg in merged_legs:
+            segments.append({
+                "mode": leg["mode"],
+                "route_id": leg.get("route_ids", [None])[0] if leg.get("route_ids") else None,
+                "from": leg["from_node"].get("name", "Road"),
+                "to": leg["to_node"].get("name", "Road"),
+                "duration": leg["travel_time"]
+            })
 
         return {
-            "legs": legs,
-            "total_distance_m": path_distance,
-            "transfers": self._count_transfers(legs),
+            "legs": merged_legs,                   # Legacy UI API
+            "segments": segments,                  # New Phase 9 format
+            "total_distance_m": path_distance,     # Legacy UI API
+            "total_time_s": total_time,            # Legacy UI API
+            "total_time": total_time,              # New Phase 9 format
+            "transfers": transfers,                # Shared API
         }
 
     def _count_transfers(self, legs):
-        """Count transfers between distinct transit lines or modes."""
-        transfers = 0
-        last_transit_leg = None
+        """
+        Count transfers properly: every distinct boarding event counts as 1 transit ride.
+        Transfers = (total boardings) - 1. Walking breaks the transit chain.
+        """
+        boardings = 0
+        last_transit_routes = None
+
         for leg in legs:
             mode = leg["mode"]
             if mode in ("bus", "metro"):
-                if last_transit_leg is not None:
-                    # Transfer if modes differ, or if same mode but different/empty lines
-                    same_line = False
-                    if last_transit_leg.get("line") and leg.get("line"):
-                        same_line = (last_transit_leg["line"] == leg["line"])
-                    
-                    if mode != last_transit_leg["mode"] or not same_line:
-                        transfers += 1
-                last_transit_leg = leg
-        return transfers
+                curr_routes = set(leg.get("route_ids", [])) if mode == "bus" else {leg.get("line", "")}
+                
+                if last_transit_routes is None:
+                    # Fresh boarding (from start or after walking)
+                    boardings += 1
+                else:
+                    # Direct consecutive transfer between transit legs
+                    if not (last_transit_routes & curr_routes):
+                        boardings += 1
+                        
+                last_transit_routes = curr_routes
+            else:
+                # Walk segment breaks the transit chain completely
+                last_transit_routes = None
+                
+        return max(0, boardings - 1)
 
 
 # Singleton
