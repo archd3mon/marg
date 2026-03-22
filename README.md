@@ -7,7 +7,8 @@ Marg is a production-grade multimodal route planning application for Pune. It in
 ## Features
 
 - **Location Search** — Type place names (e.g. "FC Road", "Pune Airport") with autocomplete powered by OSM Nominatim
-- **Multimodal Routing** — Combines walking, bus, and metro segments via k-shortest-paths with diversity filtering
+- **Multimodal Routing** — Seamlessly combines walking, bus, and metro segments powered by the time-aware RAPTOR algorithm utilizing real-world GTFS timetables
+- **Time-Aware GTFS Scheduling** — Real transit timetables calculate exact arrival times, wait times, and optimal transfer points
 - **True Alternate Routes** — Structurally different route options (not just edge variants)
 - **Mode Preferences** — Toggle "Prefer Metro", "Prefer Bus", or "Less Walking" to influence route scoring
 - **ML Route Scoring** — Random Forest model predicts leg travel times; final score combines time, transfers, mode penalties, and walking distance
@@ -29,8 +30,9 @@ Marg is a production-grade multimodal route planning application for Pune. It in
                    │ HTTP (via Vite proxy)
 ┌──────────────────▼───────────────────────────────────┐
 │                 Backend (FastAPI)                     │
-│  main.py → graph.py (RouteEngine) → ranker.py        │
-│          → inference.py (RF Model)                    │
+│  main.py → graph.py (RouteEngine)                     │
+│          → RAPTOR (gtfs_loader.py + raptor.py)        │
+│          → ranker.py & inference.py (RF Model)        │
 │  Nominatim geocoding (httpx → OSM API)                │
 └──────────────────┬───────────────────────────────────┘
                    │ Pickle / JSON
@@ -47,12 +49,11 @@ Marg is a production-grade multimodal route planning application for Pune. It in
 
 ## Routing Algorithm
 
-1. **Nearest Node Lookup** — KDTree finds closest graph node to source/destination (max 1.5 km)
-2. **Time-Bucketed Graph** — Simplified DiGraph with dynamic edge weights based on rush/off-peak × weekday/weekend
-3. **K-Shortest Paths** — `nx.shortest_simple_paths` generates candidates weighted by `dynamic_time`
-4. **Diversity Filter** — Candidates filtered by transit node overlap (<80%) to ensure structurally different routes
-5. **ML Scoring** — Random Forest predicts per-leg travel time from (mode, distance, hour, day, congestion_zone)
-6. **Ranking** — `score = time + (transfers × 8min) + mode_penalties + walk_penalty + comfort_bonus` (lower = better)
+1. **First/Last Mile Walk Lookup** — KDTree maps the origin and destination to all transit stops within a 1.5km walking radius.
+2. **RAPTOR Timetable Engine** — The core GTFS sequence engine "rides" the active timetables to compute the absolute earliest arrival and fastest multi-modal transfers.
+3. **Graph A* Fallback** — If GTFS scheduling is unviable, the router seamlessly falls back to a time-bucketed NetworkX DiGraph traversing physical roads.
+4. **Diversity Filter** — Transit node paths are compared (<80% overlap) to yield structurally distinct route choices.
+5. **ML Scoring & Ranking** — A Random Forest model weighs (mode, distance, congestion). The final itinerary is ranked via `score = time + (transfers × 8min) + walk_penalty`.
 
 ---
 
@@ -140,7 +141,10 @@ pump/
 ├── backend/
 │   ├── app/
 │   │   ├── main.py          # FastAPI app, endpoints, geocoding
-│   │   ├── network/graph.py # RouteEngine: k-shortest paths, transfer counting
+│   │   ├── network/graph.py # RouteEngine: First-mile KDTree, Graph Fallback A*
+│   │   ├── transit/         # High-speed timetable parsing
+│   │   │   ├── gtfs_loader.py # Highly-optimized GTFS memory pipeline
+│   │   │   └── raptor.py    # RAPTOR Time-Aware Algorithm
 │   │   ├── ml/inference.py  # TravelTimePredictor (Random Forest)
 │   │   └── scoring/ranker.py # Score & rank with mode preferences
 │   ├── scripts/
