@@ -100,7 +100,7 @@ class RaptorEngine:
         return None
 
     def route(self, source_stops: Dict[str, float], dest_stops: Dict[str, float], 
-              departure_time: float, max_transfers: int = 4):
+              departure_time: float, max_transfers: int = 4, mode_preferences=None, banned_modes=None):
         """
         Run the RAPTOR algorithm.
         source_stops: dict of stop_id -> walk_time_from_origin
@@ -145,6 +145,14 @@ class RaptorEngine:
             
             # Step 2: Traverse each route
             for pid, start_idx in Q.items():
+                if banned_modes:
+                    sample_trip = self.pattern_trips[pid][0]
+                    route_id = self.gtfs.trips[sample_trip]["route_id"]
+                    route_type = self.gtfs.routes.get(route_id, {}).get("route_type", "3")
+                    mode = "metro" if route_type in ("1", "2") else "bus"
+                    if mode in banned_modes:
+                        continue
+                        
                 pattern_stops = self.patterns[pid]
                 current_trip = None
                 board_stop = None
@@ -228,7 +236,11 @@ class RaptorEngine:
                 "mode": "walk",
                 "route_id": None,
                 "from": self.gtfs.stops[best_dest]["name"],
+                "from_lat": self.gtfs.stops[best_dest]["lat"],
+                "from_lon": self.gtfs.stops[best_dest]["lon"],
                 "to": "Destination",
+                "to_lat": self.gtfs.stops[best_dest]["lat"],
+                "to_lon": self.gtfs.stops[best_dest]["lon"],
                 "duration": walk_to_dest_time
             })
         
@@ -246,7 +258,11 @@ class RaptorEngine:
                         "mode": "walk",
                         "route_id": None,
                         "from": "Origin",
+                        "from_lat": self.gtfs.stops[curr_stop]["lat"],
+                        "from_lon": self.gtfs.stops[curr_stop]["lon"],
                         "to": self.gtfs.stops[curr_stop]["name"],
+                        "to_lat": self.gtfs.stops[curr_stop]["lat"],
+                        "to_lon": self.gtfs.stops[curr_stop]["lon"],
                         "duration": walk_from_origin
                     })
                 break
@@ -257,7 +273,11 @@ class RaptorEngine:
                     "mode": "walk",
                     "route_id": None,
                     "from": self.gtfs.stops[prev_stop]["name"],
+                    "from_lat": self.gtfs.stops[prev_stop]["lat"],
+                    "from_lon": self.gtfs.stops[prev_stop]["lon"],
                     "to": self.gtfs.stops[curr_stop]["name"],
+                    "to_lat": self.gtfs.stops[curr_stop]["lat"],
+                    "to_lon": self.gtfs.stops[curr_stop]["lon"],
                     "duration": walk_dur
                 })
                 curr_stop = prev_stop
@@ -272,12 +292,20 @@ class RaptorEngine:
                 depart_time = self.trip_stop_times[trip_id][b_idx][1]
                 arrive_time = self.trip_stop_times[trip_id][a_idx][0]
                 
+                route_info = self.gtfs.routes.get(route_id, {})
+                route_type = route_info.get("route_type", "3")
+                mode = "metro" if route_type in ("1", "2") else "bus"
+                
                 events.append({
-                    "mode": "bus",
+                    "mode": mode,
                     "route_id": route_id,
                     "trip_id": trip_id,
                     "from": self.gtfs.stops[board_stop]["name"],
+                    "from_lat": self.gtfs.stops[board_stop]["lat"],
+                    "from_lon": self.gtfs.stops[board_stop]["lon"],
                     "to": self.gtfs.stops[curr_stop]["name"],
+                    "to_lat": self.gtfs.stops[curr_stop]["lat"],
+                    "to_lon": self.gtfs.stops[curr_stop]["lon"],
                     "duration": arrive_time - depart_time
                 })
                 curr_stop = board_stop
@@ -285,15 +313,15 @@ class RaptorEngine:
                 
         events.reverse()
         
-        transfers = max(0, len([e for e in events if e["mode"] == "bus"]) - 1)
+        transfers = max(0, len([e for e in events if e["mode"] in ("bus", "metro")]) - 1)
         
         # Backward compatibility for legacy UI and test_route.py
         legs = []
         for e in events:
             legs.append({
                 "mode": e["mode"],
-                "from_node": {"name": e["from"]},
-                "to_node": {"name": e["to"]},
+                "from_node": {"name": e["from"], "lat": e.get("from_lat", 0.0), "lon": e.get("from_lon", 0.0)},
+                "to_node": {"name": e["to"], "lat": e.get("to_lat", 0.0), "lon": e.get("to_lon", 0.0)},
                 "travel_time": e["duration"],
                 "length_m": e["duration"] * 1.38 if e["mode"] == "walk" else e["duration"] * 5.0, # Dummy dist
                 "route_names": [e.get("route_id")] if e.get("route_id") else []

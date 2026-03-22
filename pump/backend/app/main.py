@@ -193,6 +193,7 @@ def search_routes(request: RouteRequest):
             request.source.lat, request.source.lng,
             request.destination.lat, request.destination.lng,
             k=5, departure_hour=hour, departure_day=day,
+            mode_preferences=request.mode_preferences,
         )
 
         if not k_paths:

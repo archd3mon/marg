@@ -160,7 +160,7 @@ def build_graph():
                     n1, n2 = G.nodes[from_id], G.nodes[to_id]
                     dist = haversine(n1["lat"], n1["lon"], n2["lat"], n2["lon"])
                     speed_ms = METRO_SPEED_KMH / 3.6
-                    travel_time = (dist / speed_ms) + (METRO_AVG_WAIT_MIN * 60)
+                    travel_time = dist / speed_ms
                     attrs = {
                         "mode": "metro", "length_m": dist,
                         "travel_time": travel_time, "line": line,

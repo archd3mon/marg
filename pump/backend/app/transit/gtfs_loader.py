@@ -66,6 +66,7 @@ class GTFSData:
                 self.routes[row["route_id"]] = {
                     "short_name": row.get("route_short_name", ""),
                     "long_name": row.get("route_long_name", ""),
+                    "route_type": str(row.get("route_type", "3")), # 3=bus, 1=metro
                 }
 
     def _load_trips(self, path: Path):
@@ -141,6 +142,8 @@ class GTFSData:
             route_id = self.trips[tid]["route_id"]
             route_info = self.routes.get(route_id, {})
             route_name = route_info.get("short_name", "")
+            route_type = route_info.get("route_type", "3")
+            mode = "metro" if route_type in ("1", "2") else "bus"
 
             for i in range(len(seq) - 1):
                 s1_id, _, s1_depart, _ = seq[i]
@@ -155,6 +158,7 @@ class GTFSData:
                         "route_ids": set(),
                         "route_names": set(),
                         "trip_count": 0,
+                        "mode": mode,
                     }
 
                 edge = edges[key]

@@ -79,7 +79,7 @@ class RouteEngine:
 
     def k_shortest_paths(self, source_lat, source_lon, dest_lat, dest_lon,
                           k=5, departure_hour=10, departure_day=0,
-                          preference="fastest"):
+                          preference="fastest", mode_preferences=None):
         """
         Find k optimal routes using A* search.
 
@@ -116,18 +116,73 @@ class RouteEngine:
                 departure_sec = departure_hour * 3600
                 
                 if source_stops and dest_stops:
-                    raptor_result = raptor_engine.route(source_stops, dest_stops, departure_sec)
+                    raptor_result = raptor_engine.route(source_stops, dest_stops, departure_sec, mode_preferences=mode_preferences)
                     if raptor_result:
                         print("[ROUTER] Successfully used RAPTOR engine.")
-                        return [raptor_result]
+                        routes = [raptor_result]
+                        
+                        # --- PHASE 3 IMPROVEMENT: Map-Match legs to real street geometries ---
+                        try:
+                            import networkx as nx
+                            for raptor_result in routes:
+                                for leg in raptor_result.get("legs", []):
+                                    try:
+                                        lat1, lon1 = leg["from_node"].get("lat", 0.0), leg["from_node"].get("lon", 0.0)
+                                        lat2, lon2 = leg["to_node"].get("lat", 0.0), leg["to_node"].get("lon", 0.0)
+                                        
+                                        if leg["from_node"]["name"] == "Origin":
+                                            n1 = source_id
+                                        else:
+                                            n1, _ = self.get_nearest_node(lat1, lon1)
+                                            
+                                        if leg["to_node"]["name"] == "Destination":
+                                            n2 = dest_id
+                                        else:
+                                            n2, _ = self.get_nearest_node(lat2, lon2)
+                                            
+                                        w = "length_m" if leg["mode"] == "walk" else "travel_time"
+                                        path_nodes = nx.shortest_path(self.G, n1, n2, weight=w)
+                                        
+                                        geom = []
+                                        for i in range(len(path_nodes)-1):
+                                            u, v = path_nodes[i], path_nodes[i+1]
+                                            edge = self.G[u][v]
+                                            if "geometry" in edge:
+                                                # shapely coords are (lon, lat) -> (lat, lon)
+                                                for lon, lat in edge["geometry"].coords:
+                                                    geom.append([lat, lon])
+                                            else:
+                                                n_u, n_v = self.G.nodes[u], self.G.nodes[v]
+                                                if 'lat' in n_u and 'lat' in n_v:
+                                                    geom.append([n_u['lat'], n_u['lon']])
+                                                    geom.append([n_v['lat'], n_v['lon']])
+                                                    
+                                        if geom:
+                                            clean_geom = [geom[0]]
+                                            for pt in geom[1:]:
+                                                if pt != clean_geom[-1]:
+                                                    clean_geom.append(pt)
+                                            leg["path"] = clean_geom
+                                    except Exception as inner_e:
+                                        pass
+                        except Exception as e:
+                            print(f"[GEOM] Failed to inject map geometries: {e}")
+                            
+                        # If a specific mode preference is requested, fall through to A* to generate an alternative!
+                        if mode_preferences and (mode_preferences.get("prefer_metro") or mode_preferences.get("prefer_bus")):
+                            pass # Let A* run to get a second multimodal route
+                        else:
+                            return routes
                         
             except Exception as e:
-                print(f"[ROUTER] RAPTOR failed, falling back to graph A*: {e}")
-                import traceback
-                traceback.print_exc()
+                print(f"[ROUTER] RAPTOR failed: {e}")
+                
+        # Initialize routes array if RAPTOR wasn't enabled or failed
+        if 'routes' not in locals():
+            routes = []
 
         if s_dist > 0.025 or d_dist > 0.025:
-            return []
+            return routes
 
         import heapq
         
@@ -154,6 +209,16 @@ class RouteEngine:
                     mode = edge_data.get("mode", "walk")
                     next_route = None
                     
+                    # Apply mode preferences to edge cost
+                    edge_cost_multiplier = 1.0
+                    if mode_preferences:
+                        if mode == "bus" and mode_preferences.get("prefer_metro"):
+                            edge_cost_multiplier = 1.5 # Penalize bus if metro preferred
+                        elif mode == "metro" and mode_preferences.get("prefer_bus"):
+                            edge_cost_multiplier = 1.5 # Penalize metro if bus preferred
+                        elif mode == "walk" and mode_preferences.get("avoid_walking"):
+                            edge_cost_multiplier = 2.0 # Penalize walking
+                    
                     if mode in ("road", "walk"):
                         walk_time = float(edge_data.get("length_m", 0.0)) / 1.38
                         edge_cost = walk_time * 3.0 if preference == "least_walking" else walk_time
@@ -164,6 +229,8 @@ class RouteEngine:
                         elif mode == "metro":
                             next_route = (edge_data.get("line", ""),)
                             
+                    edge_cost *= edge_cost_multiplier
+
                     # Calculate real-world transfer penalty for transit
                     penalty = 0
                     if mode in ("bus", "metro"):
@@ -185,7 +252,7 @@ class RouteEngine:
                         heapq.heappush(queue, (new_g + h, new_g, v, next_route))
                         
             if final_state is None:
-                return []
+                return routes
                 
             node_list = []
             curr_s = final_state
@@ -195,13 +262,50 @@ class RouteEngine:
             node_list.append(curr_s[0]) # Start node
             node_list.reverse()
             
-            return [self._format_path(node_list)]
+            a_star_route = self._format_path(node_list)
+            
+            # Extract geometry for A* route natively
+            import networkx as nx
+            for leg in a_star_route.get("legs", []):
+                try:
+                    lat1, lon1 = leg["from_node"].get("lat", 0.0), leg["from_node"].get("lon", 0.0)
+                    lat2, lon2 = leg["to_node"].get("lat", 0.0), leg["to_node"].get("lon", 0.0)
+                    n1, _ = self.get_nearest_node(lat1, lon1)
+                    n2, _ = self.get_nearest_node(lat2, lon2)
+                    w = "length_m" if leg["mode"] == "walk" else "travel_time"
+                    path_nodes = nx.shortest_path(self.G, n1, n2, weight=w)
+                    geom = []
+                    for i in range(len(path_nodes)-1):
+                        u, v = path_nodes[i], path_nodes[i+1]
+                        edge = self.G[u][v]
+                        if "geometry" in edge:
+                            for lon, lat in edge["geometry"].coords:
+                                geom.append([lat, lon])
+                        else:
+                            n_u, n_v = self.G.nodes[u], self.G.nodes[v]
+                            if 'lat' in n_u and 'lat' in n_v:
+                                geom.append([n_u['lat'], n_u['lon']])
+                                geom.append([n_v['lat'], n_v['lon']])
+                    if geom:
+                        clean_geom = [geom[0]]
+                        for pt in geom[1:]:
+                            if pt != clean_geom[-1]: clean_geom.append(pt)
+                        leg["path"] = clean_geom
+                except Exception:
+                    pass
+            
+            # Avoid appending exact duplicate
+            if not routes or abs(routes[0]["total_time_s"] - a_star_route["total_time_s"]) > 60 or routes[0]["transfers"] != a_star_route["transfers"]:
+                routes.append(a_star_route)
+            print(f"[ROUTER] Added A* alternative. Total routes: {len(routes)}")
+            
+            return routes
             
         except Exception as e:
             print(f"Routing error: {e}")
             import traceback
             traceback.print_exc()
-            return []
+            return routes if 'routes' in locals() else []
 
     def _format_path(self, node_list):
         """Convert raw node list into structured route data with smart leg merging."""

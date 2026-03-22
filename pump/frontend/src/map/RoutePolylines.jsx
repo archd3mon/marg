@@ -26,7 +26,7 @@ export default function RoutePolylines({ route }) {
                 return (
                     <Polyline
                         key={idx}
-                        positions={[
+                        positions={leg.path || [
                             [from.lat, from.lon],
                             [to.lat, to.lon],
                         ]}
