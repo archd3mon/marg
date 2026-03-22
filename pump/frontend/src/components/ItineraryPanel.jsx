@@ -4,14 +4,14 @@ import ModeIcon from './ModeIcon';
  * ItineraryPanel — Step-by-step directions for a selected route.
  * Timeline UI with vertical connector line between steps.
  */
-export default function ItineraryPanel({ route, onClose }) {
+export default function ItineraryPanel({ route, onClose, onHoverLeg }) {
     if (!route || !route.legs) return null;
 
     // Merge consecutive legs of the same mode + line into consolidated steps
     const steps = [];
     let currentStep = null;
 
-    for (const leg of route.legs) {
+    route.legs.forEach((leg, legIdx) => {
         const sameLine = currentStep && currentStep.line && leg.line && currentStep.line === leg.line;
         if (currentStep && currentStep.mode === leg.mode && (currentStep.mode === 'walk' || sameLine)) {
             // Extend current step
@@ -19,6 +19,7 @@ export default function ItineraryPanel({ route, onClose }) {
             currentStep.duration_mins += (leg.duration_mins || 0);
             currentStep.endNode = leg.to_node;
             currentStep.legCount += 1;
+            currentStep.legIndices.push(legIdx);
         } else {
             // New step
             if (currentStep) steps.push(currentStep);
@@ -30,9 +31,10 @@ export default function ItineraryPanel({ route, onClose }) {
                 endNode: leg.to_node,
                 line: leg.line || '',
                 legCount: 1,
+                legIndices: [legIdx],
             };
         }
-    }
+    });
     if (currentStep) steps.push(currentStep);
 
     const getInstruction = (step, idx) => {
@@ -101,7 +103,13 @@ export default function ItineraryPanel({ route, onClose }) {
                     const isLast = idx === steps.length - 1;
 
                     return (
-                        <div key={idx} className="itinerary__step">
+                        <div 
+                            key={idx} 
+                            className="itinerary__step"
+                            onMouseEnter={() => onHoverLeg && onHoverLeg(step.legIndices)}
+                            onMouseLeave={() => onHoverLeg && onHoverLeg(null)}
+                            style={{ cursor: onHoverLeg ? 'pointer' : 'default' }}
+                        >
                             <div className="itinerary__timeline">
                                 <div className="itinerary__dot" style={{ backgroundColor: color }} />
                                 {!isLast && (

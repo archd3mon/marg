@@ -5,6 +5,9 @@ from pydantic import BaseModel
 from typing import Optional
 import json
 import httpx
+import math
+import time
+import logging
 from pathlib import Path
 import os
 
@@ -13,16 +16,21 @@ from app.ml.inference import predictor
 from app.scoring.ranker import score_and_rank_routes
 from app.search.search import search_engine
 
+logger = logging.getLogger(__name__)
 
 # --- Lifespan (replaces deprecated on_event) ---
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
+    t0 = time.time()
+    print("=" * 50)
     print("Initializing Core Engines...")
     engine.load()
     predictor.load()
     search_engine.load()
-    print("Engines ready.")
+    elapsed = round(time.time() - t0, 2)
+    print(f"All engines ready in {elapsed}s")
+    print("=" * 50)
     yield
     # Shutdown (nothing to clean up)
 
@@ -69,7 +77,7 @@ class RouteError:
 
     @staticmethod
     def too_far():
-        return {"routes": [], "message": "Origin or destination is too far from the transit network (>1.5 km)."}
+        return {"routes": [], "message": "Origin or destination is too far from the transit network.", "warnings": []}
 
     @staticmethod
     def dataset_missing(detail):
@@ -80,11 +88,35 @@ class RouteError:
 
 @app.get("/api/v1/health")
 def health_check():
+    """Detailed health check showing per-component status."""
+    graph_ok = engine.routing_available
+    ml_ok = predictor.model_loaded
+    search_ok = len(search_engine.points) > 0 if hasattr(search_engine, 'points') else False
+
+    overall = "ok" if (graph_ok and ml_ok) else "degraded"
+
     return {
-        "status": "ok",
-        "graph_nodes": len(engine.G.nodes) if engine.G else 0,
-        "graph_edges": len(engine.G.edges) if engine.G else 0,
-        "ml_loaded": predictor.model is not None,
+        "status": overall,
+        "components": {
+            "graph": {
+                "status": "ok" if engine.load_status.get("graph") else "error",
+                "nodes": len(engine.G.nodes) if engine.G else 0,
+                "edges": len(engine.G.edges) if engine.G else 0,
+            },
+            "kdtree": {
+                "status": "ok" if engine.load_status.get("kdtree") else "error",
+                "indexed_nodes": len(engine.node_ids) if engine.node_ids else 0,
+            },
+            "ml_model": {
+                "status": "ok" if ml_ok else "error",
+            },
+            "search": {
+                "status": "ok" if search_ok else "error",
+                "indexed_points": len(search_engine.points) if hasattr(search_engine, 'points') else 0,
+            },
+        },
+        "routing_available": graph_ok,
+        "load_time_s": engine.load_time_s,
     }
 
 
@@ -122,7 +154,7 @@ async def geocode_search(q: str = Query(..., min_length=2, description="Search q
         nom_results = []
         
         if needed > 0:
-            async with httpx.AsyncClient(timeout=5.0) as client:
+            async with httpx.AsyncClient(timeout=0.5) as client:
                 resp = await client.get(
                     NOMINATIM_URL,
                     params={
@@ -131,6 +163,7 @@ async def geocode_search(q: str = Query(..., min_length=2, description="Search q
                         "limit": needed,
                         "viewbox": PUNE_VIEWBOX,
                         "bounded": 1,
+                        "countrycodes": "in",
                         "addressdetails": 1,
                     },
                     headers={"User-Agent": NOMINATIM_USER_AGENT},
@@ -149,6 +182,23 @@ async def geocode_search(q: str = Query(..., min_length=2, description="Search q
         # Combine results
         combined = local_results + nom_results
         
+        # Calculate distance to Pune center (18.5204, 73.8567) using simple haversine
+        def haversine_km(lat1, lon1, lat2, lon2):
+            R = 6371.0
+            dlat = math.radians(lat2 - lat1)
+            dlon = math.radians(lon2 - lon1)
+            a = math.sin(dlat / 2)**2 + math.cos(math.radians(lat1)) * math.cos(math.radians(lat2)) * math.sin(dlon / 2)**2
+            c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+            return R * c
+            
+        for r in combined:
+            dist = haversine_km(r["lat"], r["lon"], 18.5204, 73.8567)
+            r["distance_from_pune_center_km"] = round(dist, 1)
+            
+        # Re-rank: prioritize local results slightly, but penalize heavily by distance
+        # Score logic: base score (local=70-100, nom=60) - (distance_km * 2)
+        combined.sort(key=lambda x: x.get("score", 60) - (x["distance_from_pune_center_km"] * 2), reverse=True)
+
         # Deduplicate by approximate coordinated
         seen_coords = set()
         final_results = []
@@ -171,11 +221,12 @@ async def geocode_search(q: str = Query(..., min_length=2, description="Search q
 
 @app.post("/api/v1/routes/search")
 def search_routes(request: RouteRequest):
-    # Validate engine is loaded
-    if engine.G is None:
-        raise HTTPException(status_code=503, detail="Routing engine not initialized. Please wait for startup.")
-    if predictor.model is None:
-        raise HTTPException(status_code=503, detail="ML model not loaded.")
+    # Check routing_available first (Upgrade 1)
+    if not engine.routing_available:
+        raise HTTPException(
+            status_code=503,
+            detail="Routing engine unavailable — data files missing or corrupt. Check /api/v1/health for details."
+        )
 
     try:
         # Parse departure time
@@ -188,6 +239,13 @@ def search_routes(request: RouteRequest):
             hour = 10
             day = 0
 
+        source_id, s_dist = engine.get_nearest_node(request.source.lat, request.source.lng)
+        dest_id, d_dist = engine.get_nearest_node(request.destination.lat, request.destination.lng)
+
+        warnings = []
+        if s_dist > 0.025 or d_dist > 0.025:
+            warnings.append("Origin or destination is far from transit stops. Route may involve a long walk.")
+
         # Generate routes
         k_paths = engine.k_shortest_paths(
             request.source.lat, request.source.lng,
@@ -197,7 +255,9 @@ def search_routes(request: RouteRequest):
         )
 
         if not k_paths:
-            return RouteError.not_found()
+            err = RouteError.not_found()
+            err["warnings"] = warnings
+            return err
 
         # Score & Rank (with mode preferences)
         ranked = score_and_rank_routes(
@@ -205,11 +265,14 @@ def search_routes(request: RouteRequest):
             departure_hour=hour,
             departure_day=day,
             mode_preferences=request.mode_preferences,
+            predictor=predictor,
         )
 
-        return {"routes": ranked}
+        return {"routes": ranked, "warnings": warnings}
 
     except ValueError as e:
+        if "too far" in str(e).lower():
+            return RouteError.too_far()
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Routing error: {str(e)}")

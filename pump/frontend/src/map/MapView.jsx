@@ -56,6 +56,7 @@ export default function MapView({
     selectedRoute,
     onMapClick,
     isMobile,
+    hoveredLegIndex,
 }) {
     return (
         <div className="map-view">
@@ -73,7 +74,7 @@ export default function MapView({
 
                 <MapClickHandler onMapClick={onMapClick} />
                 <CustomMarkers source={source} dest={dest} selectedRoute={selectedRoute} />
-                <RoutePolylines route={selectedRoute} />
+                <RoutePolylines route={selectedRoute} hoveredLegIndex={hoveredLegIndex} />
                 <FitRouteBounds route={selectedRoute} />
             </MapContainer>
         </div>

@@ -35,8 +35,8 @@ class TestHealthCheck:
         assert resp.status_code == 200
         data = resp.json()
         assert data["status"] == "ok"
-        assert data["graph_nodes"] > 0
-        assert data["ml_loaded"] is True
+        assert data["components"]["graph"]["nodes"] > 0
+        assert data["components"]["ml_model"]["status"] == "ok"
 
 
 class TestRouteSearch:

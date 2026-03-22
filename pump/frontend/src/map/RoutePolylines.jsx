@@ -11,7 +11,7 @@ const MODE_STYLES = {
     metro: { color: '#8b5cf6', weight: 6, dashArray: null, opacity: 0.9 },
 };
 
-export default function RoutePolylines({ route }) {
+export default function RoutePolylines({ route, hoveredLegIndex }) {
     if (!route || !route.legs) return null;
 
     return (
@@ -21,6 +21,9 @@ export default function RoutePolylines({ route }) {
                 const to = leg.to_node;
                 if (!from || !to) return null;
 
+                const isHovered = Array.isArray(hoveredLegIndex) 
+                    ? hoveredLegIndex.includes(idx) 
+                    : hoveredLegIndex === idx;
                 const style = MODE_STYLES[leg.mode] || MODE_STYLES.walk;
 
                 return (
@@ -32,9 +35,9 @@ export default function RoutePolylines({ route }) {
                         ]}
                         pathOptions={{
                             color: style.color,
-                            weight: style.weight,
+                            weight: isHovered ? style.weight + 4 : style.weight,
                             dashArray: style.dashArray,
-                            opacity: style.opacity,
+                            opacity: isHovered ? 1.0 : style.opacity,
                             lineJoin: 'round',
                             lineCap: 'round',
                         }}

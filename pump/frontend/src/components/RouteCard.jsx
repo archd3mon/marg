@@ -37,6 +37,24 @@ export default function RouteCard({ route, index, isSelected, onSelect, onExpand
             <div className="route-card__header">
                 <div className="route-card__time-block">
                     <span className="route-card__duration">{route.total_time_mins} min</span>
+                    {route.route_type && route.route_type !== 'alternative' && (
+                        <span style={{
+                            marginLeft: '8px',
+                            padding: '2px 8px',
+                            borderRadius: '12px',
+                            fontSize: '0.75rem',
+                            fontWeight: '600',
+                            backgroundColor: route.route_type === 'fastest' ? '#dcfce7' :
+                                           route.route_type === 'recommended' ? '#fef08a' : '#e0e7ff',
+                            color: route.route_type === 'fastest' ? '#166534' :
+                                   route.route_type === 'recommended' ? '#854d0e' : '#3730a3'
+                        }}>
+                            {route.route_type === 'fastest' ? '⚡ Fastest' : 
+                             route.route_type === 'least_walking' ? '🚶 Min Walk' : 
+                             route.route_type === 'least_transfers' ? '🔄 Direct' : 
+                             route.route_type === 'recommended' ? '⭐ Recommended' : null}
+                        </span>
+                    )}
                     {arrivalTime && (
                         <span className="route-card__arrival">Arrive {arrivalTime}</span>
                     )}

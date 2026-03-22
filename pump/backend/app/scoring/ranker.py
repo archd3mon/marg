@@ -1,5 +1,8 @@
 import math
-from app.ml.inference import predictor
+import logging
+from app.network.transfer_times import get_transfer_time
+
+logger = logging.getLogger(__name__)
 
 # --- Default Scoring Parameters ---
 TRANSFER_PENALTY_MINS = 8.0
@@ -38,15 +41,19 @@ def _build_mode_penalties(mode_preferences):
 
 
 def score_and_rank_routes(top_k_paths, departure_hour=10, departure_day=0,
-                          mode_preferences=None):
+                          mode_preferences=None, predictor=None):
     """
     Score and rank routes using ML-predicted travel times + penalty heuristics.
 
     Score = TravelTime + (Transfers × TransferPenalty) + ModePenalties + WalkingPenalty + ComfortBonus
     Lower score is better.
 
-    mode_preferences: dict with optional keys:
-        prefer_metro (bool), prefer_bus (bool), avoid_walking (bool)
+    Args:
+        top_k_paths: list of route dicts from the routing engine
+        departure_hour: 0-23
+        departure_day: 0-6
+        mode_preferences: dict with optional keys: prefer_metro, prefer_bus, avoid_walking
+        predictor: TravelTimePredictor instance (optional, falls back to graph times if None)
     """
     mode_penalty = _build_mode_penalties(mode_preferences)
     ranked_routes = []
@@ -58,13 +65,31 @@ def score_and_rank_routes(top_k_paths, departure_hour=10, departure_day=0,
         uses_metro = False
 
         for leg in path["legs"]:
-            # Use deterministic travel time from graph 
-            if leg.get("travel_time", 0) > 0:
-                duration_sec = leg["travel_time"]
-            else:
-                # Fallback to walk speed (1.4m/s) if missing
-                duration_sec = leg["length_m"] / 1.4
-                
+            # --- ML-enhanced travel time prediction (Upgrade 2) ---
+            duration_sec = None
+
+            # Try ML prediction first if predictor is available
+            if predictor is not None and predictor.model is not None and leg["mode"] in ("bus", "metro", "walk"):
+                try:
+                    duration_sec = predictor.predict_leg_time(
+                        mode_str=leg["mode"],
+                        distance_m=leg.get("length_m", 0.0),
+                        hour=departure_hour,
+                        day_of_week=departure_day,
+                        zone=1,  # Default congestion zone
+                    )
+                except Exception as e:
+                    logger.warning(f"[ML] Prediction failed for {leg['mode']} leg, falling back to graph time: {e}")
+                    duration_sec = None
+
+            # Fallback: use deterministic travel time from graph
+            if duration_sec is None:
+                if leg.get("travel_time", 0) > 0:
+                    duration_sec = leg["travel_time"]
+                else:
+                    # Last resort: walk speed (1.4m/s)
+                    duration_sec = leg.get("length_m", 0.0) / 1.4
+
             leg["duration_sec"] = duration_sec
             leg["duration_mins"] = math.ceil(duration_sec / 60)
 
@@ -72,7 +97,7 @@ def score_and_rank_routes(top_k_paths, departure_hour=10, departure_day=0,
             total_mode_penalty += mode_penalty.get(leg["mode"], 5.0)
 
             if leg["mode"] == "walk":
-                total_walk_m += leg["length_m"]
+                total_walk_m += leg.get("length_m", 0.0)
             if leg["mode"] == "metro":
                 uses_metro = True
 
@@ -88,10 +113,27 @@ def score_and_rank_routes(top_k_paths, departure_hour=10, departure_day=0,
         # Comfort bonus for metro usage
         comfort = METRO_COMFORT_BONUS if uses_metro else 0
 
+        # Advanced Transfer Logic (Upgrade 8)
+        transfer_penalty_total = 0.0
+        last_transit_mode = None
+        
+        for i, leg in enumerate(path["legs"]):
+            if leg["mode"] in ("bus", "metro"):
+                if last_transit_mode:
+                    # We have a consecutive or walk-interrupted transit leg
+                    # Let's assess the transfer cost
+                    node_name = leg["from_node"].get("name", "")
+                    transfer_penalty_total += get_transfer_time(last_transit_mode, leg["mode"], node_name)
+                last_transit_mode = leg["mode"]
+
+        # Fallback if the path didn't explicitly separate legs but transfers > 0
+        if transfers > 0 and transfer_penalty_total == 0:
+            transfer_penalty_total = transfers * TRANSFER_PENALTY_MINS
+
         # Final scoring formula
         score = (
             total_time_mins
-            + (transfers * TRANSFER_PENALTY_MINS)
+            + transfer_penalty_total
             + total_mode_penalty
             + walk_penalty
             + comfort
@@ -108,6 +150,29 @@ def score_and_rank_routes(top_k_paths, departure_hour=10, departure_day=0,
 
     # Sort ascending by score (lowest = best)
     ranked_routes.sort(key=lambda x: x["score"])
+
+    if ranked_routes:
+        ranked_routes[0]["route_type"] = "recommended"
+        
+        # Sort by total time
+        fastest = min(ranked_routes, key=lambda x: x["total_time_mins"])
+        if "route_type" not in fastest:
+            fastest["route_type"] = "fastest"
+            
+        # Sort by transfers
+        least_transfers = min(ranked_routes, key=lambda x: x["transfers"])
+        if "route_type" not in least_transfers:
+            least_transfers["route_type"] = "least_transfers"
+            
+        # Sort by walking
+        least_walking = min(ranked_routes, key=lambda x: x["total_walk_m"])
+        if "route_type" not in least_walking:
+            least_walking["route_type"] = "least_walking"
+            
+        # Default label for others
+        for r in ranked_routes:
+            if "route_type" not in r:
+                r["route_type"] = "alternative"
 
     for idx, r in enumerate(ranked_routes):
         r["rank"] = idx + 1

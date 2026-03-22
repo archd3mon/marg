@@ -3,8 +3,12 @@ from pathlib import Path
 import networkx as nx
 import os
 import math
+import logging
+import time
 from scipy.spatial import KDTree
 from app.transit.raptor import raptor_engine
+
+logger = logging.getLogger(__name__)
 
 ENABLE_RAPTOR = True
 DATA_DIR = Path(os.getenv("PUMP_DATA_DIR", "/home/jayant/gitgud/marg/marg/pump/data/processed"))
@@ -30,16 +34,48 @@ class RouteEngine:
         self.tree = None
         self.node_ids = None
         self.coords = None
+        self.routing_available = False
+        self.load_status = {
+            "graph": False,
+            "kdtree": False,
+        }
+        self.load_time_s = 0.0
 
     def load(self):
-        print("Loading Route Engine Graph and KD-Tree...")
-        with open(GRAPH_PATH, "rb") as f:
-            multi_G = pickle.load(f)
-        with open(KDTREE_PATH, "rb") as f:
-            index_data = pickle.load(f)
-            self.tree = index_data["tree"]
-            self.node_ids = index_data["node_ids"]
-            self.coords = index_data["coords"]
+        t0 = time.time()
+        logger.info("Loading Route Engine Graph and KD-Tree...")
+
+        # --- Load multimodal graph ---
+        try:
+            with open(GRAPH_PATH, "rb") as f:
+                multi_G = pickle.load(f)
+            logger.info(f"  Raw graph loaded: {len(multi_G.nodes)} nodes, {len(multi_G.edges)} edges")
+        except FileNotFoundError:
+            logger.error(f"[RouteEngine] Graph file not found: {GRAPH_PATH}")
+            self.routing_available = False
+            return
+        except Exception as e:
+            logger.error(f"[RouteEngine] Failed to load graph: {e}")
+            self.routing_available = False
+            return
+
+        # --- Load spatial index ---
+        try:
+            with open(KDTREE_PATH, "rb") as f:
+                index_data = pickle.load(f)
+                self.tree = index_data["tree"]
+                self.node_ids = index_data["node_ids"]
+                self.coords = index_data["coords"]
+            self.load_status["kdtree"] = True
+            logger.info(f"  KD-Tree loaded: {len(self.node_ids)} indexed nodes")
+        except FileNotFoundError:
+            logger.error(f"[RouteEngine] Spatial index not found: {KDTREE_PATH}")
+            self.routing_available = False
+            return
+        except Exception as e:
+            logger.error(f"[RouteEngine] Failed to load spatial index: {e}")
+            self.routing_available = False
+            return
 
         # Convert MultiDiGraph → simple DiGraph by keeping min-weight edge per pair
         # This is required because nx.astar_path doesn't support MultiDiGraph
@@ -56,13 +92,36 @@ class RouteEngine:
                 self.G.add_edge(u, v, **data)
                 self.G[u][v]["travel_time"] = tt
 
+        self.load_status["graph"] = True
+        del multi_G
+
         # Count edge types for debug logging
         modes = {}
         for u, v, d in self.G.edges(data=True):
             m = d.get("mode", "unknown")
             modes[m] = modes.get(m, 0) + 1
+
+        self.load_time_s = round(time.time() - t0, 2)
+        self.routing_available = True
+        logger.info(f"Loaded {len(self.G.nodes)} nodes, {len(self.G.edges)} edges (simplified DiGraph).")
+        logger.info(f"  Edge modes: {modes}")
+        logger.info(f"  Engine loaded in {self.load_time_s}s")
+        # Also print for uvicorn stdout
         print(f"Loaded {len(self.G.nodes)} nodes, {len(self.G.edges)} edges (simplified DiGraph).")
         print(f"  Edge modes: {modes}")
+        print(f"  Engine loaded in {self.load_time_s}s")
+
+        # --- Upgrade 3: Eagerly build RAPTOR so first request is fast ---
+        if ENABLE_RAPTOR:
+            try:
+                t_raptor = time.time()
+                raptor_engine.build()
+                raptor_time = round(time.time() - t_raptor, 2)
+                logger.info(f"  RAPTOR built in {raptor_time}s")
+                print(f"  RAPTOR built in {raptor_time}s")
+            except Exception as e:
+                logger.warning(f"[RouteEngine] RAPTOR build failed (non-fatal): {e}")
+                print(f"  RAPTOR build failed (non-fatal): {e}")
 
     def get_nearest_node(self, lat, lon):
         dist, idx = self.tree.query([lat, lon])
@@ -85,8 +144,8 @@ class RouteEngine:
 
         preference: "fastest" (default) or "least_walking"
         """
-        if self.G is None:
-            raise ValueError("Engine not loaded")
+        if not self.routing_available:
+            raise ValueError("Routing engine not available — data files missing or corrupt")
 
         source_id, s_dist = self.get_nearest_node(source_lat, source_lon)
         dest_id, d_dist = self.get_nearest_node(dest_lat, dest_lon)
@@ -181,124 +240,65 @@ class RouteEngine:
         if 'routes' not in locals():
             routes = []
 
-        if s_dist > 0.025 or d_dist > 0.025:
-            return routes
+        if s_dist > 0.045 or d_dist > 0.045:
+            raise ValueError("Location too far from transit network.")
 
-        import heapq
-        
+        import time
+        import networkx as nx
         try:
-            TRANSFER_PENALTY = 300 # 5 minutes penalty for transferring
+            edge_penalties = {}
+            start_time = time.time()
             
-            # Queue: (f, g, u, current_route_tuple)
-            queue = [(0, 0, source_id, None)]
-            min_g_score = {(source_id, None): 0}
-            came_from = {}
-            final_state = None
-
-            while queue:
-                f, g, u, current_route = heapq.heappop(queue)
-                
-                if u == dest_id:
-                    final_state = (u, current_route)
+            for _ in range(k):
+                if time.time() - start_time > 10.0:
+                    print("[ROUTER] A* timeout. Returning current routes.")
                     break
                     
-                if g > min_g_score.get((u, current_route), float('inf')):
-                    continue
+                node_list = self._run_astar(source_id, dest_id, mode_preferences, preference, edge_penalties)
+                if not node_list:
+                    break
                     
-                for v, edge_data in self.G[u].items():
-                    mode = edge_data.get("mode", "walk")
-                    next_route = None
-                    
-                    # Apply mode preferences to edge cost
-                    edge_cost_multiplier = 1.0
-                    if mode_preferences:
-                        if mode == "bus" and mode_preferences.get("prefer_metro"):
-                            edge_cost_multiplier = 1.5 # Penalize bus if metro preferred
-                        elif mode == "metro" and mode_preferences.get("prefer_bus"):
-                            edge_cost_multiplier = 1.5 # Penalize metro if bus preferred
-                        elif mode == "walk" and mode_preferences.get("avoid_walking"):
-                            edge_cost_multiplier = 2.0 # Penalize walking
-                    
-                    if mode in ("road", "walk"):
-                        walk_time = float(edge_data.get("length_m", 0.0)) / 1.38
-                        edge_cost = walk_time * 3.0 if preference == "least_walking" else walk_time
-                    else:
-                        edge_cost = float(edge_data.get("travel_time", 9999))
-                        if mode == "bus":
-                            next_route = tuple(sorted(edge_data.get("route_ids", [])))
-                        elif mode == "metro":
-                            next_route = (edge_data.get("line", ""),)
-                            
-                    edge_cost *= edge_cost_multiplier
-
-                    # Calculate real-world transfer penalty for transit
-                    penalty = 0
-                    if mode in ("bus", "metro"):
-                        if current_route is not None:
-                            # Transferring between different transit routes
-                            if not set(current_route).intersection(set(next_route)):
-                                penalty = TRANSFER_PENALTY
-                        else:
-                            # First boarding (from walking) - adding half penalty for wait time
-                            penalty = TRANSFER_PENALTY / 2
-                            
-                    new_g = g + edge_cost + penalty
-                    h = self._heuristic(v, dest_id)
-                    next_state = (v, next_route)
-                    
-                    if new_g < min_g_score.get(next_state, float('inf')):
-                        min_g_score[next_state] = new_g
-                        came_from[next_state] = (u, current_route)
-                        heapq.heappush(queue, (new_g + h, new_g, v, next_route))
-                        
-            if final_state is None:
-                return routes
+                a_star_route = self._format_path(node_list)
                 
-            node_list = []
-            curr_s = final_state
-            while curr_s in came_from:
-                node_list.append(curr_s[0])
-                curr_s = came_from[curr_s]
-            node_list.append(curr_s[0]) # Start node
-            node_list.reverse()
-            
-            a_star_route = self._format_path(node_list)
-            
-            # Extract geometry for A* route natively
-            import networkx as nx
-            for leg in a_star_route.get("legs", []):
-                try:
-                    lat1, lon1 = leg["from_node"].get("lat", 0.0), leg["from_node"].get("lon", 0.0)
-                    lat2, lon2 = leg["to_node"].get("lat", 0.0), leg["to_node"].get("lon", 0.0)
-                    n1, _ = self.get_nearest_node(lat1, lon1)
-                    n2, _ = self.get_nearest_node(lat2, lon2)
-                    w = "length_m" if leg["mode"] == "walk" else "travel_time"
-                    path_nodes = nx.shortest_path(self.G, n1, n2, weight=w)
-                    geom = []
-                    for i in range(len(path_nodes)-1):
-                        u, v = path_nodes[i], path_nodes[i+1]
-                        edge = self.G[u][v]
-                        if "geometry" in edge:
-                            for lon, lat in edge["geometry"].coords:
-                                geom.append([lat, lon])
-                        else:
-                            n_u, n_v = self.G.nodes[u], self.G.nodes[v]
-                            if 'lat' in n_u and 'lat' in n_v:
-                                geom.append([n_u['lat'], n_u['lon']])
-                                geom.append([n_v['lat'], n_v['lon']])
-                    if geom:
-                        clean_geom = [geom[0]]
-                        for pt in geom[1:]:
-                            if pt != clean_geom[-1]: clean_geom.append(pt)
-                        leg["path"] = clean_geom
-                except Exception:
-                    pass
-            
-            # Avoid appending exact duplicate
-            if not routes or abs(routes[0]["total_time_s"] - a_star_route["total_time_s"]) > 60 or routes[0]["transfers"] != a_star_route["transfers"]:
-                routes.append(a_star_route)
-            print(f"[ROUTER] Added A* alternative. Total routes: {len(routes)}")
-            
+                # Extract geometry natively
+                for leg in a_star_route.get("legs", []):
+                    try:
+                        lat1, lon1 = leg["from_node"].get("lat", 0.0), leg["from_node"].get("lon", 0.0)
+                        lat2, lon2 = leg["to_node"].get("lat", 0.0), leg["to_node"].get("lon", 0.0)
+                        n1, _ = self.get_nearest_node(lat1, lon1)
+                        n2, _ = self.get_nearest_node(lat2, lon2)
+                        w = "length_m" if leg["mode"] == "walk" else "travel_time"
+                        path_nodes = nx.shortest_path(self.G, n1, n2, weight=w)
+                        geom = []
+                        for i in range(len(path_nodes)-1):
+                            u, v = path_nodes[i], path_nodes[i+1]
+                            edge = self.G[u][v]
+                            if "geometry" in edge:
+                                for lon, lat in edge["geometry"].coords:
+                                    geom.append([lat, lon])
+                            else:
+                                n_u, n_v = self.G.nodes[u], self.G.nodes[v]
+                                if 'lat' in n_u and 'lat' in n_v:
+                                    geom.append([n_u['lat'], n_u['lon']])
+                                    geom.append([n_v['lat'], n_v['lon']])
+                        if geom:
+                            clean_geom = [geom[0]]
+                            for pt in geom[1:]:
+                                if pt != clean_geom[-1]: clean_geom.append(pt)
+                            leg["path"] = clean_geom
+                    except Exception:
+                        pass
+                
+                # Check diversity
+                if not routes or not self._are_too_similar(routes, a_star_route):
+                    routes.append(a_star_route)
+                    print(f"[ROUTER] Added A* alternative. Total routes: {len(routes)}")
+                    
+                # Penalize edges of this path to force Yens algorithm diversity
+                for i in range(len(node_list) - 1):
+                    u, v = node_list[i], node_list[i+1]
+                    edge_penalties[(u, v)] = edge_penalties.get((u, v), 1.0) * 10.0
+
             return routes
             
         except Exception as e:
@@ -306,6 +306,103 @@ class RouteEngine:
             import traceback
             traceback.print_exc()
             return routes if 'routes' in locals() else []
+
+    def _run_astar(self, source_id, dest_id, mode_preferences, preference, edge_penalties):
+        import heapq
+        import time
+        TRANSFER_PENALTY = 300
+        queue = [(0, 0, source_id, None)]
+        min_g_score = {(source_id, None): 0}
+        came_from = {}
+        final_state = None
+        start_time = time.time()
+
+        while queue:
+            if time.time() - start_time > 5.0:
+                break
+                
+            f, g, u, current_route = heapq.heappop(queue)
+            
+            if u == dest_id:
+                final_state = (u, current_route)
+                break
+                
+            if g > min_g_score.get((u, current_route), float('inf')):
+                continue
+                
+            for v, edge_data in self.G[u].items():
+                mode = edge_data.get("mode", "walk")
+                next_route = None
+                
+                edge_cost_multiplier = 1.0
+                if mode_preferences:
+                    if mode == "bus" and mode_preferences.get("prefer_metro"):
+                        edge_cost_multiplier *= 1.5
+                    elif mode == "metro" and mode_preferences.get("prefer_bus"):
+                        edge_cost_multiplier *= 1.5
+                    elif mode == "walk" and mode_preferences.get("avoid_walking"):
+                        edge_cost_multiplier *= 2.0
+                
+                if mode in ("road", "walk"):
+                    walk_time = float(edge_data.get("length_m", 0.0)) / 1.38
+                    edge_cost = walk_time * 3.0 if preference == "least_walking" else walk_time
+                else:
+                    edge_cost = float(edge_data.get("travel_time", 9999))
+                    if mode == "bus":
+                        next_route = tuple(sorted(edge_data.get("route_ids", [])))
+                    elif mode == "metro":
+                        next_route = (edge_data.get("line", ""),)
+                        
+                edge_cost *= edge_cost_multiplier
+                edge_cost *= edge_penalties.get((u, v), 1.0)
+
+                penalty = 0
+                if mode in ("bus", "metro"):
+                    if current_route is not None:
+                        if not set(current_route).intersection(set(next_route)):
+                            penalty = TRANSFER_PENALTY
+                    else:
+                        penalty = TRANSFER_PENALTY / 2
+                        
+                new_g = g + edge_cost + penalty
+                h = self._heuristic(v, dest_id)
+                next_state = (v, next_route)
+                
+                if new_g < min_g_score.get(next_state, float('inf')):
+                    min_g_score[next_state] = new_g
+                    came_from[next_state] = (u, current_route)
+                    heapq.heappush(queue, (new_g + h, new_g, v, next_route))
+                    
+        if final_state is None:
+            return None
+            
+        node_list = []
+        curr_s = final_state
+        while curr_s in came_from:
+            node_list.append(curr_s[0])
+            curr_s = came_from[curr_s]
+        node_list.append(curr_s[0])
+        node_list.reverse()
+        return node_list
+
+    def _are_too_similar(self, existing_routes, new_route, threshold=0.8):
+        new_nodes = set()
+        for leg in new_route.get("legs", []):
+            new_nodes.add(leg.get("from_node", {}).get("name"))
+            new_nodes.add(leg.get("to_node", {}).get("name"))
+            
+        for ext in existing_routes:
+            ext_nodes = set()
+            for leg in ext.get("legs", []):
+                ext_nodes.add(leg.get("from_node", {}).get("name"))
+                ext_nodes.add(leg.get("to_node", {}).get("name"))
+                
+            intersection = new_nodes.intersection(ext_nodes)
+            overlap = len(intersection) / max(len(new_nodes), 1)
+            
+            if overlap > threshold and ext.get("transfers") == new_route.get("transfers"):
+                return True
+        return False
 
     def _format_path(self, node_list):
         """Convert raw node list into structured route data with smart leg merging."""

@@ -9,6 +9,7 @@ import ItineraryPanel from './ItineraryPanel';
  */
 export default function BottomSheet({
     routes,
+    warnings,
     selectedRouteIdx,
     onSelectRoute,
     expandedRoute,
@@ -57,6 +58,7 @@ export default function BottomSheet({
                 ) : (
                     <RouteList
                         routes={routes}
+                        warnings={warnings}
                         selectedRouteIdx={selectedRouteIdx}
                         onSelectRoute={onSelectRoute}
                         onExpandRoute={onExpandRoute}

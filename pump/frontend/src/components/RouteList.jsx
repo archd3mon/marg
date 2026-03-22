@@ -1,10 +1,12 @@
 import RouteCard from './RouteCard';
+import { motion, AnimatePresence } from 'framer-motion';
 
 /**
  * RouteList — Container for route option cards.
  */
 export default function RouteList({
     routes,
+    warnings,
     selectedRouteIdx,
     onSelectRoute,
     onExpandRoute,
@@ -33,20 +35,34 @@ export default function RouteList({
 
     return (
         <div className="route-list">
+            {warnings && warnings.length > 0 && (
+                <div className="route-list__warnings" style={{ backgroundColor: '#fff3cd', color: '#856404', padding: '12px', borderRadius: '8px', marginBottom: '16px', fontSize: '0.9rem', border: '1px solid #ffeeba' }}>
+                    {warnings.map((w, i) => <div key={i}>⚠️ {w}</div>)}
+                </div>
+            )}
             <div className="route-list__header">
                 <span className="route-list__count">{routes.length} route{routes.length !== 1 ? 's' : ''} found</span>
             </div>
-            {routes.map((route, idx) => (
-                <RouteCard
-                    key={idx}
-                    route={route}
-                    index={idx}
-                    isSelected={selectedRouteIdx === idx}
-                    onSelect={onSelectRoute}
-                    onExpand={onExpandRoute}
-                    departureTime={departureTime}
-                />
-            ))}
+            <AnimatePresence>
+                {routes.map((route, idx) => (
+                    <motion.div
+                        key={idx}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.3, delay: idx * 0.1 }}
+                    >
+                        <RouteCard
+                            route={route}
+                            index={idx}
+                            isSelected={selectedRouteIdx === idx}
+                            onSelect={onSelectRoute}
+                            onExpand={onExpandRoute}
+                            departureTime={departureTime}
+                        />
+                    </motion.div>
+                ))}
+            </AnimatePresence>
         </div>
     );
 }

@@ -1,4 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { searchRoutes } from './api';
 import SearchPanel from './components/SearchPanel';
 import RouteList from './components/RouteList';
@@ -34,10 +36,12 @@ export default function App() {
   const [destName, setDestName] = useState('');
   const [selectingSource, setSelectingSource] = useState(true);
   const [routes, setRoutes] = useState([]);
+  const [warnings, setWarnings] = useState([]);
   const [selectedRouteIdx, setSelectedRouteIdx] = useState(0);
   const [expandedRoute, setExpandedRoute] = useState(null);
   const [loading, setLoading] = useState(false);
   const [departureTime] = useState(new Date());
+  const [hoveredLegIndex, setHoveredLegIndex] = useState(null);
   const [modePreferences, setModePreferences] = useState({
     prefer_metro: false,
     prefer_bus: false,
@@ -50,10 +54,28 @@ export default function App() {
       setSource(latlng);
       setSourceName('');
       setSelectingSource(false);
+      toast.info("📍 Origin set. Tap map for destination.", {
+        position: "top-center",
+        autoClose: 2500,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        theme: "colored"
+      });
     } else {
       setDest(latlng);
       setDestName('');
       setSelectingSource(true);
+      toast.success("🏁 Destination set.", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        theme: "colored"
+      });
     }
   }, [selectingSource]);
 
@@ -83,6 +105,7 @@ export default function App() {
 
       const data = await searchRoutes(source, dest, departureTime, prefs);
       setRoutes(data.routes || []);
+      setWarnings(data.warnings || []);
       setSelectedRouteIdx(0);
     } catch (err) {
       console.error('Route search error:', err);
@@ -124,6 +147,7 @@ export default function App() {
   if (!isMobile) {
     return (
       <div className="app app--desktop">
+        <ToastContainer />
         <aside className="sidebar">
           <SearchPanel
             source={source}
@@ -147,10 +171,13 @@ export default function App() {
               <ItineraryPanel
                 route={routes[expandedRoute]}
                 onClose={handleCloseItinerary}
+                hoveredLegIndex={hoveredLegIndex}
+                onHoverLeg={setHoveredLegIndex}
               />
             ) : (
               <RouteList
                 routes={routes}
+                warnings={warnings}
                 selectedRouteIdx={selectedRouteIdx}
                 onSelectRoute={handleSelectRoute}
                 onExpandRoute={handleExpandRoute}
@@ -168,6 +195,7 @@ export default function App() {
             selectedRoute={selectedRoute}
             onMapClick={handleMapClick}
             isMobile={false}
+            hoveredLegIndex={hoveredLegIndex}
           />
         </main>
       </div>
@@ -177,6 +205,7 @@ export default function App() {
   // --- Mobile Layout ---
   return (
     <div className="app app--mobile">
+      <ToastContainer />
       <div className="mobile-search">
         <SearchPanel
           source={source}
@@ -202,10 +231,12 @@ export default function App() {
         selectedRoute={selectedRoute}
         onMapClick={handleMapClick}
         isMobile={true}
+        hoveredLegIndex={hoveredLegIndex}
       />
 
       <BottomSheet
         routes={routes}
+        warnings={warnings}
         selectedRouteIdx={selectedRouteIdx}
         onSelectRoute={handleSelectRoute}
         expandedRoute={expandedRoute}
@@ -213,6 +244,8 @@ export default function App() {
         onCloseItinerary={handleCloseItinerary}
         loading={loading}
         departureTime={departureTime}
+        hoveredLegIndex={hoveredLegIndex}
+        onHoverLeg={setHoveredLegIndex}
       />
     </div>
   );

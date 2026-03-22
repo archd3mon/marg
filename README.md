@@ -14,7 +14,52 @@ Marg is a production-grade multimodal route planning application for Pune. It in
 - **ML Route Scoring** — Random Forest model predicts leg travel times; final score combines time, transfers, mode penalties, and walking distance
 - **Step-by-Step Directions** — Timeline UI with bus route numbers, metro line names, boarding/alighting instructions
 - **Transfer Detection** — Accurate counting of mode changes (bus→metro, etc.) ignoring walk segments
-- **Mobile-First UI** — Bottom sheet on mobile, sidebar on desktop, responsive layout with smooth animations
+- **Recent Locations** — Quick access to last 5 searched origins/destinations via `localStorage`
+- **Interactive Map Feedback** — Real-time highlights when hovering itinerary legs; toast notifications for map pin drops
+- **Mobile-First UI** — Bottom sheet on mobile, sidebar on desktop, responsive layout with glassmorphism and Framer Motion animations
+
+---
+
+## Recent Upgrades & Changelog
+
+### [Upgrade 1] — Safe Initialization
+**Date:** 2026-03-22
+- **Backend:** Added `routing_available` flag and `load_status` diagnostics. Structured try/except blocks prevent server crashes if data files are missing or corrupt.
+- **Verification:** Health endpoint now provides granular status for Graph, ML, and Search engines.
+
+### [Upgrade 3] — Eager Loading on Startup
+**Date:** 2026-03-22
+- **Performance:** RAPTOR GTFS structures are now pre-built during server startup. First-request latency dropped from 100s to <1s.
+
+### [Upgrade 4] — KD-Tree Fallback
+**Date:** 2026-03-22
+- **UX:** Improved handling for points far from transit. Now returns descriptive warnings instead of empty results for locations within a 2.5km–5km radius of Pune.
+
+### [Upgrade 5] & [Upgrade 6] — Yen's Algorithm & Diversity Filter
+**Date:** 2026-03-22
+- **Algorithms:** Implementation of Yen's K-Shortest Paths for robust alternatives. A diversity filter ensures paths are structurally distinct (<80% overlap).
+
+### [Upgrade 7] — Multi-Objective Routing
+**Date:** 2026-03-22
+- **UI:** Added route-type badges (⚡ Fastest, 🔁 Fewer Transfers, 🚶 Less Walking) to help users choose based on their current priority.
+
+### [Upgrade 8] — Advanced Transfer Logic
+**Date:** 2026-03-22
+- **Accuracy:** Replaced generic transfer penalties with a hub-aware lookup table (e.g., Civil Court metro transfers are faster than street-level bus swaps).
+
+### [Upgrade 9] — Spatial-Aware Geocoding
+**Date:** 2026-03-22
+- **Search:** Results are now re-ranked using a haversine proximity penalty to Pune city center, ensuring "local" results always appear first.
+
+### [Upgrade 10] — Recent Locations
+**Date:** 2026-03-22
+- **UX:** Added a persistent `localStorage` hook to suggest previous search points when the search input is focused and empty.
+
+### [Upgrade 11] — [Upgrade 13] — Visual & Interactive Overhaul
+**Date:** 2026-03-22
+- **Aesthetics:** Switched to **Outfit** typography and implemented **Glassmorphism** depth.
+- **Interactivity:** Added **Framer Motion** transitions and synchronized sidebar-to-map leg highlighting.
+- **Feedback:** Integrated **react-toastify** for responsive map-state notifications.
 
 ---
 

@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { geocodeSearch } from '../api';
 import ModeIcon from './ModeIcon';
+import useRecentLocations from '../hooks/useRecentLocations';
 
 /**
  * SearchPanel — Origin/destination inputs with autocomplete + mode toggles.
@@ -33,6 +34,7 @@ export default function SearchPanel({
     const sourceRef = useRef(null);
     const destRef = useRef(null);
     const debounceRef = useRef(null);
+    const { recentLocations, addLocation } = useRecentLocations();
 
     // Sync display text with selected place names
     useEffect(() => {
@@ -95,6 +97,9 @@ export default function SearchPanel({
     const selectSuggestion = (suggestion, field) => {
         const point = { lat: suggestion.lat, lng: suggestion.lon };
         const name = suggestion.name;
+        
+        addLocation({ name, lat: suggestion.lat, lon: suggestion.lon, display_name: suggestion.display_name });
+
         if (field === 'source') {
             setSourceQuery(name);
             setShowSourceDropdown(false);
@@ -173,30 +178,51 @@ export default function SearchPanel({
                             placeholder="Search origin (e.g. FC Road)"
                             value={sourceQuery}
                             onChange={handleSourceChange}
-                            onFocus={() => { setSelectingSource(true); setActiveField('source'); }}
+                            onFocus={() => { setSelectingSource(true); setActiveField('source'); setShowSourceDropdown(true); }}
                             onKeyDown={(e) => handleKeyDown(e, 'source')}
                             autoComplete="off"
                             id="source-input"
                         />
-                        {showSourceDropdown && sourceSuggestions.length > 0 && (
+                        {showSourceDropdown && (sourceSuggestions.length > 0 || (sourceQuery.length < 2 && recentLocations.length > 0)) && (
                             <div className="autocomplete-dropdown" id="source-dropdown">
-                                {sourceSuggestions.map((s, i) => (
-                                    <div
-                                        key={i}
-                                        className={`autocomplete-item ${i === activeIndex && activeField === 'source' ? 'autocomplete-item--active' : ''}`}
-                                        onClick={() => selectSuggestion(s, 'source')}
-                                        onMouseEnter={() => setActiveIndex(i)}
-                                    >
-                                        <svg className="autocomplete-item__icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
-                                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#94a3b8"/>
-                                            <circle cx="12" cy="9" r="2.5" fill="white"/>
-                                        </svg>
-                                        <div className="autocomplete-item__text">
-                                            <span className="autocomplete-item__name">{s.name}</span>
-                                            <span className="autocomplete-item__detail">{s.display_name}</span>
+                                {sourceQuery.length < 2 && recentLocations.length > 0 ? (
+                                    <>
+                                        <div className="autocomplete-dropdown__header" style={{padding: '8px 16px', fontSize: '0.75rem', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600}}>Recent</div>
+                                        {recentLocations.map((s, i) => (
+                                            <div
+                                                key={`recent-src-${i}`}
+                                                className="autocomplete-item"
+                                                onClick={() => selectSuggestion(s, 'source')}
+                                            >
+                                                <svg className="autocomplete-item__icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                                    <circle cx="12" cy="12" r="10" stroke="#94a3b8" strokeWidth="2" strokeDasharray="4 4"/>
+                                                </svg>
+                                                <div className="autocomplete-item__text">
+                                                    <span className="autocomplete-item__name">{s.name}</span>
+                                                    <span className="autocomplete-item__detail">{s.display_name || 'Recent Location'}</span>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </>
+                                ) : (
+                                    sourceSuggestions.map((s, i) => (
+                                        <div
+                                            key={i}
+                                            className={`autocomplete-item ${i === activeIndex && activeField === 'source' ? 'autocomplete-item--active' : ''}`}
+                                            onClick={() => selectSuggestion(s, 'source')}
+                                            onMouseEnter={() => setActiveIndex(i)}
+                                        >
+                                            <svg className="autocomplete-item__icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#94a3b8"/>
+                                                <circle cx="12" cy="9" r="2.5" fill="white"/>
+                                            </svg>
+                                            <div className="autocomplete-item__text">
+                                                <span className="autocomplete-item__name">{s.name}</span>
+                                                <span className="autocomplete-item__detail">{s.display_name}</span>
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    ))
+                                )}
                             </div>
                         )}
                     </div>
@@ -217,30 +243,51 @@ export default function SearchPanel({
                             placeholder="Search destination (e.g. Pune Airport)"
                             value={destQuery}
                             onChange={handleDestChange}
-                            onFocus={() => { setSelectingSource(false); setActiveField('dest'); }}
+                            onFocus={() => { setSelectingSource(false); setActiveField('dest'); setShowDestDropdown(true); }}
                             onKeyDown={(e) => handleKeyDown(e, 'dest')}
                             autoComplete="off"
                             id="dest-input"
                         />
-                        {showDestDropdown && destSuggestions.length > 0 && (
+                        {showDestDropdown && (destSuggestions.length > 0 || (destQuery.length < 2 && recentLocations.length > 0)) && (
                             <div className="autocomplete-dropdown" id="dest-dropdown">
-                                {destSuggestions.map((s, i) => (
-                                    <div
-                                        key={i}
-                                        className={`autocomplete-item ${i === activeIndex && activeField === 'dest' ? 'autocomplete-item--active' : ''}`}
-                                        onClick={() => selectSuggestion(s, 'dest')}
-                                        onMouseEnter={() => setActiveIndex(i)}
-                                    >
-                                        <svg className="autocomplete-item__icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
-                                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#94a3b8"/>
-                                            <circle cx="12" cy="9" r="2.5" fill="white"/>
-                                        </svg>
-                                        <div className="autocomplete-item__text">
-                                            <span className="autocomplete-item__name">{s.name}</span>
-                                            <span className="autocomplete-item__detail">{s.display_name}</span>
+                                {destQuery.length < 2 && recentLocations.length > 0 ? (
+                                    <>
+                                        <div className="autocomplete-dropdown__header" style={{padding: '8px 16px', fontSize: '0.75rem', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600}}>Recent</div>
+                                        {recentLocations.map((s, i) => (
+                                            <div
+                                                key={`recent-dst-${i}`}
+                                                className="autocomplete-item"
+                                                onClick={() => selectSuggestion(s, 'dest')}
+                                            >
+                                                <svg className="autocomplete-item__icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                                    <circle cx="12" cy="12" r="10" stroke="#94a3b8" strokeWidth="2" strokeDasharray="4 4"/>
+                                                </svg>
+                                                <div className="autocomplete-item__text">
+                                                    <span className="autocomplete-item__name">{s.name}</span>
+                                                    <span className="autocomplete-item__detail">{s.display_name || 'Recent Location'}</span>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </>
+                                ) : (
+                                    destSuggestions.map((s, i) => (
+                                        <div
+                                            key={i}
+                                            className={`autocomplete-item ${i === activeIndex && activeField === 'dest' ? 'autocomplete-item--active' : ''}`}
+                                            onClick={() => selectSuggestion(s, 'dest')}
+                                            onMouseEnter={() => setActiveIndex(i)}
+                                        >
+                                            <svg className="autocomplete-item__icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#94a3b8"/>
+                                                <circle cx="12" cy="9" r="2.5" fill="white"/>
+                                            </svg>
+                                            <div className="autocomplete-item__text">
+                                                <span className="autocomplete-item__name">{s.name}</span>
+                                                <span className="autocomplete-item__detail">{s.display_name}</span>
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    ))
+                                )}
                             </div>
                         )}
                     </div>
