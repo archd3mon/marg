@@ -313,7 +313,21 @@ class RaptorEngine:
                 
         events.reverse()
         
-        transfers = max(0, len([e for e in events if e["mode"] in ("bus", "metro")]) - 1)
+        # Count transfers properly: only distinct vehicle boardings minus 1.
+        # Consecutive bus/metro events with the same route_id are one boarding.
+        # Walk legs break the transit chain and force a new boarding.
+        boardings = 0
+        last_route_id = None
+        for e in events:
+            if e["mode"] in ("bus", "metro"):
+                curr_route = e.get("route_id")
+                if last_route_id is None or curr_route != last_route_id:
+                    boardings += 1
+                last_route_id = curr_route
+            else:
+                # Walk breaks the chain
+                last_route_id = None
+        transfers = max(0, boardings - 1)
         
         # Backward compatibility for legacy UI and test_route.py
         legs = []

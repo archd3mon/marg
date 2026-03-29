@@ -371,6 +371,76 @@ async def geocode_search(q: str = Query(..., min_length=2, description="Search q
         raise HTTPException(status_code=500, detail=f"Geocoding error: {str(e)}")
 
 
+
+# --- OSRM Walk Path Enhancement ---
+def _decode_polyline(encoded: str) -> list:
+    """Decode Google-style encoded polyline into [[lat, lon], ...]."""
+    result = []
+    index = 0
+    lat = 0
+    lng = 0
+    while index < len(encoded):
+        # Latitude
+        shift = 0
+        b = 0x20
+        val = 0
+        while b >= 0x20:
+            b = ord(encoded[index]) - 63
+            index += 1
+            val |= (b & 0x1F) << shift
+            shift += 5
+        lat += (~(val >> 1) if val & 1 else val >> 1)
+        # Longitude
+        shift = 0
+        b = 0x20
+        val = 0
+        while b >= 0x20:
+            b = ord(encoded[index]) - 63
+            index += 1
+            val |= (b & 0x1F) << shift
+            shift += 5
+        lng += (~(val >> 1) if val & 1 else val >> 1)
+        result.append([lat / 1e5, lng / 1e5])
+    return result
+
+
+def _enhance_walk_paths(ranked_routes: list):
+    """
+    Post-process ranked routes: for walk legs that only have a 2-point
+    straight-line path, fetch road-following geometry from OSRM foot router.
+    Silently skips on any error (timeout, network) — straight line remains.
+    """
+    import httpx
+
+    for route in ranked_routes:
+        for leg in route.get("legs", []):
+            if leg.get("mode") != "walk":
+                continue
+            path = leg.get("path")
+            # Only enhance legs with straight-line fallback (exactly 2 points)
+            if path and len(path) == 2:
+                from_pt = path[0]  # [lat, lon]
+                to_pt = path[1]    # [lat, lon]
+                try:
+                    url = (
+                        f"https://router.project-osrm.org/route/v1/foot/"
+                        f"{from_pt[1]},{from_pt[0]};{to_pt[1]},{to_pt[0]}"
+                        f"?overview=full&geometries=polyline"
+                    )
+                    resp = httpx.get(url, timeout=1.5)
+                    if resp.status_code == 200:
+                        data = resp.json()
+                        routes_data = data.get("routes", [])
+                        if routes_data:
+                            geom = routes_data[0].get("geometry", "")
+                            if geom:
+                                decoded = _decode_polyline(geom)
+                                if len(decoded) > 2:
+                                    leg["path"] = decoded
+                except Exception:
+                    pass  # Keep straight-line path on any error
+
+
 @app.post("/api/v1/routes/search")
 def search_routes(request: RouteRequest):
     # Check routing_available first (Upgrade 1)
@@ -453,6 +523,9 @@ def search_routes(request: RouteRequest):
             mode_preferences=request.mode_preferences,
             predictor=predictor,
         )
+
+        # Enhance walk legs with OSRM road-following paths
+        _enhance_walk_paths(ranked)
 
         return {"routes": ranked, "warnings": warnings}
 

@@ -77,7 +77,7 @@ export default function SearchPanel({
             } catch (err) {
                 console.error('Geocode error:', err);
             }
-        }, 300);
+        }, 250);
     }, []);
 
     const handleSourceChange = (e) => {
