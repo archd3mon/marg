@@ -123,9 +123,27 @@ class RouteEngine:
                 logger.warning(f"[RouteEngine] RAPTOR build failed (non-fatal): {e}")
                 print(f"  RAPTOR build failed (non-fatal): {e}")
 
-    def get_nearest_node(self, lat, lon):
-        dist, idx = self.tree.query([lat, lon])
-        return self.node_ids[idx], dist
+    def find_nearest_nodes(self, lat, lon, max_radius_km=5.0):
+        radii_km = [0.5, 1.5, 3.0, max_radius_km]
+        for r_km in radii_km:
+            r_deg = r_km / 111.0
+            indices = self.tree.query_ball_point([lat, lon], r=r_deg)
+            if indices:
+                results = []
+                for idx in indices:
+                    n_id = self.node_ids[idx]
+                    n_lat, n_lon = self.coords[idx]
+                    dist_km = haversine(lat, lon, n_lat, n_lon) / 1000.0
+                    results.append((n_id, dist_km))
+                results.sort(key=lambda x: x[1])
+                return results, False
+                
+        # If no node within max_radius: return single globally-nearest node with warning
+        dist_deg, idx = self.tree.query([lat, lon])
+        n_id = self.node_ids[idx]
+        n_lat, n_lon = self.coords[idx]
+        dist_km = haversine(lat, lon, n_lat, n_lon) / 1000.0
+        return [(n_id, dist_km)], True
 
     def _heuristic(self, u, v):
         """Admissible heuristic for A* based on max network speed (80 km/h = 22.2 m/s)."""
@@ -147,8 +165,11 @@ class RouteEngine:
         if not self.routing_available:
             raise ValueError("Routing engine not available — data files missing or corrupt")
 
-        source_id, s_dist = self.get_nearest_node(source_lat, source_lon)
-        dest_id, d_dist = self.get_nearest_node(dest_lat, dest_lon)
+        s_nodes, s_warn = self.find_nearest_nodes(source_lat, source_lon)
+        d_nodes, d_warn = self.find_nearest_nodes(dest_lat, dest_lon)
+        
+        source_id, s_dist_km = s_nodes[0]
+        dest_id, d_dist_km = d_nodes[0]
         
         # --- PHASE 4 & 7: RAPTOR INTEGRATION WITH A* FALLBACK ---
         if ENABLE_RAPTOR and self.tree is not None:
@@ -192,12 +213,14 @@ class RouteEngine:
                                         if leg["from_node"]["name"] == "Origin":
                                             n1 = source_id
                                         else:
-                                            n1, _ = self.get_nearest_node(lat1, lon1)
+                                            n1_nodes, _ = self.find_nearest_nodes(lat1, lon1)
+                                            n1 = n1_nodes[0][0]
                                             
                                         if leg["to_node"]["name"] == "Destination":
                                             n2 = dest_id
                                         else:
-                                            n2, _ = self.get_nearest_node(lat2, lon2)
+                                            n2_nodes, _ = self.find_nearest_nodes(lat2, lon2)
+                                            n2 = n2_nodes[0][0]
                                             
                                         w = "length_m" if leg["mode"] == "walk" else "travel_time"
                                         path_nodes = nx.shortest_path(self.G, n1, n2, weight=w)
@@ -227,11 +250,10 @@ class RouteEngine:
                         except Exception as e:
                             print(f"[GEOM] Failed to inject map geometries: {e}")
                             
-                        # If a specific mode preference is requested, fall through to A* to generate an alternative!
-                        if mode_preferences and (mode_preferences.get("prefer_metro") or mode_preferences.get("prefer_bus")):
-                            pass # Let A* run to get a second multimodal route
-                        else:
-                            return routes
+                        # ALWAYS fall through to A* to find metro-based alternatives.
+                        # RAPTOR only handles GTFS (bus) data — metro routes can only
+                        # be found by A* since Pune Metro is not in GTFS.
+                        pass  # Let A* run below
                         
             except Exception as e:
                 print(f"[ROUTER] RAPTOR failed: {e}")
@@ -239,9 +261,6 @@ class RouteEngine:
         # Initialize routes array if RAPTOR wasn't enabled or failed
         if 'routes' not in locals():
             routes = []
-
-        if s_dist > 0.045 or d_dist > 0.045:
-            raise ValueError("Location too far from transit network.")
 
         import time
         import networkx as nx
@@ -265,8 +284,10 @@ class RouteEngine:
                     try:
                         lat1, lon1 = leg["from_node"].get("lat", 0.0), leg["from_node"].get("lon", 0.0)
                         lat2, lon2 = leg["to_node"].get("lat", 0.0), leg["to_node"].get("lon", 0.0)
-                        n1, _ = self.get_nearest_node(lat1, lon1)
-                        n2, _ = self.get_nearest_node(lat2, lon2)
+                        n1_nodes, _ = self.find_nearest_nodes(lat1, lon1)
+                        n1 = n1_nodes[0][0]
+                        n2_nodes, _ = self.find_nearest_nodes(lat2, lon2)
+                        n2 = n2_nodes[0][0]
                         w = "length_m" if leg["mode"] == "walk" else "travel_time"
                         path_nodes = nx.shortest_path(self.G, n1, n2, weight=w)
                         geom = []
@@ -298,6 +319,123 @@ class RouteEngine:
                 for i in range(len(node_list) - 1):
                     u, v = node_list[i], node_list[i+1]
                     edge_penalties[(u, v)] = edge_penalties.get((u, v), 1.0) * 10.0
+
+            # Apply Step 3 walk leg prepending/appending
+            for route in routes:
+                if s_dist_km > 1.5:
+                    w_time = (s_dist_km / 5.0) * 3600
+                    w_leg = {
+                        "from_node": {"name": "Origin", "lat": source_lat, "lon": source_lon},
+                        "to_node": dict(self.G.nodes[source_id]) if 'lat' in self.G.nodes[source_id] else {"name": "Transit Stop"},
+                        "mode": "walk",
+                        "length_m": s_dist_km * 1000,
+                        "travel_time": w_time,
+                        "path": [[source_lat, source_lon], [self.G.nodes[source_id].get('lat', source_lat), self.G.nodes[source_id].get('lon', source_lon)]]
+                    }
+                    w_seg = {
+                        "mode": "walk",
+                        "route_id": None,
+                        "from": "Origin",
+                        "to": self.G.nodes[source_id].get("name", "Transit Stop"),
+                        "duration": w_time
+                    }
+                    if "legs" in route and "segments" in route:
+                        route["legs"].insert(0, w_leg)
+                        route["segments"].insert(0, w_seg)
+                        route["total_distance_m"] += s_dist_km * 1000
+                        route["total_time_s"] += w_time
+                        route["total_time"] += w_time
+                        
+                if d_dist_km > 1.5:
+                    w_time = (d_dist_km / 5.0) * 3600
+                    w_leg = {
+                        "from_node": dict(self.G.nodes[dest_id]) if 'lat' in self.G.nodes[dest_id] else {"name": "Transit Stop"},
+                        "to_node": {"name": "Destination", "lat": dest_lat, "lon": dest_lon},
+                        "mode": "walk",
+                        "length_m": d_dist_km * 1000,
+                        "travel_time": w_time,
+                        "path": [[self.G.nodes[dest_id].get('lat', dest_lat), self.G.nodes[dest_id].get('lon', dest_lon)], [dest_lat, dest_lon]]
+                    }
+                    w_seg = {
+                        "mode": "walk",
+                        "route_id": None,
+                        "from": self.G.nodes[dest_id].get("name", "Transit Stop"),
+                        "to": "Destination",
+                        "duration": w_time
+                    }
+                    if "legs" in route and "segments" in route:
+                        route["legs"].append(w_leg)
+                        route["segments"].append(w_seg)
+                        route["total_distance_m"] += d_dist_km * 1000
+                        route["total_time_s"] += w_time
+                        route["total_time"] += w_time
+
+            # --- METRO-SEEKING A* PASS ---
+            # Run an additional A* pass that explicitly prefers metro to ensure 
+            # metro routes are discovered even when RAPTOR (bus-only) dominates.
+            has_metro_route = any(
+                any(leg.get("mode") == "metro" for leg in r.get("legs", []))
+                for r in routes
+            )
+            if not has_metro_route:
+                try:
+                    metro_pref = {"prefer_metro": True}
+                    metro_node_list = self._run_astar(source_id, dest_id, metro_pref, preference, {})
+                    if metro_node_list:
+                        metro_route = self._format_path(metro_node_list)
+                        # Check if it actually uses metro
+                        uses_metro = any(
+                            leg.get("mode") == "metro" for leg in metro_route.get("legs", [])
+                        )
+                        if uses_metro and not self._are_too_similar(routes, metro_route):
+                            # Inject geometry
+                            for leg in metro_route.get("legs", []):
+                                try:
+                                    lat1, lon1 = leg["from_node"].get("lat", 0.0), leg["from_node"].get("lon", 0.0)
+                                    lat2, lon2 = leg["to_node"].get("lat", 0.0), leg["to_node"].get("lon", 0.0)
+                                    n1_nodes, _ = self.find_nearest_nodes(lat1, lon1)
+                                    n1 = n1_nodes[0][0]
+                                    n2_nodes, _ = self.find_nearest_nodes(lat2, lon2)
+                                    n2 = n2_nodes[0][0]
+                                    w = "length_m" if leg["mode"] == "walk" else "travel_time"
+                                    path_nodes = nx.shortest_path(self.G, n1, n2, weight=w)
+                                    geom = []
+                                    for i in range(len(path_nodes)-1):
+                                        u, v = path_nodes[i], path_nodes[i+1]
+                                        edge = self.G[u][v]
+                                        if "geometry" in edge:
+                                            for lon, lat in edge["geometry"].coords:
+                                                geom.append([lat, lon])
+                                        else:
+                                            n_u, n_v = self.G.nodes[u], self.G.nodes[v]
+                                            if 'lat' in n_u and 'lat' in n_v:
+                                                geom.append([n_u['lat'], n_u['lon']])
+                                                geom.append([n_v['lat'], n_v['lon']])
+                                    if geom:
+                                        clean_geom = [geom[0]]
+                                        for pt in geom[1:]:
+                                            if pt != clean_geom[-1]: clean_geom.append(pt)
+                                        leg["path"] = clean_geom
+                                except Exception:
+                                    pass
+                            routes.append(metro_route)
+                            print(f"[ROUTER] Added metro-seeking route. Total routes: {len(routes)}")
+                except Exception as metro_e:
+                    print(f"[ROUTER] Metro-seeking A* failed: {metro_e}")
+
+            # --- RANK ROUTES: metro routes first, then by time ---
+            def _route_score(route):
+                has_metro = any(leg.get("mode") == "metro" for leg in route.get("legs", []))
+                time_s = route.get("total_time_s", route.get("total_time", float('inf')))
+                transfers = route.get("transfers", 0)
+                # Metro routes get a significant scoring boost (subtract 30 min)
+                # Fewer transfers is better (add 5 min per transfer)
+                score = time_s + (transfers * 300)
+                if has_metro:
+                    score -= 1800  # 30 min boost for metro routes
+                return score
+            
+            routes.sort(key=_route_score)
 
             return routes
             

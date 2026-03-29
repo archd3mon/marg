@@ -1,16 +1,16 @@
 station_name,lat,lon,line,order,id
 PCMC,18.6281,73.8053,Purple,1,metro_pu_01
 Sant Tukaram Nagar,18.6175,73.8098,Purple,2,metro_pu_02
-Nashik Phata,18.612,73.8115,Purple,3,metro_pu_03
+Bhosari (Nashik Phata),18.612,73.8115,Purple,3,metro_pu_03
 Kasarwadi,18.6025,73.8178,Purple,4,metro_pu_04
 Phugewadi,18.5907,73.8245,Purple,5,metro_pu_05
 Dapodi,18.5805,73.8315,Purple,6,metro_pu_06
 Bopodi,18.5695,73.8375,Purple,7,metro_pu_07
 Khadki,18.557,73.8425,Purple,8,metro_pu_08
-Range Hill,18.5465,73.845,Purple,9,metro_pu_09
+Range Hills,18.5465,73.845,Purple,9,metro_pu_09
 Shivaji Nagar,18.5325,73.8495,Purple,10,metro_pu_10
 Civil Court,18.528,73.8555,Purple/Aqua,11,metro_ix_01
-Budhwar Peth,18.519,73.856,Purple,12,metro_pu_12
+Kasba Peth,18.519,73.856,Purple,12,metro_pu_12
 Mandai,18.512,73.8555,Purple,13,metro_pu_13
 Swargate,18.5015,73.8565,Purple,14,metro_pu_14
 Vanaz,18.5133,73.805,Aqua,1,metro_aq_01
@@ -20,33 +20,11 @@ Nal Stop,18.5155,73.8315,Aqua,4,metro_aq_04
 Garware College,18.5163,73.8395,Aqua,5,metro_aq_05
 Deccan Gymkhana,18.5168,73.8432,Aqua,6,metro_aq_06
 Chhatrapati Sambhaji Udyan,18.5185,73.8482,Aqua,7,metro_aq_07
-PMC,18.5225,73.853,Aqua,8,metro_aq_08
-R.T.O Pune,18.5265,73.859,Aqua,10,metro_aq_10
-Kasba Peth,18.5215,73.863,Aqua,11,metro_aq_11
-Mangalwar Peth,18.5245,73.868,Aqua,12,metro_aq_12
-Pune Railway Station,18.529,73.8755,Aqua,13,metro_aq_13
-Ruby Hall Clinic,18.533,73.883,Aqua,14,metro_aq_14
-Bund Garden,18.5348,73.8898,Aqua,15,metro_aq_15
-Yerawada,18.5445,73.8945,Aqua,16,metro_aq_16
-Kalyani Nagar,18.5495,73.9045,Aqua,17,metro_aq_17
-Ramwadi,18.5548,73.9155,Aqua,18,metro_aq_18
-Chinchwad,18.635,73.7985,Purple-1A,1,metro_pu_1a_01
-Akurdi,18.6465,73.7925,Purple-1A,2,metro_pu_1a_02
-Nigdi,18.6555,73.778,Purple-1A,3,metro_pu_1a_03
-Bhakti Shakti,18.6665,73.77,Purple-1A,4,metro_pu_1a_04
-Market Yard,18.4945,73.8575,Purple-1B,1,metro_pu_1b_01
-Padmavati,18.4838,73.854,Purple-1B,2,metro_pu_1b_02
-Katraj,18.466,73.851,Purple-1B,3,metro_pu_1b_03
-Kothrud Bus Depot,18.5065,73.7948,Aqua-2W,1,metro_aq_2w_01
-Chandani Chowk,18.5005,73.7818,Aqua-2W,2,metro_aq_2w_02
-Viman Nagar,18.5625,73.9195,Aqua-2E,1,metro_aq_2e_01
-Kharadi Bypass,18.5558,73.9325,Aqua-2E,2,metro_aq_2e_02
-Tulaja Bhavani,18.5598,73.9445,Aqua-2E,3,metro_aq_2e_03
-Somnath Nagar,18.566,73.9525,Aqua-2E,4,metro_aq_2e_04
-Ubale Nagar,18.5725,73.958,Aqua-2E,5,metro_aq_2e_05
-Wagholi,18.579,73.968,Aqua-2E,6,metro_aq_2e_06
-Upper Kharadi Road,18.5778,73.979,Aqua-2E,7,metro_aq_2e_07
-Siddharth Nagar,18.5805,73.9885,Aqua-2E,8,metro_aq_2e_08
-Bakori Phata,18.5845,73.996,Aqua-2E,9,metro_aq_2e_09
-Wageshwar Temple,18.589,74.0055,Aqua-2E,10,metro_aq_2e_10
-Vitthalwadi,18.5935,74.0145,Aqua-2E,11,metro_aq_2e_11
+PMC Bhavan,18.5225,73.853,Aqua,8,metro_aq_08
+Mangalwar Peth,18.5245,73.868,Aqua,9,metro_aq_12
+Pune Railway Station,18.529,73.8755,Aqua,10,metro_aq_13
+Ruby Hall Clinic,18.533,73.883,Aqua,11,metro_aq_14
+Bund Garden,18.5348,73.8898,Aqua,12,metro_aq_15
+Yerawada,18.5445,73.8945,Aqua,13,metro_aq_16
+Kalyani Nagar,18.5495,73.9045,Aqua,14,metro_aq_17
+Ramwadi,18.5548,73.9155,Aqua,15,metro_aq_18

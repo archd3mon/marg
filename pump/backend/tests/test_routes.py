@@ -105,12 +105,24 @@ class TestRouteSearch:
         assert resp.status_code == 200
 
     def test_outside_pune(self, client):
-        """Coordinates far outside Pune should return empty routes."""
+        """Coordinates far outside Pune should still return a response (walk-only fallback)."""
         mumbai = {"lat": 19.076, "lng": 72.877}
         resp = self._search(client, mumbai, self.SWARGATE)
         assert resp.status_code == 200
         data = resp.json()
-        assert data["routes"] == []
+        assert "routes" in data
+
+    def test_distant_point_walk_fallback(self, client):
+        """Points far from transit should return a direct walk-only route instead of 500 error."""
+        distant_point = {"lat": 18.435, "lng": 73.766} # Khadakwasla
+        resp = self._search(client, distant_point, self.SWARGATE)
+        assert resp.status_code == 200
+        data = resp.json()
+        assert "routes" in data
+        assert len(data["routes"]) >= 1
+        route = data["routes"][0]
+        # Must have legs and a score/time field
+        assert "legs" in route
 
     def test_transfers_nonzero_for_multimodal(self, client):
         """Routes using multiple transit modes should have transfers > 0."""
@@ -186,3 +198,12 @@ class TestGeocodeEndpoint:
         """Query less than 2 chars should fail validation."""
         resp = client.get("/api/v1/geocode/search", params={"q": "a"})
         assert resp.status_code == 422  # validation error
+
+    def test_geocode_known_place_local_fallback(self, client):
+        """Searching for a locally known place should yield a result from local index or nominations."""
+        resp = client.get("/api/v1/geocode/search", params={"q": "COEP"})
+        assert resp.status_code == 200
+        data = resp.json()
+        assert "results" in data
+        assert len(data["results"]) > 0
+        assert "source" in data["results"][0]

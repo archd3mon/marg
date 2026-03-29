@@ -37,7 +37,7 @@ export default function RouteCard({ route, index, isSelected, onSelect, onExpand
             <div className="route-card__header">
                 <div className="route-card__time-block">
                     <span className="route-card__duration">{route.total_time_mins} min</span>
-                    {route.route_type && route.route_type !== 'alternative' && (
+                    {(route.route_type !== 'alternative' && (route.route_type || route.badges)) && (
                         <span style={{
                             marginLeft: '8px',
                             padding: '2px 8px',
@@ -45,14 +45,17 @@ export default function RouteCard({ route, index, isSelected, onSelect, onExpand
                             fontSize: '0.75rem',
                             fontWeight: '600',
                             backgroundColor: route.route_type === 'fastest' ? '#dcfce7' :
-                                           route.route_type === 'recommended' ? '#fef08a' : '#e0e7ff',
+                                           route.route_type === 'recommended' ? '#fef08a' : 
+                                           (route.badges && route.badges.includes('🚶 Walk only')) ? '#fef3c7' : '#e0e7ff',
                             color: route.route_type === 'fastest' ? '#166534' :
-                                   route.route_type === 'recommended' ? '#854d0e' : '#3730a3'
+                                   route.route_type === 'recommended' ? '#854d0e' : 
+                                   (route.badges && route.badges.includes('🚶 Walk only')) ? '#b45309' : '#3730a3'
                         }}>
                             {route.route_type === 'fastest' ? '⚡ Fastest' : 
                              route.route_type === 'least_walking' ? '🚶 Min Walk' : 
                              route.route_type === 'least_transfers' ? '🔄 Direct' : 
-                             route.route_type === 'recommended' ? '⭐ Recommended' : null}
+                             route.route_type === 'recommended' ? '⭐ Recommended' : 
+                             (route.badges && route.badges.includes('🚶 Walk only')) ? '🚶 Walk only' : null}
                         </span>
                     )}
                     {arrivalTime && (

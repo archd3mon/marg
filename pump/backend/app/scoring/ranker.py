@@ -16,7 +16,7 @@ DEFAULT_MODE_PENALTY = {
 }
 
 # Comfort bonus: routes that use metro get a discount
-METRO_COMFORT_BONUS = -5.0  # Negative = reduces score (better)
+METRO_COMFORT_BONUS = -15.0  # Strong preference for metro (reduces score significantly)
 
 
 def _build_mode_penalties(mode_preferences):
@@ -152,6 +152,20 @@ def score_and_rank_routes(top_k_paths, departure_hour=10, departure_day=0,
     ranked_routes.sort(key=lambda x: x["score"])
 
     if ranked_routes:
+        # Metro priority: if a metro route is within 15 min of fastest and has
+        # fewer transfers, promote it to #1 (recommended)
+        fastest_time = min(r["total_time_mins"] for r in ranked_routes)
+        metro_candidates = [
+            r for r in ranked_routes
+            if r["uses_metro"] and r["total_time_mins"] <= fastest_time + 15
+        ]
+        if metro_candidates:
+            # Pick the best metro route (fewest transfers, then fastest)
+            best_metro = min(metro_candidates, key=lambda r: (r["transfers"], r["total_time_mins"]))
+            # Move it to position 0
+            ranked_routes.remove(best_metro)
+            ranked_routes.insert(0, best_metro)
+
         ranked_routes[0]["route_type"] = "recommended"
         
         # Sort by total time

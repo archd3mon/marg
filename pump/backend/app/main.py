@@ -28,6 +28,51 @@ async def lifespan(app: FastAPI):
     engine.load()
     predictor.load()
     search_engine.load()
+    
+    # Load POI database
+    import sqlite3
+    poi_db_path = DATA_DIR / "pune_poi.sqlite"
+    if poi_db_path.exists():
+        app.state.poi_db = sqlite3.connect(str(poi_db_path), check_same_thread=False)
+        app.state.poi_db.row_factory = sqlite3.Row
+        logger.info("POI index loaded")
+        
+        # Feed POI names into the rapidfuzz search engine for fuzzy matching
+        try:
+            cur = app.state.poi_db.cursor()
+            cur.execute("SELECT name, type, lat, lon FROM pois")
+            poi_count = 0
+            existing_names = set(n.lower() for n in search_engine.names)
+            for r in cur.fetchall():
+                if r["name"].lower() not in existing_names:
+                    search_engine.points.append({
+                        "name": r["name"],
+                        "display_name": f"{r['name']} ({r['type']})",
+                        "lat": float(r["lat"]),
+                        "lon": float(r["lon"]),
+                        "type": r["type"],
+                    })
+                    search_engine.names.append(r["name"])
+                    existing_names.add(r["name"].lower())
+                    poi_count += 1
+            print(f"  Injected {poi_count} POIs into local fuzzy search.")
+        except Exception as e:
+            logger.warning(f"Failed to inject POIs into search engine: {e}")
+    else:
+        logger.warning("pune_poi.sqlite not found — geocoding will rely on Nominatim only")
+        app.state.poi_db = None
+
+    # Pre-warm geocode cache with PUNE_KNOWN_PLACES
+    try:
+        from app.utils import PUNE_KNOWN_PLACES
+        for name, data in PUNE_KNOWN_PLACES.items():
+            GEOCODE_CACHE[name.lower()] = {
+                "ts": time.time(),
+                "data": [{"display_name": name, "name": name, "lat": data["lat"], "lon": data["lng"], "source": "local", "distance_from_pune_center_km": 0}]
+            }
+    except Exception as e:
+        logger.warning(f"Could not prewarm geocode cache: {e}")
+
     elapsed = round(time.time() - t0, 2)
     print(f"All engines ready in {elapsed}s")
     print("=" * 50)
@@ -54,7 +99,9 @@ DATA_DIR = Path(DATA_DIR_ENV) if DATA_DIR_ENV else DEFAULT_DATA_DIR
 # Nominatim settings
 NOMINATIM_URL = "https://nominatim.openstreetmap.org/search"
 NOMINATIM_USER_AGENT = "Marg-PuneTransitPlanner/1.0"
-PUNE_VIEWBOX = "73.68,18.72,74.10,18.33"  # lon1,lat1,lon2,lat2
+PUNE_VIEWBOX = "73.7,18.3,74.2,18.7"  # lon1,lat1,lon2,lat2
+
+GEOCODE_CACHE = {}
 
 
 # --- Schemas ---
@@ -143,78 +190,157 @@ def get_stops():
 @app.get("/api/v1/geocode/search")
 async def geocode_search(q: str = Query(..., min_length=2, description="Search query")):
     """
-    Geocode a place name using Local Fuzzy Search + OSM Nominatim fallback.
+    Tier 1: Check PUNE_KNOWN_PLACES dict (in cache)
+    Tier 2: FTS5 search in pune_poi.sqlite
+    Tier 3: Nominatim API with haversine re-rank
     """
     try:
-        # 1. Try local fast fuzzy search first
-        local_results = search_engine.search(q, limit=5, threshold=70)
+        q_lower = q.lower().strip()
+        now = time.time()
         
-        # Determine if we need to call Nominatim to backfill
-        needed = 5 - len(local_results)
-        nom_results = []
+        # Clean expired cache (7 days TTL)
+        expired = [k for k, v in GEOCODE_CACHE.items() if now - float(v.get('ts', 0)) > 7*86400]
+        for k in expired:
+            del GEOCODE_CACHE[k]
+            
+        # Tier 1: Cache (Pre-warmed with known places)
+        if q_lower in GEOCODE_CACHE:
+            return {"results": GEOCODE_CACHE[q_lower]["data"]}
+
+        results = []
         
-        if needed > 0:
-            async with httpx.AsyncClient(timeout=0.5) as client:
-                resp = await client.get(
-                    NOMINATIM_URL,
-                    params={
-                        "q": q,
-                        "format": "json",
-                        "limit": needed,
-                        "viewbox": PUNE_VIEWBOX,
-                        "bounded": 1,
-                        "countrycodes": "in",
-                        "addressdetails": 1,
-                    },
-                    headers={"User-Agent": NOMINATIM_USER_AGENT},
-                )
-                resp.raise_for_status()
-                
-                for r in resp.json():
-                    nom_results.append({
-                        "name": r.get("name", r.get("display_name", "").split(",")[0]),
-                        "display_name": r.get("display_name", ""),
+        # Tier 2: FTS search in SQLite
+        if getattr(app.state, "poi_db", None):
+            try:
+                cur = app.state.poi_db.cursor()
+                import re
+                clean_q = re.sub(r'[^a-zA-Z0-9 ]', '', q_lower)
+                if clean_q:
+                    fts_sql = """
+                        SELECT p.name, p.type, p.lat, p.lon 
+                        FROM pois_fts f 
+                        JOIN pois p ON p.id = f.rowid 
+                        WHERE pois_fts MATCH ? 
+                        ORDER BY f.rank LIMIT 5
+                    """
+                    # 1. Prefix match on all terms
+                    tokens = [f"{t}*" for t in clean_q.split()]
+                    and_query = " AND ".join(tokens)
+                    cur.execute(fts_sql, (and_query, ))
+                    rows = cur.fetchall()
+                    if not rows:
+                        # 2. Token overlap (any token matches)
+                        tokens = [f"{t}*" for t in clean_q.split() if len(t)>2]
+                        if tokens:
+                            or_query = " OR ".join(tokens)
+                            cur.execute(fts_sql, (or_query, ))
+                            rows = cur.fetchall()
+
+                    for r in rows:
+                        results.append({
+                            "name": r["name"],
+                            "display_name": r["name"] + f" ({r['type']})",
+                            "lat": float(r["lat"]),
+                            "lon": float(r["lon"]),
+                            "source": "local",
+                        })
+            except Exception as fts_err:
+                logger.warning(f"FTS search failed: {fts_err}")
+
+        # Tier 2.5: Existing rapidfuzz local search (bus stops, metro, landmarks)
+        if not results:
+            try:
+                local_matches = search_engine.search(q, limit=5, threshold=55)
+                for m in local_matches:
+                    results.append({
+                        "name": m["name"],
+                        "display_name": m["display_name"],
+                        "lat": m["lat"],
+                        "lon": m["lon"],
+                        "source": "local",
+                    })
+            except Exception as local_err:
+                logger.warning(f"Local search failed: {local_err}")
+
+        # Tier 3: Nominatim fallback
+        if not results:
+            try:
+                async with httpx.AsyncClient(timeout=3.0) as client:
+                    resp = await client.get(
+                        NOMINATIM_URL,
+                        params={
+                            "q": q,
+                            "format": "json",
+                            "limit": 10,
+                            "viewbox": PUNE_VIEWBOX,
+                            "bounded": 0,
+                            "countrycodes": "in",
+                            "addressdetails": 1,
+                        },
+                        headers={"User-Agent": NOMINATIM_USER_AGENT},
+                    )
+                    resp.raise_for_status()
+                    
+                    nom_results = []
+                    for r in resp.json():
+                        nom_results.append({
+                            "name": r.get("name", r.get("display_name", "").split(",")[0]),
+                            "display_name": r.get("display_name", ""),
+                            "lat": float(r["lat"]),
+                            "lon": float(r["lon"]),
+                            "source": "nominatim",
+                        })
+                        
+                    from app.utils import haversine
+                    for r in nom_results:
+                        dist = haversine({'lat': r["lat"], 'lng': r["lon"]}, {'lat': 18.5204, 'lng': 73.8567})
+                        r["distance_from_pune_center_km"] = round(dist, 1)
+                        
+                    # Prioritize within 30km
+                    nom_results.sort(key=lambda x: (x["distance_from_pune_center_km"] > 30, x["distance_from_pune_center_km"]))
+                    results.extend(nom_results)
+            except Exception as e:
+                logger.warning(f"Nominatim fetch failed: {e}")
+
+        # Fuzzy match fallback if still nothing
+        if not results and getattr(app.state, "poi_db", None):
+            import difflib
+            cur = app.state.poi_db.cursor()
+            cur.execute("SELECT name, type, lat, lon FROM pois")
+            all_pois = cur.fetchall()
+            names = [r["name"] for r in all_pois]
+            matches = difflib.get_close_matches(q, names, n=1, cutoff=0.4)
+            if matches:
+                best_match = matches[0]
+                cur.execute("SELECT name, type, lat, lon FROM pois WHERE name=? LIMIT 1", (best_match,))
+                r = cur.fetchone()
+                if r:
+                    results.append({
+                        "name": r["name"],
+                        "display_name": f"Nearest match: {r['name']} ({r['type']})",
                         "lat": float(r["lat"]),
                         "lon": float(r["lon"]),
-                        "score": 60 # Arbitrary base score for network results
+                        "source": "local",
                     })
 
-        # Combine results
-        combined = local_results + nom_results
-        
-        # Calculate distance to Pune center (18.5204, 73.8567) using simple haversine
-        def haversine_km(lat1, lon1, lat2, lon2):
-            R = 6371.0
-            dlat = math.radians(lat2 - lat1)
-            dlon = math.radians(lon2 - lon1)
-            a = math.sin(dlat / 2)**2 + math.cos(math.radians(lat1)) * math.cos(math.radians(lat2)) * math.sin(dlon / 2)**2
-            c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
-            return R * c
-            
-        for r in combined:
-            dist = haversine_km(r["lat"], r["lon"], 18.5204, 73.8567)
-            r["distance_from_pune_center_km"] = round(dist, 1)
-            
-        # Re-rank: prioritize local results slightly, but penalize heavily by distance
-        # Score logic: base score (local=70-100, nom=60) - (distance_km * 2)
-        combined.sort(key=lambda x: x.get("score", 60) - (x["distance_from_pune_center_km"] * 2), reverse=True)
+        if not results:
+            # Absolute worst-case fallback, should rarely happen
+            return {"results": []}
 
-        # Deduplicate by approximate coordinated
+        # Deduplicate
         seen_coords = set()
         final_results = []
-        for r in combined:
-            coord_key = (round(r["lat"], 3), round(r["lon"], 3))
+        for r in results:
+            coord_key = (round(float(r["lat"]), 3), round(float(r["lon"]), 3))
             if coord_key not in seen_coords:
                 seen_coords.add(coord_key)
                 final_results.append(r)
                 if len(final_results) >= 5:
                     break
                     
+        GEOCODE_CACHE[q_lower] = {"ts": now, "data": final_results}
         return {"results": final_results}
 
-    except httpx.TimeoutException:
-        # If Nominatim times out, return just local results
-        return {"results": local_results}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Geocoding error: {str(e)}")
 
@@ -239,8 +365,11 @@ def search_routes(request: RouteRequest):
             hour = 10
             day = 0
 
-        source_id, s_dist = engine.get_nearest_node(request.source.lat, request.source.lng)
-        dest_id, d_dist = engine.get_nearest_node(request.destination.lat, request.destination.lng)
+        s_nodes, s_warn = engine.find_nearest_nodes(request.source.lat, request.source.lng)
+        d_nodes, d_warn = engine.find_nearest_nodes(request.destination.lat, request.destination.lng)
+        
+        source_id, s_dist = s_nodes[0]
+        dest_id, d_dist = d_nodes[0]
 
         warnings = []
         if s_dist > 0.025 or d_dist > 0.025:
@@ -255,9 +384,40 @@ def search_routes(request: RouteRequest):
         )
 
         if not k_paths:
-            err = RouteError.not_found()
-            err["warnings"] = warnings
-            return err
+            from app.utils import haversine
+            walk_distance_km = haversine(
+                {'lat': request.source.lat, 'lng': request.source.lng},
+                {'lat': request.destination.lat, 'lng': request.destination.lng}
+            )
+            walk_time_min = walk_distance_km / 5.0 * 60
+            routes = [{
+                "route_id": "walk_direct",
+                "legs": [{
+                    "mode": "walk",
+                    "from_node": {"name": "Origin", "lat": request.source.lat, "lon": request.source.lng},
+                    "to_node": {"name": "Destination", "lat": request.destination.lat, "lon": request.destination.lng},
+                    "length_m": walk_distance_km * 1000,
+                    "travel_time": walk_time_min * 60,
+                    "path": [[request.source.lat, request.source.lng], [request.destination.lat, request.destination.lng]]
+                }],
+                "segments": [{
+                    "mode": "walk",
+                    "route_id": None,
+                    "from": "Origin",
+                    "to": "Destination",
+                    "duration": walk_time_min * 60
+                }],
+                "total_time_min": round(walk_time_min),
+                "total_time": walk_time_min * 60,
+                "total_time_s": walk_time_min * 60,
+                "total_distance_km": round(walk_distance_km, 2),
+                "total_distance_m": walk_distance_km * 1000,
+                "transfers": 0,
+                "score": walk_time_min,
+                "badges": ["🚶 Walk only"],
+                "warning": "No transit route found. Showing direct walking distance only."
+            }]
+            return {"routes": routes, "warnings": warnings}
 
         # Score & Rank (with mode preferences)
         ranked = score_and_rank_routes(

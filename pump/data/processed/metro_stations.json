@@ -19,7 +19,7 @@
   },
   {
     "id": "metro_pu_03",
-    "name": "Nashik Phata",
+    "name": "Bhosari (Nashik Phata)",
     "lat": 18.612,
     "lon": 73.8115,
     "type": "metro_station",
@@ -73,7 +73,7 @@
   },
   {
     "id": "metro_pu_09",
-    "name": "Range Hill",
+    "name": "Range Hills",
     "lat": 18.5465,
     "lon": 73.845,
     "type": "metro_station",
@@ -100,7 +100,7 @@
   },
   {
     "id": "metro_pu_12",
-    "name": "Budhwar Peth",
+    "name": "Kasba Peth",
     "lat": 18.519,
     "lon": 73.856,
     "type": "metro_station",
@@ -190,30 +190,12 @@
   },
   {
     "id": "metro_aq_08",
-    "name": "PMC",
+    "name": "PMC Bhavan",
     "lat": 18.5225,
     "lon": 73.853,
     "type": "metro_station",
     "line": "Aqua",
     "order": 8
-  },
-  {
-    "id": "metro_aq_10",
-    "name": "R.T.O Pune",
-    "lat": 18.5265,
-    "lon": 73.859,
-    "type": "metro_station",
-    "line": "Aqua",
-    "order": 10
-  },
-  {
-    "id": "metro_aq_11",
-    "name": "Kasba Peth",
-    "lat": 18.5215,
-    "lon": 73.863,
-    "type": "metro_station",
-    "line": "Aqua",
-    "order": 11
   },
   {
     "id": "metro_aq_12",
@@ -222,7 +204,7 @@
     "lon": 73.868,
     "type": "metro_station",
     "line": "Aqua",
-    "order": 12
+    "order": 9
   },
   {
     "id": "metro_aq_13",
@@ -231,7 +213,7 @@
     "lon": 73.8755,
     "type": "metro_station",
     "line": "Aqua",
-    "order": 13
+    "order": 10
   },
   {
     "id": "metro_aq_14",
@@ -240,7 +222,7 @@
     "lon": 73.883,
     "type": "metro_station",
     "line": "Aqua",
-    "order": 14
+    "order": 11
   },
   {
     "id": "metro_aq_15",
@@ -249,7 +231,7 @@
     "lon": 73.8898,
     "type": "metro_station",
     "line": "Aqua",
-    "order": 15
+    "order": 12
   },
   {
     "id": "metro_aq_16",
@@ -258,7 +240,7 @@
     "lon": 73.8945,
     "type": "metro_station",
     "line": "Aqua",
-    "order": 16
+    "order": 13
   },
   {
     "id": "metro_aq_17",
@@ -267,7 +249,7 @@
     "lon": 73.9045,
     "type": "metro_station",
     "line": "Aqua",
-    "order": 17
+    "order": 14
   },
   {
     "id": "metro_aq_18",
@@ -276,186 +258,6 @@
     "lon": 73.9155,
     "type": "metro_station",
     "line": "Aqua",
-    "order": 18
-  },
-  {
-    "id": "metro_pu_1a_01",
-    "name": "Chinchwad",
-    "lat": 18.635,
-    "lon": 73.7985,
-    "type": "metro_station",
-    "line": "Purple-1A",
-    "order": 1
-  },
-  {
-    "id": "metro_pu_1a_02",
-    "name": "Akurdi",
-    "lat": 18.6465,
-    "lon": 73.7925,
-    "type": "metro_station",
-    "line": "Purple-1A",
-    "order": 2
-  },
-  {
-    "id": "metro_pu_1a_03",
-    "name": "Nigdi",
-    "lat": 18.6555,
-    "lon": 73.778,
-    "type": "metro_station",
-    "line": "Purple-1A",
-    "order": 3
-  },
-  {
-    "id": "metro_pu_1a_04",
-    "name": "Bhakti Shakti",
-    "lat": 18.6665,
-    "lon": 73.77,
-    "type": "metro_station",
-    "line": "Purple-1A",
-    "order": 4
-  },
-  {
-    "id": "metro_pu_1b_01",
-    "name": "Market Yard",
-    "lat": 18.4945,
-    "lon": 73.8575,
-    "type": "metro_station",
-    "line": "Purple-1B",
-    "order": 1
-  },
-  {
-    "id": "metro_pu_1b_02",
-    "name": "Padmavati",
-    "lat": 18.4838,
-    "lon": 73.854,
-    "type": "metro_station",
-    "line": "Purple-1B",
-    "order": 2
-  },
-  {
-    "id": "metro_pu_1b_03",
-    "name": "Katraj",
-    "lat": 18.466,
-    "lon": 73.851,
-    "type": "metro_station",
-    "line": "Purple-1B",
-    "order": 3
-  },
-  {
-    "id": "metro_aq_2w_01",
-    "name": "Kothrud Bus Depot",
-    "lat": 18.5065,
-    "lon": 73.7948,
-    "type": "metro_station",
-    "line": "Aqua-2W",
-    "order": 1
-  },
-  {
-    "id": "metro_aq_2w_02",
-    "name": "Chandani Chowk",
-    "lat": 18.5005,
-    "lon": 73.7818,
-    "type": "metro_station",
-    "line": "Aqua-2W",
-    "order": 2
-  },
-  {
-    "id": "metro_aq_2e_01",
-    "name": "Viman Nagar",
-    "lat": 18.5625,
-    "lon": 73.9195,
-    "type": "metro_station",
-    "line": "Aqua-2E",
-    "order": 1
-  },
-  {
-    "id": "metro_aq_2e_02",
-    "name": "Kharadi Bypass",
-    "lat": 18.5558,
-    "lon": 73.9325,
-    "type": "metro_station",
-    "line": "Aqua-2E",
-    "order": 2
-  },
-  {
-    "id": "metro_aq_2e_03",
-    "name": "Tulaja Bhavani",
-    "lat": 18.5598,
-    "lon": 73.9445,
-    "type": "metro_station",
-    "line": "Aqua-2E",
-    "order": 3
-  },
-  {
-    "id": "metro_aq_2e_04",
-    "name": "Somnath Nagar",
-    "lat": 18.566,
-    "lon": 73.9525,
-    "type": "metro_station",
-    "line": "Aqua-2E",
-    "order": 4
-  },
-  {
-    "id": "metro_aq_2e_05",
-    "name": "Ubale Nagar",
-    "lat": 18.5725,
-    "lon": 73.958,
-    "type": "metro_station",
-    "line": "Aqua-2E",
-    "order": 5
-  },
-  {
-    "id": "metro_aq_2e_06",
-    "name": "Wagholi",
-    "lat": 18.579,
-    "lon": 73.968,
-    "type": "metro_station",
-    "line": "Aqua-2E",
-    "order": 6
-  },
-  {
-    "id": "metro_aq_2e_07",
-    "name": "Upper Kharadi Road",
-    "lat": 18.5778,
-    "lon": 73.979,
-    "type": "metro_station",
-    "line": "Aqua-2E",
-    "order": 7
-  },
-  {
-    "id": "metro_aq_2e_08",
-    "name": "Siddharth Nagar",
-    "lat": 18.5805,
-    "lon": 73.9885,
-    "type": "metro_station",
-    "line": "Aqua-2E",
-    "order": 8
-  },
-  {
-    "id": "metro_aq_2e_09",
-    "name": "Bakori Phata",
-    "lat": 18.5845,
-    "lon": 73.996,
-    "type": "metro_station",
-    "line": "Aqua-2E",
-    "order": 9
-  },
-  {
-    "id": "metro_aq_2e_10",
-    "name": "Wageshwar Temple",
-    "lat": 18.589,
-    "lon": 74.0055,
-    "type": "metro_station",
-    "line": "Aqua-2E",
-    "order": 10
-  },
-  {
-    "id": "metro_aq_2e_11",
-    "name": "Vitthalwadi",
-    "lat": 18.5935,
-    "lon": 74.0145,
-    "type": "metro_station",
-    "line": "Aqua-2E",
-    "order": 11
+    "order": 15
   }
 ]

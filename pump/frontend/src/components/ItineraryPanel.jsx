@@ -85,6 +85,12 @@ export default function ItineraryPanel({ route, onClose, onHoverLeg }) {
                 )}
             </div>
 
+            {route.warning && (
+                <div className="route-warning" style={{ margin: '0 16px 16px 16px' }}>
+                    ⚠️ {route.warning}
+                </div>
+            )}
+
             <div className="itinerary__steps">
                 {/* Start marker */}
                 <div className="itinerary__step">

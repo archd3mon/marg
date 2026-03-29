@@ -798,6 +798,36 @@ body {
   color: var(--text-muted);
 }
 
+/* Metro Line Tooltips */
+.metro-tooltip {
+  background: rgba(20, 20, 30, 0.9) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 6px !important;
+  padding: 4px 10px !important;
+  font-size: 0.8rem !important;
+  font-weight: 600 !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
+}
+.metro-tooltip::before {
+  border-top-color: rgba(20, 20, 30, 0.9) !important;
+}
+
+/* Walk-only Fallback Warning */
+.route-warning {
+  background-color: rgba(245, 158, 11, 0.15); /* var(--warning) with opacity */
+  color: var(--warning); /* or a darker shade for readability, but warning is readable enough */
+  border: 1px solid var(--warning);
+  padding: var(--sp-md);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--sp-md);
+  font-size: 0.875rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm);
+}
+
 .itinerary__step-time {
   font-size: 0.75rem;
   color: var(--text-muted);

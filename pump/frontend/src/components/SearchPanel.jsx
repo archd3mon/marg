@@ -212,10 +212,9 @@ export default function SearchPanel({
                                             onClick={() => selectSuggestion(s, 'source')}
                                             onMouseEnter={() => setActiveIndex(i)}
                                         >
-                                            <svg className="autocomplete-item__icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
-                                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#94a3b8"/>
-                                                <circle cx="12" cy="9" r="2.5" fill="white"/>
-                                            </svg>
+                                            <span className="autocomplete-item__icon" style={{ fontSize: '16px', lineHeight: '16px', marginTop: '2px' }}>
+                                                {s.source === 'nominatim' ? '🌐' : '📍'}
+                                            </span>
                                             <div className="autocomplete-item__text">
                                                 <span className="autocomplete-item__name">{s.name}</span>
                                                 <span className="autocomplete-item__detail">{s.display_name}</span>
@@ -277,10 +276,9 @@ export default function SearchPanel({
                                             onClick={() => selectSuggestion(s, 'dest')}
                                             onMouseEnter={() => setActiveIndex(i)}
                                         >
-                                            <svg className="autocomplete-item__icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
-                                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#94a3b8"/>
-                                                <circle cx="12" cy="9" r="2.5" fill="white"/>
-                                            </svg>
+                                            <span className="autocomplete-item__icon" style={{ fontSize: '16px', lineHeight: '16px', marginTop: '2px' }}>
+                                                {s.source === 'nominatim' ? '🌐' : '📍'}
+                                            </span>
                                             <div className="autocomplete-item__text">
                                                 <span className="autocomplete-item__name">{s.name}</span>
                                                 <span className="autocomplete-item__detail">{s.display_name}</span>

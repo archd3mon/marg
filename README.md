@@ -177,6 +177,14 @@ source venv/bin/activate
 python scripts/validate_datasets.py
 ```
 
+### 5. Build Local POI Index
+
+```bash
+cd pump/backend
+source venv/bin/activate
+python scripts/build_poi_index.py
+```
+
 ---
 
 ## Project Structure
