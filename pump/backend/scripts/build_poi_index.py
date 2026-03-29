@@ -405,6 +405,36 @@ out center body;""",
   way["building"~"office|industrial"]["name"]({BBOX});
 );
 out center body;""",
+
+    "food": f"""[out:json][timeout:120];
+(
+  node["amenity"~"restaurant|cafe|food_court|fast_food|bar|pub"]({BBOX});
+  way["amenity"~"restaurant|cafe|food_court|fast_food|bar|pub"]({BBOX});
+);
+out center body;""",
+
+    "residential": f"""[out:json][timeout:120];
+(
+  way["landuse"="residential"]["name"]({BBOX});
+  way["building"~"apartments|residential"]["name"]({BBOX});
+);
+out center body;""",
+
+    "entertainment": f"""[out:json][timeout:120];
+(
+  node["amenity"~"cinema|theatre|arts_centre"]({BBOX});
+  way["amenity"~"cinema|theatre|arts_centre"]({BBOX});
+);
+out center body;""",
+
+    "commercial": f"""[out:json][timeout:120];
+(
+  node["building"~"commercial|public|office"]["name"]({BBOX});
+  way["building"~"commercial|public|office"]["name"]({BBOX});
+  node["office"~"company"]["name"]({BBOX});
+  way["office"~"company"]["name"]({BBOX});
+);
+out center body;""",
 }
 
 
