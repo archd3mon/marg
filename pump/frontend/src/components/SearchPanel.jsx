@@ -212,8 +212,8 @@ export default function SearchPanel({
                                             onClick={() => selectSuggestion(s, 'source')}
                                             onMouseEnter={() => setActiveIndex(i)}
                                         >
-                                            <span className="autocomplete-item__icon" style={{ fontSize: '16px', lineHeight: '16px', marginTop: '2px' }}>
-                                                {s.source === 'nominatim' ? '🌐' : '📍'}
+                                            <span className="suggestion-source">
+                                                {s.source === 'local' ? '📍' : s.source === 'fuzzy' ? '~' : '🌐'}
                                             </span>
                                             <div className="autocomplete-item__text">
                                                 <span className="autocomplete-item__name">{s.name}</span>
@@ -276,8 +276,8 @@ export default function SearchPanel({
                                             onClick={() => selectSuggestion(s, 'dest')}
                                             onMouseEnter={() => setActiveIndex(i)}
                                         >
-                                            <span className="autocomplete-item__icon" style={{ fontSize: '16px', lineHeight: '16px', marginTop: '2px' }}>
-                                                {s.source === 'nominatim' ? '🌐' : '📍'}
+                                            <span className="suggestion-source">
+                                                {s.source === 'local' ? '📍' : s.source === 'fuzzy' ? '~' : '🌐'}
                                             </span>
                                             <div className="autocomplete-item__text">
                                                 <span className="autocomplete-item__name">{s.name}</span>

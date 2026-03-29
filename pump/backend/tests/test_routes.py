@@ -207,3 +207,51 @@ class TestGeocodeEndpoint:
         assert "results" in data
         assert len(data["results"]) > 0
         assert "source" in data["results"][0]
+
+    def test_geocode_never_returns_empty(self, client):
+        """Geocode should never return an empty results list (fallback to Pune center)."""
+        resp = client.get("/api/v1/geocode/search", params={"q": "xyznonexistent123"})
+        assert resp.status_code == 200
+        data = resp.json()
+        assert "results" in data
+        assert len(data["results"]) > 0
+
+
+MUST_RESOLVE = [
+    # Metro stations
+    "PCMC", "Swargate", "Civil Court", "Deccan Gymkhana", "Ruby Hall Clinic Metro",
+    "Vanaz", "Kalyani Nagar", "Ramwadi", "Shivajinagar Metro", "Khadki",
+    # Colleges
+    "COEP", "PICT", "MIT Pune", "Fergusson College", "Pune University", "NDA",
+    "Symbiosis", "Cummins College", "VIT Pune", "Armed Forces Medical College", "BJ Medical College",
+    # Hospitals
+    "Ruby Hall Clinic", "Sahyadri Hospital", "Deenanath Mangeshkar Hospital",
+    "Jehangir Hospital", "KEM Hospital", "Sassoon Hospital",
+    # Localities
+    "Hinjewadi", "Wakad", "Baner", "Kothrud", "Hadapsar", "Magarpatta",
+    "Koregaon Park", "Viman Nagar", "Kharadi", "Wagholi", "Katraj",
+    # Landmarks
+    "Shaniwar Wada", "Aga Khan Palace", "Sinhagad Fort", "Parvati Hill",
+    "Dagdusheth Halwai Temple", "Rajiv Gandhi Zoological Park",
+    # Transport
+    "Pune Airport", "Pune Junction", "Swargate Bus Stand",
+    # Roads and markets
+    "FC Road", "JM Road", "Mandai", "Market Yard", "Laxmi Road",
+]
+
+
+class TestComprehensiveGeocode:
+    """Every place in MUST_RESOLVE must return valid coordinates within Maharashtra."""
+
+    @pytest.mark.parametrize("place", MUST_RESOLVE)
+    def test_must_resolve(self, client, place):
+        resp = client.get("/api/v1/geocode/search", params={"q": place})
+        assert resp.status_code == 200, f"HTTP error for '{place}'"
+        data = resp.json()
+        assert "results" in data
+        assert len(data["results"]) > 0, f"FAILED: '{place}' returned 0 results"
+        first = data["results"][0]
+        assert first["lat"] is not None, f"'{place}' has null lat"
+        assert 18.0 < first["lat"] < 19.5, f"'{place}' lat {first['lat']} out of Maharashtra range"
+        assert 73.0 < first["lon"] < 75.0, f"'{place}' lon {first['lon']} out of Maharashtra range"
+

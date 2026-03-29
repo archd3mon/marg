@@ -8,6 +8,9 @@ import httpx
 import math
 import time
 import logging
+import re
+import sqlite3
+import difflib
 from pathlib import Path
 import os
 
@@ -29,28 +32,32 @@ async def lifespan(app: FastAPI):
     predictor.load()
     search_engine.load()
     
-    # Load POI database
-    import sqlite3
-    poi_db_path = DATA_DIR / "pune_poi.sqlite"
+    # Load POI database (new schema)
+    poi_db_path = DATA_DIR / "processed" / "pune_poi.sqlite"
     if poi_db_path.exists():
-        app.state.poi_db = sqlite3.connect(str(poi_db_path), check_same_thread=False)
-        app.state.poi_db.row_factory = sqlite3.Row
-        logger.info("POI index loaded")
+        conn = sqlite3.connect(str(poi_db_path), check_same_thread=False)
+        conn.row_factory = sqlite3.Row
+        conn.execute("PRAGMA journal_mode=WAL")
+        conn.execute("PRAGMA cache_size=-64000")  # 64MB cache
+        app.state.poi_db = conn
+        count = conn.execute("SELECT COUNT(*) FROM pois").fetchone()[0]
+        logger.info(f"POI index loaded: {count} entries")
+        print(f"  POI index loaded: {count} entries")
         
         # Feed POI names into the rapidfuzz search engine for fuzzy matching
         try:
-            cur = app.state.poi_db.cursor()
-            cur.execute("SELECT name, type, lat, lon FROM pois")
+            cur = conn.cursor()
+            cur.execute("SELECT name, poi_type, lat, lon FROM pois")
             poi_count = 0
             existing_names = set(n.lower() for n in search_engine.names)
             for r in cur.fetchall():
                 if r["name"].lower() not in existing_names:
                     search_engine.points.append({
                         "name": r["name"],
-                        "display_name": f"{r['name']} ({r['type']})",
+                        "display_name": f"{r['name']} ({r['poi_type']})",
                         "lat": float(r["lat"]),
                         "lon": float(r["lon"]),
-                        "type": r["type"],
+                        "type": r["poi_type"],
                     })
                     search_engine.names.append(r["name"])
                     existing_names.add(r["name"].lower())
@@ -59,25 +66,16 @@ async def lifespan(app: FastAPI):
         except Exception as e:
             logger.warning(f"Failed to inject POIs into search engine: {e}")
     else:
-        logger.warning("pune_poi.sqlite not found — geocoding will rely on Nominatim only")
+        logger.warning("pune_poi.sqlite not found — run scripts/build_poi_index.py")
         app.state.poi_db = None
-
-    # Pre-warm geocode cache with PUNE_KNOWN_PLACES
-    try:
-        from app.utils import PUNE_KNOWN_PLACES
-        for name, data in PUNE_KNOWN_PLACES.items():
-            GEOCODE_CACHE[name.lower()] = {
-                "ts": time.time(),
-                "data": [{"display_name": name, "name": name, "lat": data["lat"], "lon": data["lng"], "source": "local", "distance_from_pune_center_km": 0}]
-            }
-    except Exception as e:
-        logger.warning(f"Could not prewarm geocode cache: {e}")
 
     elapsed = round(time.time() - t0, 2)
     print(f"All engines ready in {elapsed}s")
     print("=" * 50)
     yield
-    # Shutdown (nothing to clean up)
+    # Shutdown
+    if getattr(app.state, 'poi_db', None):
+        app.state.poi_db.close()
 
 
 app = FastAPI(title="Pune Urban Mobility Planner - Marg", lifespan=lifespan)
@@ -91,17 +89,20 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Data directory
-DEFAULT_DATA_DIR = Path("/home/jayant/gitgud/marg/marg/pump/data/processed")
+# Data directory — points to pump/data/ (parent of processed/)
+DEFAULT_DATA_DIR = Path("/home/jayant/gitgud/marg/marg/pump/data")
 DATA_DIR_ENV = os.getenv("PUMP_DATA_DIR")
 DATA_DIR = Path(DATA_DIR_ENV) if DATA_DIR_ENV else DEFAULT_DATA_DIR
 
 # Nominatim settings
 NOMINATIM_URL = "https://nominatim.openstreetmap.org/search"
 NOMINATIM_USER_AGENT = "Marg-PuneTransitPlanner/1.0"
-PUNE_VIEWBOX = "73.7,18.3,74.2,18.7"  # lon1,lat1,lon2,lat2
+PUNE_VIEWBOX = "73.6,18.2,74.3,18.8"  # lon1,lat1,lon2,lat2 (wider for PCMC+Hinjewadi)
 
 GEOCODE_CACHE = {}
+
+# Import master places for Tier 0 geocoding
+from app.utils import PUNE_MASTER_PLACES
 
 
 # --- Schemas ---
@@ -172,8 +173,8 @@ def get_stops():
     """Returns a lightweight list of stops for the frontend map."""
     stops = []
 
-    metro_file = DATA_DIR / "metro_stations.json"
-    bus_file = DATA_DIR / "bus_stops.json"
+    metro_file = DATA_DIR / "processed" / "metro_stations.json"
+    bus_file = DATA_DIR / "processed" / "bus_stops.json"
 
     if metro_file.exists():
         with open(metro_file) as f:
@@ -188,84 +189,111 @@ def get_stops():
 
 
 @app.get("/api/v1/geocode/search")
-async def geocode_search(q: str = Query(..., min_length=2, description="Search query")):
+async def geocode_search(q: str = Query(..., min_length=2, description="Search query"), limit: int = 8):
     """
-    Tier 1: Check PUNE_KNOWN_PLACES dict (in cache)
-    Tier 2: FTS5 search in pune_poi.sqlite
-    Tier 3: Nominatim API with haversine re-rank
+    4-tier geocoding system:
+      Tier 0: PUNE_MASTER_PLACES dict — instant dict lookup + fuzzy match
+      Tier 1: FTS5 full-text search on pune_poi.sqlite
+      Tier 2: Nominatim API with Pune bounding box
+      Tier 3: Fuzzy fallback using difflib on all known place names
+
+    Always returns at least 1 result. Never returns [].
+    Results sorted by importance DESC.
     """
     try:
-        q_lower = q.lower().strip()
+        q_lower = q.strip().lower()
         now = time.time()
-        
+
         # Clean expired cache (7 days TTL)
-        expired = [k for k, v in GEOCODE_CACHE.items() if now - float(v.get('ts', 0)) > 7*86400]
+        expired = [k for k, v in GEOCODE_CACHE.items() if now - float(v.get('ts', 0)) > 7 * 86400]
         for k in expired:
             del GEOCODE_CACHE[k]
-            
-        # Tier 1: Cache (Pre-warmed with known places)
+
+        # Check cache
         if q_lower in GEOCODE_CACHE:
             return {"results": GEOCODE_CACHE[q_lower]["data"]}
 
         results = []
-        
-        # Tier 2: FTS search in SQLite
+
+        # ── Tier 0: Exact + prefix match on master dict ──────────────────
+        for name, data in PUNE_MASTER_PLACES.items():
+            if q_lower in name.lower() or name.lower() in q_lower:
+                results.append({
+                    "name": name,
+                    "display_name": f"{name} ({data.get('type', 'place')})",
+                    "lat": data["lat"],
+                    "lon": data["lon"],
+                    "type": data.get("type", "place"),
+                    "source": "local",
+                    "importance": 1.0,
+                })
+            # Also check alt names
+            elif "alt" in data:
+                for alt in data["alt"].split(","):
+                    if q_lower in alt.strip().lower() or alt.strip().lower() in q_lower:
+                        results.append({
+                            "name": name,
+                            "display_name": f"{name} ({data.get('type', 'place')})",
+                            "lat": data["lat"],
+                            "lon": data["lon"],
+                            "type": data.get("type", "place"),
+                            "source": "local",
+                            "importance": 1.0,
+                        })
+                        break
+
+        # ── Tier 1: FTS5 search (if DB available) ────────────────────────
         if getattr(app.state, "poi_db", None):
             try:
                 cur = app.state.poi_db.cursor()
-                import re
                 clean_q = re.sub(r'[^a-zA-Z0-9 ]', '', q_lower)
-                if clean_q:
+                if clean_q.strip():
                     fts_sql = """
-                        SELECT p.name, p.type, p.lat, p.lon 
-                        FROM pois_fts f 
-                        JOIN pois p ON p.id = f.rowid 
-                        WHERE pois_fts MATCH ? 
-                        ORDER BY f.rank LIMIT 5
+                        SELECT p.name, p.lat, p.lon, p.poi_type, p.importance
+                        FROM pois p
+                        JOIN pois_fts ON p.id = pois_fts.rowid
+                        WHERE pois_fts MATCH ?
+                        ORDER BY p.importance DESC, rank
+                        LIMIT 20
                     """
-                    # 1. Prefix match on all terms
-                    tokens = [f"{t}*" for t in clean_q.split()]
-                    and_query = " AND ".join(tokens)
-                    cur.execute(fts_sql, (and_query, ))
-                    rows = cur.fetchall()
-                    if not rows:
-                        # 2. Token overlap (any token matches)
-                        tokens = [f"{t}*" for t in clean_q.split() if len(t)>2]
-                        if tokens:
-                            or_query = " OR ".join(tokens)
-                            cur.execute(fts_sql, (or_query, ))
+                    # Try AND-prefix match first
+                    tokens = [f"{t}*" for t in clean_q.split() if t]
+                    if tokens:
+                        and_query = " AND ".join(tokens)
+                        try:
+                            cur.execute(fts_sql, (and_query,))
                             rows = cur.fetchall()
+                        except Exception:
+                            rows = []
 
-                    for r in rows:
-                        results.append({
-                            "name": r["name"],
-                            "display_name": r["name"] + f" ({r['type']})",
-                            "lat": float(r["lat"]),
-                            "lon": float(r["lon"]),
-                            "source": "local",
-                        })
+                        if not rows:
+                            # Fall back to OR-prefix match
+                            tokens = [f"{t}*" for t in clean_q.split() if len(t) > 1]
+                            if tokens:
+                                or_query = " OR ".join(tokens)
+                                try:
+                                    cur.execute(fts_sql, (or_query,))
+                                    rows = cur.fetchall()
+                                except Exception:
+                                    rows = []
+
+                        for row in rows:
+                            results.append({
+                                "name": row[0],
+                                "display_name": f"{row[0]} ({row[3]})",
+                                "lat": float(row[1]),
+                                "lon": float(row[2]),
+                                "type": row[3],
+                                "source": "local",
+                                "importance": float(row[4]) if row[4] else 0.5,
+                            })
             except Exception as fts_err:
                 logger.warning(f"FTS search failed: {fts_err}")
 
-        # Tier 2.5: Existing rapidfuzz local search (bus stops, metro, landmarks)
-        if not results:
+        # ── Tier 2: Nominatim (only if < 3 local results) ───────────────
+        if len(results) < 3:
             try:
-                local_matches = search_engine.search(q, limit=5, threshold=55)
-                for m in local_matches:
-                    results.append({
-                        "name": m["name"],
-                        "display_name": m["display_name"],
-                        "lat": m["lat"],
-                        "lon": m["lon"],
-                        "source": "local",
-                    })
-            except Exception as local_err:
-                logger.warning(f"Local search failed: {local_err}")
-
-        # Tier 3: Nominatim fallback
-        if not results:
-            try:
-                async with httpx.AsyncClient(timeout=3.0) as client:
+                async with httpx.AsyncClient(timeout=5.0) as client:
                     resp = await client.get(
                         NOMINATIM_URL,
                         params={
@@ -280,64 +308,62 @@ async def geocode_search(q: str = Query(..., min_length=2, description="Search q
                         headers={"User-Agent": NOMINATIM_USER_AGENT},
                     )
                     resp.raise_for_status()
-                    
-                    nom_results = []
+
+                    from app.utils import haversine
                     for r in resp.json():
-                        nom_results.append({
+                        lat = float(r["lat"])
+                        lon = float(r["lon"])
+                        dist = haversine({'lat': lat, 'lng': lon}, {'lat': 18.5204, 'lng': 73.8567})
+                        results.append({
                             "name": r.get("name", r.get("display_name", "").split(",")[0]),
                             "display_name": r.get("display_name", ""),
-                            "lat": float(r["lat"]),
-                            "lon": float(r["lon"]),
+                            "lat": lat,
+                            "lon": lon,
                             "source": "nominatim",
+                            "importance": max(0.3, 0.7 - dist / 100),
+                            "distance_from_pune_center_km": round(dist, 1),
                         })
-                        
-                    from app.utils import haversine
-                    for r in nom_results:
-                        dist = haversine({'lat': r["lat"], 'lng': r["lon"]}, {'lat': 18.5204, 'lng': 73.8567})
-                        r["distance_from_pune_center_km"] = round(dist, 1)
-                        
-                    # Prioritize within 30km
-                    nom_results.sort(key=lambda x: (x["distance_from_pune_center_km"] > 30, x["distance_from_pune_center_km"]))
-                    results.extend(nom_results)
             except Exception as e:
                 logger.warning(f"Nominatim fetch failed: {e}")
 
-        # Fuzzy match fallback if still nothing
-        if not results and getattr(app.state, "poi_db", None):
-            import difflib
-            cur = app.state.poi_db.cursor()
-            cur.execute("SELECT name, type, lat, lon FROM pois")
-            all_pois = cur.fetchall()
-            names = [r["name"] for r in all_pois]
-            matches = difflib.get_close_matches(q, names, n=1, cutoff=0.4)
-            if matches:
-                best_match = matches[0]
-                cur.execute("SELECT name, type, lat, lon FROM pois WHERE name=? LIMIT 1", (best_match,))
-                r = cur.fetchone()
-                if r:
-                    results.append({
-                        "name": r["name"],
-                        "display_name": f"Nearest match: {r['name']} ({r['type']})",
-                        "lat": float(r["lat"]),
-                        "lon": float(r["lon"]),
-                        "source": "local",
-                    })
-
+        # ── Tier 3: Fuzzy fallback (only if still empty) ────────────────
         if not results:
-            # Absolute worst-case fallback, should rarely happen
-            return {"results": []}
+            all_names = list(PUNE_MASTER_PLACES.keys())
+            matches = difflib.get_close_matches(q, all_names, n=3, cutoff=0.5)
+            for m in matches:
+                data = PUNE_MASTER_PLACES[m]
+                results.append({
+                    "name": m,
+                    "display_name": f"{m} (did you mean?)",
+                    "lat": data["lat"],
+                    "lon": data["lon"],
+                    "type": data.get("type", "place"),
+                    "source": "fuzzy",
+                    "importance": 0.6,
+                })
 
-        # Deduplicate
-        seen_coords = set()
-        final_results = []
-        for r in results:
-            coord_key = (round(float(r["lat"]), 3), round(float(r["lon"]), 3))
-            if coord_key not in seen_coords:
-                seen_coords.add(coord_key)
-                final_results.append(r)
-                if len(final_results) >= 5:
-                    break
-                    
+        # ── Absolute last resort: Pune city center ──────────────────────
+        if not results:
+            results = [{
+                "name": "Pune City Center",
+                "display_name": "Pune City Center",
+                "lat": 18.5204,
+                "lon": 73.8567,
+                "source": "fallback",
+                "importance": 0.1,
+            }]
+
+        # ── Deduplicate by (round(lat,3), round(lon,3)) ─────────────────
+        seen = set()
+        unique = []
+        for r in sorted(results, key=lambda x: -x.get("importance", 0)):
+            key = (round(r["lat"], 3), round(r["lon"], 3))
+            if key not in seen:
+                seen.add(key)
+                unique.append(r)
+
+        final_results = unique[:limit]
+
         GEOCODE_CACHE[q_lower] = {"ts": now, "data": final_results}
         return {"results": final_results}
 
