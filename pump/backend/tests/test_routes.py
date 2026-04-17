@@ -224,12 +224,15 @@ MUST_RESOLVE = [
     # Colleges
     "COEP", "PICT", "MIT Pune", "Fergusson College", "Pune University", "NDA",
     "Symbiosis", "Cummins College", "VIT Pune", "Armed Forces Medical College", "BJ Medical College",
+    "JSPM Narhe", "PCCOE Nigdi", "Film and Television Institute",
     # Hospitals
     "Ruby Hall Clinic", "Sahyadri Hospital", "Deenanath Mangeshkar Hospital",
     "Jehangir Hospital", "KEM Hospital", "Sassoon Hospital",
+    "Jupiter Hospital Baner", "Command Hospital Pune",
     # Localities
     "Hinjewadi", "Wakad", "Baner", "Kothrud", "Hadapsar", "Magarpatta",
     "Koregaon Park", "Viman Nagar", "Kharadi", "Wagholi", "Katraj",
+    "Mundhwa", "Tathawade", "Ravet", "Balewadi", "Lonavala",
     # Landmarks
     "Shaniwar Wada", "Aga Khan Palace", "Sinhagad Fort", "Parvati Hill",
     "Dagdusheth Halwai Temple", "Rajiv Gandhi Zoological Park",
@@ -237,6 +240,29 @@ MUST_RESOLVE = [
     "Pune Airport", "Pune Junction", "Swargate Bus Stand",
     # Roads and markets
     "FC Road", "JM Road", "Mandai", "Market Yard", "Laxmi Road",
+    "Chandni Chowk", "DP Road",
+    # Corporate campuses
+    "Infosys Hinjewadi", "TCS Sahyadri Park", "Wipro Kharadi", "Persistent Systems",
+    # Hotels
+    "JW Marriott Pune", "Taj Blue Diamond", "Conrad Pune",
+    # Banks
+    "SBI Main Branch Pune", "HDFC Bank Pune Camp", "Bank of Maharashtra HO",
+    # Cinemas
+    "PVR INOX Amanora", "INOX Bund Garden",
+    # Police stations
+    "Vishrambaug Police Station", "Kothrud Police Station",
+    # Fuel stations
+    "HP Petrol Pump Swargate", "Indian Oil Kothrud",
+    # Parks
+    "Saras Baug", "Okayama Friendship Garden", "Khadakwasla Dam",
+    # Temples
+    "ISKCON Pune", "Kasba Ganpati",
+    # Sports venues
+    "MCA Stadium Gahunje", "Balewadi Stadium",
+    # Residential societies
+    "Amanora Park Town", "Blue Ridge Hinjewadi",
+    # Junctions
+    "Katraj Chowk", "Hadapsar Gadital", "Navale Bridge",
 ]
 
 

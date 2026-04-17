@@ -5,20 +5,20 @@ Provides exact timetable-based routing optimizing for arrival time and transfers
 
 import math
 from collections import defaultdict
-from typing import List, Dict, Set, Tuple
+from typing import List, Dict, Set, Tuple, Any
 
 from app.transit.gtfs_loader import GTFSData, gtfs_data
 
 class RaptorEngine:
     def __init__(self, gtfs: GTFSData):
         self.gtfs = gtfs
-        self.patterns = {}               # pattern_id -> tuple of stop_ids
-        self.pattern_trips = defaultdict(list) # pattern_id -> list of trip_ids
-        self.stop_to_patterns = defaultdict(set) # stop_id -> set of pattern_ids
-        self.trip_stop_times = {}        # trip_id -> list of (arrival_sec, depart_sec)
+        self.patterns: Dict[int, Tuple[str, ...]] = {}               # pattern_id -> tuple of stop_ids
+        self.pattern_trips: Dict[int, List[str]] = defaultdict(list) # pattern_id -> list of trip_ids
+        self.stop_to_patterns: Dict[str, Set[int]] = defaultdict(set) # stop_id -> set of pattern_ids
+        self.trip_stop_times: Dict[str, List[Tuple[float, float]]] = {}        # trip_id -> list of (arrival_sec, depart_sec)
         
-        self.footpaths = defaultdict(list) # stop_id -> list of (target_stop_id, walk_time_sec)
-        self._is_built = False
+        self.footpaths: Dict[str, List[Tuple[str, float]]] = defaultdict(list) # stop_id -> list of (target_stop_id, walk_time_sec)
+        self._is_built: bool = False
         
     def build(self):
         """Prepare RAPTOR optimized data structures from raw GTFS."""
@@ -30,8 +30,8 @@ class RaptorEngine:
             self.gtfs.load()
             
         print("[RAPTOR] Building routing structures...")
-        pattern_to_id = {}
-        pid_counter = 0
+        pattern_to_id: Dict[Tuple[str, ...], int] = {}
+        pid_counter: int = 0
         
         for tid, seq in self.gtfs.stop_sequences.items():
             stop_ids = tuple(s[0] for s in seq)
@@ -69,19 +69,19 @@ class RaptorEngine:
             a = math.sin(dphi / 2) ** 2 + math.cos(phi1) * math.cos(phi2) * math.sin(dlambda / 2) ** 2
             return 2 * R * math.atan2(math.sqrt(a), math.sqrt(1 - a))
             
-        stops = list(self.gtfs.stops.items())
-        count = 0
+        stops: List[Tuple[str, Any]] = list(self.gtfs.stops.items())
+        count: int = 0
         for i in range(len(stops)):
             s1_id, s1_data = stops[i]
             for j in range(i + 1, len(stops)):
                 s2_id, s2_data = stops[j]
                 
                 # Fast bounding box check to avoid expensive haversine
-                if abs(s1_data["lat"] - s2_data["lat"]) > 0.005 or \
-                   abs(s1_data["lon"] - s2_data["lon"]) > 0.005:
+                if abs(float(s1_data["lat"]) - float(s2_data["lat"])) > 0.005 or \
+                   abs(float(s1_data["lon"]) - float(s2_data["lon"])) > 0.005:
                     continue
                     
-                dist_m = get_dist(s1_data["lat"], s1_data["lon"], s2_data["lat"], s2_data["lon"])
+                dist_m = get_dist(float(s1_data["lat"]), float(s1_data["lon"]), float(s2_data["lat"]), float(s2_data["lon"]))
                 
                 if dist_m < 300: # 300m max transfer walk
                     walk_sec = dist_m / 1.38 # 5 km/h
@@ -100,7 +100,7 @@ class RaptorEngine:
         return None
 
     def route(self, source_stops: Dict[str, float], dest_stops: Dict[str, float], 
-              departure_time: float, max_transfers: int = 4, mode_preferences=None, banned_modes=None):
+              departure_time: float, max_transfers: int = 4, mode_preferences: Any = None, banned_modes: Any = None) -> Any:
         """
         Run the RAPTOR algorithm.
         source_stops: dict of stop_id -> walk_time_from_origin
@@ -112,12 +112,12 @@ class RaptorEngine:
         TRANSFER_PENALTY = 300 # 5 minutes
             
         # earliest_arrival[k][stop_id] = earliest arrival time
-        earliest_arrival = [{} for _ in range(max_transfers + 2)]
-        marked_stops = set()
+        earliest_arrival: List[Dict[str, float]] = [{} for _ in range(max_transfers + 2)]
+        marked_stops: Set[str] = set()
         
         # journey pointers for traceback
         # pointers[k][stop_id] = (prev_stop, trip_id, board_stop, alight_time)
-        pointers = [{} for _ in range(max_transfers + 2)]
+        pointers: List[Dict[str, Tuple[Any, Any, Any, Any]]] = [{} for _ in range(max_transfers + 2)]
         
         # Initialize round 0
         for stop_id, walk_time in source_stops.items():
@@ -134,7 +134,7 @@ class RaptorEngine:
             pointers[k] = pointers[k - 1].copy()
             
             # Step 1: Accumulate routes serving marked stops
-            Q = {} # pattern_id -> earliest marked stop index
+            Q: Dict[int, int] = {} # pattern_id -> earliest marked stop index
             for p in marked_stops:
                 for pid in self.stop_to_patterns.get(p, []):
                     stop_idx = self.patterns[pid].index(p)
@@ -205,7 +205,7 @@ class RaptorEngine:
         # Reconstruct exactly matching Phase 9 format
         return self._reconstruct_journey(pointers, dest_stops, earliest_arrival, departure_time)
         
-    def _reconstruct_journey(self, pointers, dest_stops, earliest_arrival, departure_time):
+    def _reconstruct_journey(self, pointers: List[Dict[str, Tuple[Any, Any, Any, Any]]], dest_stops: Dict[str, float], earliest_arrival: List[Dict[str, float]], departure_time: float) -> Any:
         """Build the structured output segment list."""
         # Find best destination stop
         best_dest = None
@@ -225,9 +225,9 @@ class RaptorEngine:
             return None
             
         # Traceback
-        curr_stop = best_dest
-        curr_k = best_k
-        events = []
+        curr_stop: str = best_dest
+        curr_k: int = best_k
+        events: List[Dict[str, Any]] = []
         
         # Add final walk to destination
         walk_to_dest_time = dest_stops[best_dest]
@@ -337,13 +337,13 @@ class RaptorEngine:
                 "from_node": {"name": e["from"], "lat": e.get("from_lat", 0.0), "lon": e.get("from_lon", 0.0)},
                 "to_node": {"name": e["to"], "lat": e.get("to_lat", 0.0), "lon": e.get("to_lon", 0.0)},
                 "travel_time": e["duration"],
-                "length_m": e["duration"] * 1.38 if e["mode"] == "walk" else e["duration"] * 5.0, # Dummy dist
+                "length_m": float(e["duration"]) * 1.38 if e["mode"] == "walk" else float(e["duration"]) * 5.0, # Dummy dist
                 "route_names": [e.get("route_id")] if e.get("route_id") else []
             })
             
         return {
-            "total_time": best_time - departure_time,
-            "total_time_s": best_time - departure_time,
+            "total_time": float(best_time) - float(departure_time),
+            "total_time_s": float(best_time) - float(departure_time),
             "total_distance_m": sum(l["length_m"] for l in legs),
             "transfers": transfers,
             "legs": legs,

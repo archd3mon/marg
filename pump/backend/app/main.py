@@ -48,7 +48,7 @@ async def lifespan(app: FastAPI):
         try:
             cur = conn.cursor()
             cur.execute("SELECT name, poi_type, lat, lon FROM pois")
-            poi_count = 0
+            poi_count: int = 0
             existing_names = set(n.lower() for n in search_engine.names)
             for r in cur.fetchall():
                 if r["name"].lower() not in existing_names:
@@ -69,7 +69,7 @@ async def lifespan(app: FastAPI):
         logger.warning("pune_poi.sqlite not found — run scripts/build_poi_index.py")
         app.state.poi_db = None
 
-    elapsed = round(time.time() - t0, 2)
+    elapsed: float = round(float(time.time() - t0), 2)
     print(f"All engines ready in {elapsed}s")
     print("=" * 50)
     yield
@@ -99,7 +99,7 @@ NOMINATIM_URL = "https://nominatim.openstreetmap.org/search"
 NOMINATIM_USER_AGENT = "Marg-PuneTransitPlanner/1.0"
 PUNE_VIEWBOX = "73.6,18.2,74.3,18.8"  # lon1,lat1,lon2,lat2 (wider for PCMC+Hinjewadi)
 
-GEOCODE_CACHE = {}
+GEOCODE_CACHE: dict[str, dict] = {}
 
 # Import master places for Tier 0 geocoding
 from app.utils import PUNE_MASTER_PLACES
@@ -354,10 +354,10 @@ async def geocode_search(q: str = Query(..., min_length=2, description="Search q
             }]
 
         # ── Deduplicate by (round(lat,3), round(lon,3)) ─────────────────
-        seen = set()
-        unique = []
+        seen: set[tuple[float, float]] = set()
+        unique: list[dict] = []
         for r in sorted(results, key=lambda x: -x.get("importance", 0)):
-            key = (round(r["lat"], 3), round(r["lon"], 3))
+            key = (round(float(r["lat"]), 3), round(float(r["lon"]), 3))
             if key not in seen:
                 seen.add(key)
                 unique.append(r)
