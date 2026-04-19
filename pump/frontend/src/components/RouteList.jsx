@@ -12,6 +12,7 @@ export default function RouteList({
     onExpandRoute,
     loading,
     departureTime,
+    departureTimeUsed,
 }) {
     if (loading) {
         return (
@@ -59,6 +60,7 @@ export default function RouteList({
                             onSelect={onSelectRoute}
                             onExpand={onExpandRoute}
                             departureTime={departureTime}
+                            departureTimeUsed={departureTimeUsed}
                         />
                     </motion.div>
                 ))}

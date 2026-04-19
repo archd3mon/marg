@@ -17,11 +17,11 @@ export const getStops = async () => {
     return res.data;
 };
 
-export const searchRoutes = async (source, dest, date, modePreferences = null) => {
+export const searchRoutes = async (source, dest, departureTime, modePreferences = null) => {
     const res = await api.post('/routes/search', {
         source: { lat: source.lat, lng: source.lng },
         destination: { lat: dest.lat, lng: dest.lng },
-        departure_time: date.toISOString(),
+        departure_time: departureTime || new Date().toISOString(),
         mode_preferences: modePreferences,
     });
     return res.data;

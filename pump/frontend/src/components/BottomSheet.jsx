@@ -17,6 +17,7 @@ export default function BottomSheet({
     onCloseItinerary,
     loading,
     departureTime,
+    departureTimeUsed,
 }) {
     const { sheetState, sheetHeight, snapTo, handlers } = useBottomSheet(
         routes.length > 0 ? 'half' : 'collapsed'
@@ -64,6 +65,7 @@ export default function BottomSheet({
                         onExpandRoute={onExpandRoute}
                         loading={loading}
                         departureTime={departureTime}
+                        departureTimeUsed={departureTimeUsed}
                     />
                 )}
             </div>

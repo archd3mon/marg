@@ -281,3 +281,58 @@ class TestComprehensiveGeocode:
         assert 18.0 < first["lat"] < 19.5, f"'{place}' lat {first['lat']} out of Maharashtra range"
         assert 73.0 < first["lon"] < 75.0, f"'{place}' lon {first['lon']} out of Maharashtra range"
 
+
+class TestDepartureTime:
+    """Tests for departure time feature."""
+
+    def test_routes_with_departure_time(self, client):
+        """Routes search with explicit departure_time returns valid results."""
+        payload = {
+            "source": {"lat": 18.5204, "lng": 73.8567},
+            "destination": {"lat": 18.5642, "lng": 73.8440},
+            "departure_time": "2026-06-10T08:30:00",
+            "mode_preferences": {}
+        }
+        response = client.post("/api/v1/routes/search", json=payload)
+        assert response.status_code == 200
+        data = response.json()
+        assert "routes" in data
+        assert "departure_time_used" in data
+        assert "08:30" in data["departure_time_used"] or "03:00" in data["departure_time_used"]
+
+    def test_routes_without_departure_time_defaults_to_now(self, client):
+        """Routes search without departure_time still works (defaults to current time)."""
+        payload = {
+            "source": {"lat": 18.5204, "lng": 73.8567},
+            "destination": {"lat": 18.5642, "lng": 73.8440},
+        }
+        response = client.post("/api/v1/routes/search", json=payload)
+        assert response.status_code == 200
+        data = response.json()
+        assert "departure_time_used" in data
+
+    def test_routes_off_peak_vs_rush_differ(self, client):
+        """Routes at rush hour and off-peak should return different scores."""
+        base = {
+            "source": {"lat": 18.5204, "lng": 73.8567},
+            "destination": {"lat": 18.5642, "lng": 73.8440},
+            "mode_preferences": {}
+        }
+        rush_payload = {**base, "departure_time": "2026-06-10T08:30:00"}
+        offpk_payload = {**base, "departure_time": "2026-06-10T14:00:00"}
+
+        rush_resp = client.post("/api/v1/routes/search", json=rush_payload)
+        offpk_resp = client.post("/api/v1/routes/search", json=offpk_payload)
+
+        assert rush_resp.status_code == 200
+        assert offpk_resp.status_code == 200
+
+        rush_time = rush_resp.json()["routes"][0]["total_time_mins"]
+        offpk_time = offpk_resp.json()["routes"][0]["total_time_mins"]
+
+        # Rush-hour route should take longer than off-peak
+        assert rush_time >= offpk_time, (
+            f"Expected rush ({rush_time}) >= off-peak ({offpk_time})"
+        )
+
+

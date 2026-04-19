@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { searchRoutes } from './api';
+import { getDefaultDepartureTime } from './utils/time';
 import SearchPanel from './components/SearchPanel';
 import RouteList from './components/RouteList';
 import ItineraryPanel from './components/ItineraryPanel';
@@ -40,7 +41,8 @@ export default function App() {
   const [selectedRouteIdx, setSelectedRouteIdx] = useState(0);
   const [expandedRoute, setExpandedRoute] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [departureTime] = useState(new Date());
+  const [departureTime, setDepartureTime] = useState(getDefaultDepartureTime);
+  const [departureTimeUsed, setDepartureTimeUsed] = useState(null);
   const [hoveredLegIndex, setHoveredLegIndex] = useState(null);
   const [modePreferences, setModePreferences] = useState({
     prefer_metro: false,
@@ -103,9 +105,15 @@ export default function App() {
       }
       const prefs = Object.keys(activePrefs).length > 0 ? activePrefs : null;
 
-      const data = await searchRoutes(source, dest, departureTime, prefs);
+      // Convert datetime-local string to full ISO-8601 for the API
+      const departureIso = departureTime
+        ? new Date(departureTime).toISOString()
+        : new Date().toISOString();
+
+      const data = await searchRoutes(source, dest, departureIso, prefs);
       setRoutes(data.routes || []);
       setWarnings(data.warnings || []);
+      setDepartureTimeUsed(data.departure_time_used || null);
       setSelectedRouteIdx(0);
     } catch (err) {
       console.error('Route search error:', err);
@@ -164,6 +172,8 @@ export default function App() {
             isMobile={false}
             modePreferences={modePreferences}
             onModePreferenceChange={handleModePreferenceChange}
+            departureTime={departureTime}
+            onDepartureTimeChange={setDepartureTime}
           />
 
           <div className="sidebar__results">
@@ -183,6 +193,7 @@ export default function App() {
                 onExpandRoute={handleExpandRoute}
                 loading={loading}
                 departureTime={departureTime}
+                departureTimeUsed={departureTimeUsed}
               />
             )}
           </div>
@@ -222,6 +233,8 @@ export default function App() {
           isMobile={true}
           modePreferences={modePreferences}
           onModePreferenceChange={handleModePreferenceChange}
+          departureTime={departureTime}
+          onDepartureTimeChange={setDepartureTime}
         />
       </div>
 
@@ -244,6 +257,7 @@ export default function App() {
         onCloseItinerary={handleCloseItinerary}
         loading={loading}
         departureTime={departureTime}
+        departureTimeUsed={departureTimeUsed}
         hoveredLegIndex={hoveredLegIndex}
         onHoverLeg={setHoveredLegIndex}
       />

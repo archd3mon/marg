@@ -3,6 +3,7 @@ from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional
+from datetime import datetime
 import json
 import httpx
 import math
@@ -13,6 +14,7 @@ import sqlite3
 import difflib
 from pathlib import Path
 import os
+import pytz
 
 from app.network.graph import engine
 from app.ml.inference import predictor
@@ -113,8 +115,28 @@ class Point(BaseModel):
 class RouteRequest(BaseModel):
     source: Point
     destination: Point
-    departure_time: str  # "YYYY-MM-DDTHH:MM:SS"
-    mode_preferences: Optional[dict] = None  # {"prefer_metro": True, ...}
+    departure_time: Optional[str] = None      # ISO-8601 string or None
+    mode_preferences: Optional[dict] = None   # {"prefer_metro": True, ...}
+
+
+def parse_departure_time(raw: Optional[str]) -> datetime:
+    """
+    Parse ISO-8601 departure_time sent by the client.
+    Falls back to current local Pune time if None or unparseable.
+    Always returns a timezone-aware datetime in Asia/Kolkata.
+    """
+    IST = pytz.timezone("Asia/Kolkata")
+    if raw:
+        try:
+            dt = datetime.fromisoformat(raw)
+            if dt.tzinfo is None:
+                dt = IST.localize(dt)
+            else:
+                dt = dt.astimezone(IST)
+            return dt
+        except (ValueError, TypeError):
+            pass
+    return datetime.now(IST)
 
 
 # --- Error Responses ---
@@ -452,14 +474,9 @@ def search_routes(request: RouteRequest):
 
     try:
         # Parse departure time
-        try:
-            from datetime import datetime
-            dt = datetime.fromisoformat(request.departure_time.replace("Z", "+00:00"))
-            hour = dt.hour
-            day = dt.weekday()
-        except Exception:
-            hour = 10
-            day = 0
+        departure_dt = parse_departure_time(request.departure_time)
+        hour = departure_dt.hour
+        day = departure_dt.weekday()
 
         s_nodes, s_warn = engine.find_nearest_nodes(request.source.lat, request.source.lng)
         d_nodes, d_warn = engine.find_nearest_nodes(request.destination.lat, request.destination.lng)
@@ -503,7 +520,7 @@ def search_routes(request: RouteRequest):
                     "to": "Destination",
                     "duration": walk_time_min * 60
                 }],
-                "total_time_min": round(walk_time_min),
+                "total_time_mins": round(walk_time_min),
                 "total_time": walk_time_min * 60,
                 "total_time_s": walk_time_min * 60,
                 "total_distance_km": round(walk_distance_km, 2),
@@ -513,7 +530,7 @@ def search_routes(request: RouteRequest):
                 "badges": ["🚶 Walk only"],
                 "warning": "No transit route found. Showing direct walking distance only."
             }]
-            return {"routes": routes, "warnings": warnings}
+            return {"routes": routes, "warnings": warnings, "departure_time_used": departure_dt.isoformat()}
 
         # Score & Rank (with mode preferences)
         ranked = score_and_rank_routes(
@@ -527,7 +544,7 @@ def search_routes(request: RouteRequest):
         # Enhance walk legs with OSRM road-following paths
         _enhance_walk_paths(ranked)
 
-        return {"routes": ranked, "warnings": warnings}
+        return {"routes": ranked, "warnings": warnings, "departure_time_used": departure_dt.isoformat()}
 
     except ValueError as e:
         if "too far" in str(e).lower():

@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { geocodeSearch } from '../api';
+import { getDefaultDepartureTime } from '../utils/time';
 import ModeIcon from './ModeIcon';
 import useRecentLocations from '../hooks/useRecentLocations';
 
@@ -22,6 +23,8 @@ export default function SearchPanel({
     isMobile,
     modePreferences,
     onModePreferenceChange,
+    departureTime,
+    onDepartureTimeChange,
 }) {
     const [sourceQuery, setSourceQuery] = useState('');
     const [destQuery, setDestQuery] = useState('');
@@ -305,6 +308,28 @@ export default function SearchPanel({
                         <span>{t.label}</span>
                     </button>
                 ))}
+            </div>
+
+            {/* Departure time picker */}
+            <div className="departure-time-row">
+              <label htmlFor="departure-time-input" className="departure-time-label">
+                Depart at
+              </label>
+              <input
+                id="departure-time-input"
+                type="datetime-local"
+                className="departure-time-input"
+                value={departureTime}
+                onChange={(e) => onDepartureTimeChange(e.target.value)}
+              />
+              <button
+                type="button"
+                className="departure-time-now-btn"
+                onClick={() => onDepartureTimeChange(getDefaultDepartureTime())}
+                title="Reset to now"
+              >
+                Now
+              </button>
             </div>
 
             <button

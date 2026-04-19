@@ -889,3 +889,65 @@ body {
 .bottom-sheet__content::-webkit-scrollbar-track {
   background: transparent;
 }
+
+/* ==========================================================================
+   Departure Time Picker
+   ========================================================================== */
+.departure-time-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm);
+  margin: var(--sp-md) 0 0;
+}
+
+.departure-time-label {
+  font-size: 13px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-weight: 500;
+}
+
+.departure-time-input {
+  flex: 1;
+  min-width: 0;
+  height: 36px;
+  padding: 0 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  background: var(--bg-primary);
+  color: var(--text-main);
+  font-family: inherit;
+}
+
+.departure-time-input:focus {
+  outline: none;
+  border-color: var(--brand);
+}
+
+.departure-time-now-btn {
+  flex-shrink: 0;
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  background: var(--bg-hover);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background 0.15s;
+  font-family: inherit;
+  font-weight: 500;
+}
+
+.departure-time-now-btn:hover {
+  background: var(--border);
+}
+
+.route-card-departure {
+  font-size: 12px;
+  color: var(--text-muted);
+  display: block;
+  margin-top: var(--sp-xs);
+}

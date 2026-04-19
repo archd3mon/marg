@@ -1,10 +1,11 @@
 import ModeIcon from './ModeIcon';
+import { formatDepartureTime } from '../utils/time';
 
 /**
  * RouteCard — Summary card for a single route option.
  * Shows total time, transfers, mode chain, and estimated arrival.
  */
-export default function RouteCard({ route, index, isSelected, onSelect, onExpand, departureTime }) {
+export default function RouteCard({ route, index, isSelected, onSelect, onExpand, departureTime, departureTimeUsed }) {
     // Build unique mode chain (e.g. Walk → Bus → Metro)
     const modeChain = [];
     if (route.legs) {
@@ -19,8 +20,13 @@ export default function RouteCard({ route, index, isSelected, onSelect, onExpand
 
     // Calculate estimated arrival
     const getArrivalTime = () => {
-        if (!departureTime || !route.total_time_mins) return null;
-        const arrival = new Date(departureTime.getTime() + route.total_time_mins * 60000);
+        const timeValue = route.total_time_mins || route.total_time_min;
+        if (!departureTime || !timeValue) return null;
+        
+        const depDate = departureTime instanceof Date ? departureTime : new Date(departureTime);
+        if (isNaN(depDate.getTime())) return null;
+
+        const arrival = new Date(depDate.getTime() + timeValue * 60000);
         return arrival.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     };
 
@@ -80,6 +86,12 @@ export default function RouteCard({ route, index, isSelected, onSelect, onExpand
                     </span>
                 ))}
             </div>
+
+            {departureTimeUsed && (
+              <span className="route-card-departure">
+                Departing {formatDepartureTime(departureTimeUsed)}
+              </span>
+            )}
 
             {isSelected && (
                 <button
