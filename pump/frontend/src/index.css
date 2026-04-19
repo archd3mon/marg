@@ -893,56 +893,72 @@ body {
 /* ==========================================================================
    Departure Time Picker
    ========================================================================== */
-.departure-time-row {
+.departure-picker {
+  margin-top: var(--sp-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-sm);
+}
+
+.departure-picker__toggles {
+  display: flex;
+  gap: var(--sp-sm);
+}
+
+.depart-toggle {
   display: flex;
   align-items: center;
-  gap: var(--sp-sm);
-  margin: var(--sp-md) 0 0;
-}
-
-.departure-time-label {
-  font-size: 13px;
-  color: var(--text-secondary);
-  white-space: nowrap;
-  flex-shrink: 0;
-  font-weight: 500;
-}
-
-.departure-time-input {
-  flex: 1;
-  min-width: 0;
-  height: 36px;
-  padding: 0 10px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  font-size: 13px;
-  background: var(--bg-primary);
-  color: var(--text-main);
+  gap: 6px;
+  padding: 6px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-full);
+  background: var(--bg-panel);
   font-family: inherit;
-}
-
-.departure-time-input:focus {
-  outline: none;
-  border-color: var(--brand);
-}
-
-.departure-time-now-btn {
-  flex-shrink: 0;
-  height: 36px;
-  padding: 0 12px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  font-size: 13px;
-  background: var(--bg-hover);
+  font-size: 0.75rem;
+  font-weight: 600;
   color: var(--text-secondary);
   cursor: pointer;
-  transition: background 0.15s;
-  font-family: inherit;
-  font-weight: 500;
+  transition: all 0.2s var(--ease-out);
+  white-space: nowrap;
+  line-height: 1;
 }
 
-.departure-time-now-btn:hover {
-  background: var(--border);
+.depart-toggle:hover {
+  border-color: var(--brand);
+  color: var(--brand);
+}
+
+.depart-toggle--active {
+  background: var(--brand-faint);
+  border-color: var(--brand);
+  color: var(--brand);
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+}
+
+.departure-picker__input {
+  width: 100%;
+  height: 38px;
+  padding: 0 var(--sp-md);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-main);
+  background: var(--bg-primary);
+  transition: all 0.2s var(--ease-out);
+  outline: none;
+  color-scheme: light;
+}
+
+.departure-picker__input:hover {
+  border-color: var(--text-muted);
+}
+
+.departure-picker__input:focus {
+  border-color: var(--brand);
+  background: var(--brand-faint);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 .route-card-departure {
@@ -951,3 +967,4 @@ body {
   display: block;
   margin-top: var(--sp-xs);
 }
+

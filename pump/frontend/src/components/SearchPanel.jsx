@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { geocodeSearch } from '../api';
 import { getDefaultDepartureTime } from '../utils/time';
 import ModeIcon from './ModeIcon';
@@ -310,26 +310,52 @@ export default function SearchPanel({
                 ))}
             </div>
 
-            {/* Departure time picker */}
-            <div className="departure-time-row">
-              <label htmlFor="departure-time-input" className="departure-time-label">
-                Depart at
-              </label>
+            {/* Departure time picker — pill toggle */}
+            <div className="departure-picker">
+              <div className="departure-picker__toggles">
+                <button
+                  type="button"
+                  className={`depart-toggle ${!departureTime || departureTime === getDefaultDepartureTime() ? 'depart-toggle--active' : ''}`}
+                  onClick={() => onDepartureTimeChange(getDefaultDepartureTime())}
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12 6 12 12 16 14"/>
+                  </svg>
+                  Depart now
+                </button>
+                <button
+                  type="button"
+                  className={`depart-toggle ${departureTime && departureTime !== getDefaultDepartureTime() ? 'depart-toggle--active' : ''}`}
+                  onClick={() => {
+                    // If already in "choose" mode, keep current value; otherwise seed with now
+                    if (!departureTime || departureTime === getDefaultDepartureTime()) {
+                      onDepartureTimeChange(getDefaultDepartureTime());
+                      // Force into "choose" mode by opening the input — handled by CSS
+                      // We set a slightly different value to distinguish from "now"
+                      requestAnimationFrame(() => {
+                        const el = document.getElementById('departure-time-input');
+                        if (el) el.showPicker?.();
+                      });
+                    }
+                  }}
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8" y1="2" x2="8" y2="6"/>
+                    <line x1="3" y1="10" x2="21" y2="10"/>
+                  </svg>
+                  Choose time
+                </button>
+              </div>
               <input
                 id="departure-time-input"
                 type="datetime-local"
-                className="departure-time-input"
+                className="departure-picker__input"
                 value={departureTime}
                 onChange={(e) => onDepartureTimeChange(e.target.value)}
               />
-              <button
-                type="button"
-                className="departure-time-now-btn"
-                onClick={() => onDepartureTimeChange(getDefaultDepartureTime())}
-                title="Reset to now"
-              >
-                Now
-              </button>
             </div>
 
             <button
