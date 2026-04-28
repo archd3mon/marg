@@ -174,8 +174,8 @@ class RouteEngine:
         # --- PHASE 4 & 7: RAPTOR INTEGRATION WITH A* FALLBACK ---
         if ENABLE_RAPTOR and self.tree is not None:
             try:
-                def get_nearby_stops(lat, lon, r_deg=0.015):
-                    # 0.015 degrees is roughly 1.5km
+                def get_nearby_stops(lat, lon, r_deg=0.008):
+                    # 0.008 degrees is roughly 800m
                     indices = self.tree.query_ball_point([lat, lon], r=r_deg)
                     stops = {}
                     for idx in indices:
@@ -241,10 +241,14 @@ class RouteEngine:
                                                     
                                         if geom:
                                             clean_geom = [geom[0]]
+                                            exact_dist = 0.0
                                             for pt in geom[1:]:
                                                 if pt != clean_geom[-1]:
+                                                    exact_dist += haversine(clean_geom[-1][0], clean_geom[-1][1], pt[0], pt[1])
                                                     clean_geom.append(pt)
                                             leg["path"] = clean_geom
+                                            if leg["mode"] == "walk" and exact_dist > 0:
+                                                leg["length_m"] = exact_dist
                                     except Exception as inner_e:
                                         pass
                         except Exception as e:
@@ -304,9 +308,14 @@ class RouteEngine:
                                     geom.append([n_v['lat'], n_v['lon']])
                         if geom:
                             clean_geom = [geom[0]]
+                            exact_dist = 0.0
                             for pt in geom[1:]:
-                                if pt != clean_geom[-1]: clean_geom.append(pt)
+                                if pt != clean_geom[-1]: 
+                                    exact_dist += haversine(clean_geom[-1][0], clean_geom[-1][1], pt[0], pt[1])
+                                    clean_geom.append(pt)
                             leg["path"] = clean_geom
+                            if leg["mode"] == "walk" and exact_dist > 0:
+                                leg["length_m"] = exact_dist
                     except Exception:
                         pass
                 
@@ -322,7 +331,7 @@ class RouteEngine:
 
             # Apply Step 3 walk leg prepending/appending
             for route in routes:
-                if s_dist_km > 1.5:
+                if s_dist_km > 0.05:
                     w_time = (s_dist_km / 5.0) * 3600
                     w_leg = {
                         "from_node": {"name": "Origin", "lat": source_lat, "lon": source_lon},
@@ -346,7 +355,7 @@ class RouteEngine:
                         route["total_time_s"] += w_time
                         route["total_time"] += w_time
                         
-                if d_dist_km > 1.5:
+                if d_dist_km > 0.05:
                     w_time = (d_dist_km / 5.0) * 3600
                     w_leg = {
                         "from_node": dict(self.G.nodes[dest_id]) if 'lat' in self.G.nodes[dest_id] else {"name": "Transit Stop"},
@@ -413,9 +422,14 @@ class RouteEngine:
                                                 geom.append([n_v['lat'], n_v['lon']])
                                     if geom:
                                         clean_geom = [geom[0]]
+                                        exact_dist = 0.0
                                         for pt in geom[1:]:
-                                            if pt != clean_geom[-1]: clean_geom.append(pt)
+                                            if pt != clean_geom[-1]: 
+                                                exact_dist += haversine(clean_geom[-1][0], clean_geom[-1][1], pt[0], pt[1])
+                                                clean_geom.append(pt)
                                         leg["path"] = clean_geom
+                                        if leg["mode"] == "walk" and exact_dist > 0:
+                                            leg["length_m"] = exact_dist
                                 except Exception:
                                     pass
                             routes.append(metro_route)
@@ -618,8 +632,8 @@ class RouteEngine:
             merged_legs.append(leg)
 
         transfers = self._count_transfers(merged_legs)
-        # 300 seconds penalty per transfer
-        total_time = sum(leg["travel_time"] for leg in merged_legs) + (transfers * 300)
+        # Calculate true travel time without artificial penalty
+        total_time = sum(leg["travel_time"] for leg in merged_legs)
 
         # Map to phase 9 format
         segments = []

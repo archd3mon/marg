@@ -106,14 +106,14 @@ export default function App() {
       const prefs = Object.keys(activePrefs).length > 0 ? activePrefs : null;
 
       // Convert datetime-local string to full ISO-8601 for the API
-      const departureIso = departureTime
-        ? new Date(departureTime).toISOString()
-        : new Date().toISOString();
+      const explicitTime = window.forceTime 
+        ? window.forceTime 
+        : (departureTime ? new Date(departureTime).toISOString() : new Date().toISOString());
 
-      const data = await searchRoutes(source, dest, departureIso, prefs);
+      const data = await searchRoutes(source, dest, explicitTime, prefs);
       setRoutes(data.routes || []);
       setWarnings(data.warnings || []);
-      setDepartureTimeUsed(data.departure_time_used || null);
+      setDepartureTimeUsed(data.departure_time_used || explicitTime);
       setSelectedRouteIdx(0);
     } catch (err) {
       console.error('Route search error:', err);

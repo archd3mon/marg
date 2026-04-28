@@ -112,6 +112,8 @@ def score_and_rank_routes(top_k_paths, departure_hour=10, departure_day=0,
 
         # Comfort bonus for metro usage
         comfort = METRO_COMFORT_BONUS if uses_metro else 0
+        if transfers == 0:
+            comfort -= 20.0 # Huge bonus for direct routes
 
         # Advanced Transfer Logic (Upgrade 8)
         transfer_penalty_total = 0.0
@@ -129,6 +131,11 @@ def score_and_rank_routes(top_k_paths, departure_hour=10, departure_day=0,
         # Fallback if the path didn't explicitly separate legs but transfers > 0
         if transfers > 0 and transfer_penalty_total == 0:
             transfer_penalty_total = transfers * TRANSFER_PENALTY_MINS
+
+        total_route_dist_m = sum(leg.get("length_m", 0.0) for leg in path.get("legs", []))
+        if total_route_dist_m < 5000 and transfers >= 1:
+            # Aggressively penalize transit-swapping on short routes (+15 mins per transfer)
+            transfer_penalty_total += transfers * 15.0
 
         # Final scoring formula
         score = (

@@ -434,33 +434,37 @@ def _enhance_walk_paths(ranked_routes: list):
     """
     import httpx
 
-    for route in ranked_routes:
-        for leg in route.get("legs", []):
-            if leg.get("mode") != "walk":
-                continue
-            path = leg.get("path")
-            # Only enhance legs with straight-line fallback (exactly 2 points)
-            if path and len(path) == 2:
-                from_pt = path[0]  # [lat, lon]
-                to_pt = path[1]    # [lat, lon]
-                try:
-                    url = (
-                        f"https://router.project-osrm.org/route/v1/foot/"
-                        f"{from_pt[1]},{from_pt[0]};{to_pt[1]},{to_pt[0]}"
-                        f"?overview=full&geometries=polyline"
-                    )
-                    resp = httpx.get(url, timeout=1.5)
-                    if resp.status_code == 200:
-                        data = resp.json()
-                        routes_data = data.get("routes", [])
-                        if routes_data:
-                            geom = routes_data[0].get("geometry", "")
-                            if geom:
-                                decoded = _decode_polyline(geom)
-                                if len(decoded) > 2:
-                                    leg["path"] = decoded
-                except Exception:
-                    pass  # Keep straight-line path on any error
+    # Only enhance the top-ranked route to avoid OSRM public API rate limits / sequential timeouts
+    if not ranked_routes:
+        return
+        
+    top_route = ranked_routes[0]
+    for leg in top_route.get("legs", []):
+        if leg.get("mode") != "walk":
+            continue
+        path = leg.get("path")
+        # Enhance legs with OSRM road-following geometry (use first & last points)
+        if path and len(path) >= 2:
+            from_pt = path[0]  # [lat, lon]
+            to_pt = path[-1]    # [lat, lon]
+            try:
+                url = (
+                    f"https://router.project-osrm.org/route/v1/foot/"
+                    f"{from_pt[1]},{from_pt[0]};{to_pt[1]},{to_pt[0]}"
+                    f"?overview=full&geometries=polyline"
+                )
+                resp = httpx.get(url, timeout=0.8) # ultra fast timeout
+                if resp.status_code == 200:
+                    data = resp.json()
+                    routes_data = data.get("routes", [])
+                    if routes_data:
+                        geom = routes_data[0].get("geometry", "")
+                        if geom:
+                            decoded = _decode_polyline(geom)
+                            if len(decoded) > 2:
+                                leg["path"] = decoded
+            except Exception:
+                pass  # Keep straight-line path on any error
 
 
 @app.post("/api/v1/routes/search")
@@ -487,6 +491,10 @@ def search_routes(request: RouteRequest):
         warnings = []
         if s_dist > 0.025 or d_dist > 0.025:
             warnings.append("Origin or destination is far from transit stops. Route may involve a long walk.")
+            
+        # Warning for data-sparse off-peak regions
+        if hour < 6 or hour > 21:
+            warnings.append("High-frequency direct connections may have ceased for the night. Slower alternatives shown.")
 
         # Generate routes
         k_paths = engine.k_shortest_paths(
