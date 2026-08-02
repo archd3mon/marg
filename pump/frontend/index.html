@@ -2,12 +2,27 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+    <!-- Android status bar colour — matches the app's brand blue -->
+    <meta name="theme-color" content="#2563eb" />
+
+    <!-- App identity -->
+    <title>Marg — Pune Transit Planner</title>
+    <meta name="description" content="Multimodal urban transit planner for Pune. Find the fastest routes via Metro, Bus, and Walking." />
+
+    <!-- Favicon placeholder — replace with final icon before store submission -->
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Marg</title>
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- CARTO tile CDN preconnect — speeds up first tile load -->
+    <link rel="preconnect" href="https://a.basemaps.cartocdn.com">
+    <link rel="preconnect" href="https://b.basemaps.cartocdn.com">
+    <link rel="preconnect" href="https://c.basemaps.cartocdn.com">
   </head>
   <body>
     <div id="root"></div>

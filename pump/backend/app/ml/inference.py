@@ -5,7 +5,11 @@ from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
-MODEL_PATH = Path("/home/jayant/gitgud/marg/marg/pump/data/models/travel_time_rf.pkl")
+# pump/backend/app/ml/inference.py → 4 parents → pump/ → /data/models/
+_ML_BASE = Path(__file__).resolve().parent.parent.parent.parent / "data" / "models"
+MODEL_PATH = Path(
+    __import__('os').getenv("ML_MODEL_PATH", str(_ML_BASE / "travel_time_rf.pkl"))
+)
 
 class TravelTimePredictor:
     def __init__(self):

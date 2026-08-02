@@ -1,7 +1,12 @@
 import axios from 'axios';
 
+// In the Capacitor native build, VITE_API_BASE_URL must be the full HTTPS URL
+// of the deployed backend (e.g. https://marg-api.onrender.com/api/v1).
+// In local web dev it falls back to the Vite proxy path '/api/v1'.
+const API_BASE = import.meta.env.VITE_API_BASE_URL || '/api/v1';
+
 const api = axios.create({
-    baseURL: '/api/v1',
+    baseURL: API_BASE,
     headers: {
         'Content-Type': 'application/json'
     }

@@ -11,7 +11,9 @@ from app.transit.raptor import raptor_engine
 logger = logging.getLogger(__name__)
 
 ENABLE_RAPTOR = True
-DATA_DIR = Path(os.getenv("PUMP_DATA_DIR", "/home/jayant/gitgud/marg/marg/pump/data/processed"))
+# pump/backend/app/network/graph.py → 4 parents → pump/ → /data/processed
+_GRAPH_BASE = Path(__file__).resolve().parent.parent.parent.parent / "data" / "processed"
+DATA_DIR = Path(os.getenv("PUMP_DATA_DIR", str(_GRAPH_BASE)))
 GRAPH_PATH = DATA_DIR / "multimodal_graph.gpickle"
 KDTREE_PATH = DATA_DIR / "spatial_index.pkl"
 

@@ -1,0 +1,37 @@
+services:
+  # FastAPI backend — deployed as a Web Service on Render's free tier
+  - type: web
+    name: marg-api
+    runtime: python
+    region: singapore  # closest to Pune users; change to oregon if you prefer
+    plan: free
+    rootDir: pump/backend
+
+    # Render uses this command to start the server.
+    # --host 0.0.0.0 is required (Render routes external traffic to 0.0.0.0).
+    # --workers 1 keeps memory below the free-tier 512 MB limit.
+    # The port is injected by Render as the PORT env var.
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT --workers 1
+
+    # Build command — install Python dependencies.
+    buildCommand: pip install -r requirements.txt
+
+    envVars:
+      # ALLOWED_ORIGINS: comma-separated list of origins permitted by CORS.
+      # capacitor://localhost is the WebView origin on Android (Capacitor default).
+      # Add your Render URL here too if you host the web frontend on Render.
+      - key: ALLOWED_ORIGINS
+        value: "capacitor://localhost,https://marg-app.onrender.com"
+
+      # Python path — ensures `from app.xxx import yyy` resolves correctly.
+      - key: PYTHONPATH
+        value: .
+
+      # Render injects PORT automatically; this line documents it for clarity.
+      # Do NOT hardcode a port here — Render assigns it dynamically.
+      # - key: PORT
+      #   value: 10000   ← DO NOT uncomment this
+
+    # Health check — Render pings this to confirm the server is up.
+    # The /api/v1/health endpoint already exists in main.py.
+    healthCheckPath: /api/v1/health

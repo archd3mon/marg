@@ -17,7 +17,8 @@ from typing import Optional
 
 GTFS_DIR = Path(os.getenv(
     "GTFS_DATA_DIR",
-    "/home/jayant/gitgud/marg/marg/pump/data/gtfs"
+    # pump/backend/app/transit/gtfs_loader.py → 4 parents → pump/ → /data/gtfs
+    str(Path(__file__).resolve().parent.parent.parent.parent / "data" / "gtfs")
 ))
 
 

@@ -3,7 +3,9 @@ import os
 from pathlib import Path
 from rapidfuzz import process, fuzz
 
-DATA_DIR = Path(os.getenv("PUMP_DATA_DIR", "/home/jayant/gitgud/marg/marg/pump/data/processed"))
+# pump/backend/app/search/search.py → 4 parents → pump/ → /data/processed
+_SEARCH_BASE = Path(__file__).resolve().parent.parent.parent.parent / "data" / "processed"
+DATA_DIR = Path(os.getenv("PUMP_DATA_DIR", str(_SEARCH_BASE)))
 
 # Hardcoded popular Pune aliases / landmarks that Nominatim struggles with
 LOCAL_LANDMARKS = [

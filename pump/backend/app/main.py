@@ -82,19 +82,39 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="Pune Urban Mobility Planner - Marg", lifespan=lifespan)
 
-# Enable CORS for React frontend
+# CORS — explicit allowlist.
+# capacitor://localhost is the WebView origin used by Capacitor on Android/iOS.
+# ALLOWED_ORIGINS env var (comma-separated) lets Render / CI override this without
+# touching code. Wildcard + credentials is a browser spec violation, so we list
+# origins explicitly.
+_raw_origins = os.getenv(
+    "ALLOWED_ORIGINS",
+    # capacitor://localhost — Capacitor default scheme
+    # https://localhost — when androidScheme='https' is set in capacitor.config.ts
+    # localhost:5173 variants — Vite dev server
+    "capacitor://localhost,https://localhost,http://localhost:5173,http://127.0.0.1:5173,http://localhost:3000"
+)
+ALLOWED_ORIGINS = [o.strip() for o in _raw_origins.split(",") if o.strip()]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["Content-Type", "Authorization"],
 )
 
-# Data directory — points to pump/data/ (parent of processed/)
-DEFAULT_DATA_DIR = Path("/home/jayant/gitgud/marg/marg/pump/data")
+# Data directory — resolves relative to this file so it works on any host
+# (Render, local dev) without requiring PUMP_DATA_DIR to be set.
+# Repo layout: pump/backend/app/main.py
+#   .parent       → pump/backend/app/
+#   .parent.parent → pump/backend/
+#   .parent.parent.parent → pump/
+#   / "data"       → pump/data/
+_THIS_FILE = Path(__file__).resolve()
+_REPO_DATA_DIR = _THIS_FILE.parent.parent.parent / "data"
 DATA_DIR_ENV = os.getenv("PUMP_DATA_DIR")
-DATA_DIR = Path(DATA_DIR_ENV) if DATA_DIR_ENV else DEFAULT_DATA_DIR
+DATA_DIR = Path(DATA_DIR_ENV) if DATA_DIR_ENV else _REPO_DATA_DIR
 
 # Nominatim settings
 NOMINATIM_URL = "https://nominatim.openstreetmap.org/search"
