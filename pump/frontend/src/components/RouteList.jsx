@@ -1,5 +1,4 @@
 import RouteCard from './RouteCard';
-import { motion, AnimatePresence } from 'framer-motion';
 
 /**
  * RouteList — Container for route option cards.
@@ -44,27 +43,19 @@ export default function RouteList({
             <div className="route-list__header">
                 <span className="route-list__count">{routes.length} route{routes.length !== 1 ? 's' : ''} found</span>
             </div>
-            <AnimatePresence>
-                {routes.map((route, idx) => (
-                    <motion.div
-                        key={idx}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.3, delay: idx * 0.1 }}
-                    >
-                        <RouteCard
-                            route={route}
-                            index={idx}
-                            isSelected={selectedRouteIdx === idx}
-                            onSelect={onSelectRoute}
-                            onExpand={onExpandRoute}
-                            departureTime={departureTime}
-                            departureTimeUsed={departureTimeUsed}
-                        />
-                    </motion.div>
-                ))}
-            </AnimatePresence>
+            {routes.map((route, idx) => (
+                <div key={idx} className="route-list__item">
+                    <RouteCard
+                        route={route}
+                        index={idx}
+                        isSelected={selectedRouteIdx === idx}
+                        onSelect={onSelectRoute}
+                        onExpand={onExpandRoute}
+                        departureTime={departureTime}
+                        departureTimeUsed={departureTimeUsed}
+                    />
+                </div>
+            ))}
         </div>
     );
 }

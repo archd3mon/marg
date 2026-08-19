@@ -106,9 +106,9 @@ export default function App() {
       const prefs = Object.keys(activePrefs).length > 0 ? activePrefs : null;
 
       // Convert datetime-local string to full ISO-8601 for the API
-      const explicitTime = window.forceTime 
-        ? window.forceTime 
-        : (departureTime ? new Date(departureTime).toISOString() : new Date().toISOString());
+      const explicitTime = departureTime
+        ? new Date(departureTime).toISOString()
+        : new Date().toISOString();
 
       const data = await searchRoutes(source, dest, explicitTime, prefs);
       setRoutes(data.routes || []);

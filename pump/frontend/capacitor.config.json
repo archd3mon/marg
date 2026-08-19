@@ -1,0 +1,19 @@
+{
+  "appId": "com.archd3mon.marg",
+  "appName": "Marg",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https",
+    "allowNavigation": [
+      "*.basemaps.cartocdn.com",
+      "nominatim.openstreetmap.org",
+      "fonts.googleapis.com",
+      "fonts.gstatic.com"
+    ]
+  },
+  "android": {
+    "minSdkVersion": 31,
+    "backgroundColor": "#FFFFFF"
+  },
+  "plugins": {}
+}
