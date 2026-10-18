@@ -33,13 +33,14 @@ class ApiClient {
   final Dio _dio;
   final String baseUrl;
 
-  ApiClient({String? customBaseUrl})
+  ApiClient({String? customBaseUrl, Dio? dio})
       : baseUrl = customBaseUrl ?? const String.fromEnvironment('API_BASE', defaultValue: ''),
-        _dio = Dio(BaseOptions(
-          connectTimeout: const Duration(seconds: 10),
-          receiveTimeout: const Duration(seconds: 45),
-          headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
-        )) {
+        _dio = dio ??
+            Dio(BaseOptions(
+              connectTimeout: const Duration(seconds: 10),
+              receiveTimeout: const Duration(seconds: 45),
+              headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+            )) {
     if (baseUrl.isNotEmpty) {
       _dio.options.baseUrl = baseUrl.endsWith('/') ? baseUrl.substring(0, baseUrl.length - 1) : baseUrl;
     }
