@@ -1,232 +1,208 @@
-# Marg — Pune Urban Mobility Planner
+# Marg (मार्ग) — Pune Urban Mobility Planner
 
-Marg is a production-grade multimodal route planning application for Pune. It integrates Metro, Bus, and Walking paths to generate efficient, time-aware, ML‑scored routes using real-world geographic data and OpenStreetMap.
+Marg is a production-grade multimodal route planning platform for Pune. It integrates Bus (PMPML), Metro, and Walking paths to generate efficient, time-aware, ML‑scored routes using real-world geographic data, GTFS timetables, and OpenStreetMap.
+
+Marg provides two first-class client experiences:
+1. **Flutter Mobile App (Android-first)**: Apple-grade design built with Flutter, featuring liquid glass sheets, tokenized design, and offline resilience. Full details, screenshots gallery, and 60s walkthrough video: [**`docs/MOBILE_README.md`**](docs/MOBILE_README.md).
+2. **React Web App**: Responsive web dashboard with Leaflet map visualization, Framer Motion transitions, and step-by-step itineraries.
 
 ---
 
 ## Features
 
-- **Location Search** — Type place names (e.g. "FC Road", "Pune Airport") with autocomplete powered by OSM Nominatim
-- **Multimodal Routing** — Seamlessly combines walking, bus, and metro segments powered by the time-aware RAPTOR algorithm utilizing real-world GTFS timetables
-- **Time-Aware GTFS Scheduling** — Real transit timetables calculate exact arrival times, wait times, and optimal transfer points
-- **True Alternate Routes** — Structurally different route options (not just edge variants)
-- **Mode Preferences** — Toggle "Prefer Metro", "Prefer Bus", or "Less Walking" to influence route scoring
-- **ML Route Scoring** — Random Forest model predicts leg travel times; final score combines time, transfers, mode penalties, and walking distance
-- **Step-by-Step Directions** — Timeline UI with bus route numbers, metro line names, boarding/alighting instructions
-- **Transfer Detection** — Accurate counting of mode changes (bus→metro, etc.) ignoring walk segments
-- **Recent Locations** — Quick access to last 5 searched origins/destinations via `localStorage`
-- **Interactive Map Feedback** — Real-time highlights when hovering itinerary legs; toast notifications for map pin drops
-- **Mobile-First UI** — Bottom sheet on mobile, sidebar on desktop, responsive layout with glassmorphism and Framer Motion animations
-
----
-
-## Recent Upgrades & Changelog
-
-### [Upgrade 1] — Safe Initialization
-**Date:** 2026-03-22
-- **Backend:** Added `routing_available` flag and `load_status` diagnostics. Structured try/except blocks prevent server crashes if data files are missing or corrupt.
-- **Verification:** Health endpoint now provides granular status for Graph, ML, and Search engines.
-
-### [Upgrade 3] — Eager Loading on Startup
-**Date:** 2026-03-22
-- **Performance:** RAPTOR GTFS structures are now pre-built during server startup. First-request latency dropped from 100s to <1s.
-
-### [Upgrade 4] — KD-Tree Fallback
-**Date:** 2026-03-22
-- **UX:** Improved handling for points far from transit. Now returns descriptive warnings instead of empty results for locations within a 2.5km–5km radius of Pune.
-
-### [Upgrade 5] & [Upgrade 6] — Yen's Algorithm & Diversity Filter
-**Date:** 2026-03-22
-- **Algorithms:** Implementation of Yen's K-Shortest Paths for robust alternatives. A diversity filter ensures paths are structurally distinct (<80% overlap).
-
-### [Upgrade 7] — Multi-Objective Routing
-**Date:** 2026-03-22
-- **UI:** Added route-type badges (⚡ Fastest, 🔁 Fewer Transfers, 🚶 Less Walking) to help users choose based on their current priority.
-
-### [Upgrade 8] — Advanced Transfer Logic
-**Date:** 2026-03-22
-- **Accuracy:** Replaced generic transfer penalties with a hub-aware lookup table (e.g., Civil Court metro transfers are faster than street-level bus swaps).
-
-### [Upgrade 9] — Spatial-Aware Geocoding
-**Date:** 2026-03-22
-- **Search:** Results are now re-ranked using a haversine proximity penalty to Pune city center, ensuring "local" results always appear first.
-
-### [Upgrade 10] — Recent Locations
-**Date:** 2026-03-22
-- **UX:** Added a persistent `localStorage` hook to suggest previous search points when the search input is focused and empty.
-
-### [Upgrade 11] — [Upgrade 13] — Visual & Interactive Overhaul
-**Date:** 2026-03-22
-- **Aesthetics:** Switched to **Outfit** typography and implemented **Glassmorphism** depth.
-- **Interactivity:** Added **Framer Motion** transitions and synchronized sidebar-to-map leg highlighting.
-- **Feedback:** Integrated **react-toastify** for responsive map-state notifications.
+- **Location Search** — Type place names (e.g. "FC Road", "Pune Airport") with autocomplete powered by local POIs and OSM Nominatim, re-ranked with Pune-proximity haversine weighting.
+- **Multimodal & Bus-Priority Routing** — Combines walking, bus, and metro segments powered by the time-aware RAPTOR algorithm utilizing real-world GTFS timetables.
+- **Time-Aware GTFS Scheduling** — Real transit timetables calculate exact arrival times, wait times, and optimal transfer points (schedule-based, honestly disclosed).
+- **True Alternate Routes** — Structurally distinct route options (<80% spatial overlap) with multi-objective trade-offs (Fastest, Fewer Transfers, Less Walking).
+- **Mode Preferences** — Toggle "Prefer Bus", "Prefer Metro", "Less Walking", or "Exclude Metro" (bus-only mode) to guide the search.
+- **ML Route Scoring** — Random Forest model predicts leg travel times; final score balances transit duration, transfer overheads, and walking distance.
+- **Step-by-Step Directions** — Timeline UI with bus route numbers, metro line names, boarding/alighting instructions, and stop expansions.
+- **Interactive Map Feedback** — Road-following polylines, marker sync, and hover leg highlighting.
+- **Apple-Quality Mobile Experience** — Flutter app engineered to Apple Human Interface Guidelines on Android with 8 curated screens in Light and Dark appearances.
 
 ---
 
 ## System Architecture
 
 ```
-┌──────────────────────────────────────────────────────┐
-│                    Frontend (React + Vite)            │
-│  SearchPanel → RouteList → ItineraryPanel → MapView  │
-│  Autocomplete ↔ /api/v1/geocode/search               │
-│  Route Search ↔ /api/v1/routes/search                │
-└──────────────────┬───────────────────────────────────┘
-                   │ HTTP (via Vite proxy)
-┌──────────────────▼───────────────────────────────────┐
-│                 Backend (FastAPI)                     │
-│  main.py → graph.py (RouteEngine)                     │
-│          → RAPTOR (gtfs_loader.py + raptor.py)        │
-│          → ranker.py & inference.py (RF Model)        │
-│  Nominatim geocoding (httpx → OSM API)                │
-└──────────────────┬───────────────────────────────────┘
-                   │ Pickle / JSON
-┌──────────────────▼───────────────────────────────────┐
-│              Data Layer                               │
-│  multimodal_graph.gpickle  (NetworkX MultiDiGraph)    │
-│  spatial_index.pkl         (KDTree for nearest-node)  │
-│  bus_stops.json, metro_stations.json, metro_edges.csv │
-│  travel_time_rf.pkl        (sklearn Random Forest)    │
-└──────────────────────────────────────────────────────┘
+┌─────────────────────────────────┐       ┌─────────────────────────────────┐
+│     Mobile App (Flutter)        │       │    Web App (React + Vite)       │
+│  Explore · Plan · Results · Trip│       │  SearchPanel · RouteList · Map  │
+│  Itinerary · Saved · Alerts     │       │  Framer Motion · Leaflet Map    │
+└────────────────┬────────────────┘       └────────────────┬────────────────┘
+                 │ HTTP (API_BASE)                         │ HTTP (Vite Proxy)
+                 └────────────────┬────────────────────────┘
+                                  │
+                 ┌────────────────▼────────────────────────┐
+                 │          Backend (FastAPI)              │
+                 │  app/main.py (Endpoints & Normalizer)   │
+                 │  app/transit/ (RAPTOR + GTFS Loader)    │
+                 │  app/network/graph.py (A* & KD-Tree)    │
+                 │  app/scoring/ranker.py & ml/ (RF Model) │
+                 │  Nominatim & Local POI Geocoder         │
+                 └────────────────┬────────────────────────┘
+                                  │ Pickle / JSON / CSV
+                 ┌────────────────▼────────────────────────┐
+                 │               Data Layer                │
+                 │  multimodal_graph.gpickle (NetworkX)    │
+                 │  spatial_index.pkl (KDTree Spatial)     │
+                 │  bus_stops.json, bus_routes.json        │
+                 │  metro_stations.json, metro_edges.csv   │
+                 │  travel_time_rf.pkl (Scikit-Learn RF)   │
+                 └─────────────────────────────────────────┘
 ```
 
 ---
 
-## Routing Algorithm
+## 🚀 Run Everything (Backend, React, Flutter)
 
-1. **First/Last Mile Walk Lookup** — KDTree maps the origin and destination to all transit stops within a 1.5km walking radius.
-2. **RAPTOR Timetable Engine** — The core GTFS sequence engine "rides" the active timetables to compute the absolute earliest arrival and fastest multi-modal transfers.
-3. **Graph A* Fallback** — If GTFS scheduling is unviable, the router seamlessly falls back to a time-bucketed NetworkX DiGraph traversing physical roads.
-4. **Diversity Filter** — Transit node paths are compared (<80% overlap) to yield structurally distinct route choices.
-5. **ML Scoring & Ranking** — A Random Forest model weighs (mode, distance, congestion). The final itinerary is ranked via `score = time + (transfers × 8min) + walk_penalty`.
+You can run each layer independently or use provided scripts.
 
----
-
-## Dataset Structure
-
-```
-pump/data/processed/
-├── bus_stops.json            # [{id, name, lat, lon, type: "bus_stop"}, ...]
-├── bus_routes.json           # [{route_id, stops: [...], ...}, ...]
-├── metro_stations.json       # [{id, name, lat, lon, line, order, type: "metro"}, ...]
-├── metro_edges.csv           # from_station, to_station, line
-├── multimodal_graph.gpickle  # NetworkX MultiDiGraph (bus + metro + walk edges)
-├── spatial_index.pkl         # KDTree + node_ids + coords
-└── mapped_transit_stops.json # Combined transit stop mapping
-
-pump/data/models/
-└── travel_time_rf.pkl        # Trained Random Forest model
-```
-
----
-
-## API Endpoints
-
-| Method | Path | Description |
-|--------|------|-------------|
-| `GET` | `/api/v1/health` | System health: graph nodes/edges, ML model status |
-| `GET` | `/api/v1/network/stops` | All metro + first 500 bus stops |
-| `GET` | `/api/v1/geocode/search?q=<query>` | Nominatim geocoding scoped to Pune |
-| `POST` | `/api/v1/routes/search` | Multimodal route search with ML scoring |
-
-**Route search payload:**
-```json
-{
-  "source": {"lat": 18.52, "lng": 73.85},
-  "destination": {"lat": 18.56, "lng": 73.84},
-  "departure_time": "2026-03-16T10:00:00",
-  "mode_preferences": {"prefer_metro": true}
-}
-```
-
----
-
-## How to Run Locally
-
-### 1. Backend
-
+### 1. Run the Backend (FastAPI)
 ```bash
 cd pump/backend
-python3 -m venv venv
+python -m venv venv
+# On Linux/macOS:
 source venv/bin/activate
+# On Windows (PowerShell):
+.\venv\Scripts\Activate.ps1
+
 pip install -r requirements.txt
-uvicorn app.main:app --reload --port 8000
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
+- Health Check: `http://localhost:8000/api/v1/health`
+- Interactive OpenAPI Docs: `http://localhost:8000/docs`
 
-### 2. Frontend
-
+### 2. Run the React Web App
 ```bash
 cd pump/frontend
 npm install
 npm run dev
 ```
+- Web App UI: `http://localhost:5173` (requests to `/api/v1` automatically proxy to `http://localhost:8000`).
 
-### 3. Run Tests
-
+### 3. Run the Flutter Mobile App (Android)
+See [**`docs/MOBILE_README.md`**](docs/MOBILE_README.md) for full mobile documentation and screenshots.
 ```bash
-cd pump/backend
-source venv/bin/activate
-python -m pytest tests/test_routes.py -v
+cd pump/mobile
+flutter pub get
+flutter analyze
+flutter test
+
+# Run on Android emulator (uses 10.0.2.2 loopback to host backend):
+flutter run -d emulator-5554 --dart-define=API_BASE=http://10.0.2.2:8000/api/v1
+
+# Or run pointing to cloud production (e.g. Render):
+flutter run -d emulator-5554 --dart-define=API_BASE=https://<your-service>.onrender.com/api/v1
 ```
 
-### 4. Validate Datasets
-
+### 4. Single-Command Local Mobile Stack
+To automatically launch the Python backend on `0.0.0.0:8000`, wait for health verification, and boot the Flutter app:
 ```bash
-cd pump/backend
-source venv/bin/activate
-python scripts/validate_datasets.py
+bash scripts/run_mobile_local.sh
 ```
 
-### 5. Build Local POI Index
-
+### 5. Repository Verification
+Verify the entire monorepo (backend pytest contract tests, Flutter analyzer, Flutter tests, and design token audit):
 ```bash
-cd pump/backend
-source venv/bin/activate
-python scripts/build_poi_index.py
+bash scripts/verify_all.sh
 ```
+
+---
+
+## API Endpoints Summary
+
+See [**`docs/API_CONTRACT.md`**](docs/API_CONTRACT.md) for the complete canonical API contract and fixture guarantees.
+
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET` | `/api/v1/health` | System health, component status (`graph`, `kdtree`, `ml_model`, `search`), and `routing_available` flag |
+| `GET` | `/api/v1/network/stops` | All metro stations + first 500 bus stops for map layer (`type: "bus_stop" \| "metro_station"`) |
+| `GET` | `/api/v1/network/stops/nearby?lat=..&lng=..&radius_m=..` | Transit stops sorted ascending by distance from location |
+| `GET` | `/api/v1/geocode/search?q=<query>&limit=8` | Pune-proximity re-ranked search (always wrapped in `{"results": [...]}`) |
+| `POST` | `/api/v1/routes/search` | Multimodal / bus-only route planning with RAPTOR and ML ranking |
+
+**Route search payload example:**
+```json
+{
+  "source": {"lat": 18.5074, "lng": 73.8077},
+  "destination": {"lat": 18.5679, "lng": 73.9143},
+  "departure_time": "2026-10-19T08:42:00+05:30",
+  "mode_preferences": {
+    "prefer_bus": true,
+    "exclude_metro": true,
+    "less_walking": false
+  }
+}
+```
+
+---
+
+## Backend & Contract Change Workflow
+
+To prevent breaking changes across the Flutter and React clients:
+1. Backend changes are allowed only if **ADDITIVE**, covered by `pump/backend/tests/test_api_contract.py`, and mirrored in `docs/API_CONTRACT.md` in the exact same commit.
+2. After backend edits, capture fresh test fixtures:
+   ```bash
+   bash scripts/capture_fixtures.sh
+   # (or cd pump/backend && python scripts/capture_fixtures.py ../mobile/test/fixtures/real)
+   ```
+3. Update Flutter models and tests until `cd pump/mobile && flutter test` passes cleanly.
 
 ---
 
 ## Project Structure
 
 ```
-pump/
-├── backend/
-│   ├── app/
-│   │   ├── main.py          # FastAPI app, endpoints, geocoding
-│   │   ├── network/graph.py # RouteEngine: First-mile KDTree, Graph Fallback A*
-│   │   ├── transit/         # High-speed timetable parsing
-│   │   │   ├── gtfs_loader.py # Highly-optimized GTFS memory pipeline
-│   │   │   └── raptor.py    # RAPTOR Time-Aware Algorithm
-│   │   ├── ml/inference.py  # TravelTimePredictor (Random Forest)
-│   │   └── scoring/ranker.py # Score & rank with mode preferences
-│   ├── scripts/
-│   │   ├── build_graph.py    # Build multimodal graph from data
-│   │   ├── validate_datasets.py # Pre-flight dataset checks
-│   │   ├── parse_datasets.py    # Parse raw KML/CSV to JSON
-│   │   ├── train_model.py       # Train travel time RF model
-│   │   └── generate_synthetic_data.py # Generate training data
-│   ├── tests/test_routes.py  # Pytest suite (health, routes, geocode)
-│   └── requirements.txt
-├── frontend/
-│   ├── src/
-│   │   ├── App.jsx           # Layout orchestrator (mobile/desktop)
-│   │   ├── api.js            # API client (routes, geocode, stops)
-│   │   ├── index.css         # Full design system
-│   │   ├── components/
-│   │   │   ├── SearchPanel.jsx    # Autocomplete + mode toggles
-│   │   │   ├── RouteCard.jsx      # Route summary card
-│   │   │   ├── RouteList.jsx      # Route card container
-│   │   │   ├── ItineraryPanel.jsx # Step-by-step timeline
-│   │   │   ├── BottomSheet.jsx    # Mobile bottom sheet
-│   │   │   └── ModeIcon.jsx       # SVG transport icons
-│   │   └── map/
-│   │       ├── MapView.jsx        # Leaflet map container
-│   │       ├── RoutePolylines.jsx # Color-coded route lines
-│   │       └── CustomMarkers.jsx  # Start/end/transfer markers
-│   └── package.json
-└── data/
-    ├── processed/  # JSON/CSV/pickle data files
-    ├── models/     # Trained ML model
-    └── raw/        # Source data
+marg-merged/
+├── docs/
+│   ├── API_CONTRACT.md       # Canonical HTTP API contract & fixture guarantees
+│   ├── MOBILE_README.md      # Flutter app architecture, 8-screen gallery & video demo
+│   └── MERGE_PLAYBOOK.md     # Integration and release playbook
+├── proof/
+│   ├── final/                # 8 screens light + dark PNGs and demo MP4 video
+│   └── PROOF_OF_WORK.md      # Verification and phase logs
+├── scripts/
+│   ├── capture_fixtures.sh   # Captures real backend responses to mobile test fixtures
+│   ├── run_mobile_local.sh   # Boots local FastAPI backend and launches Flutter app
+│   ├── verify_all.sh         # End-to-end test and analysis gate across backend and mobile
+│   ├── verify.sh             # Mobile-specific analyzer, test suite and token auditor
+│   └── shot.sh               # ADB emulator screenshot capture tool
+└── pump/
+    ├── backend/
+    │   ├── app/
+    │   │   ├── main.py       # FastAPI application, route endpoints, geocoder
+    │   │   ├── network/      # MultiDiGraph engine and KD-Tree spatial index
+    │   │   ├── transit/      # High-speed GTFS loader & RAPTOR algorithm
+    │   │   ├── ml/           # Travel time prediction Random Forest model
+    │   │   └── scoring/      # Multi-objective route ranker
+    │   ├── tests/
+    │   │   ├── test_api_contract.py # Backend client contract test suite
+    │   │   └── test_routes.py       # Algorithmic routing tests
+    │   └── scripts/
+    │       ├── capture_fixtures.py  # In-process test client fixture capturer
+    │       ├── build_graph.py       # Graph builder from raw datasets
+    │       └── validate_datasets.py # Dataset integrity checks
+    ├── frontend/             # React + Vite web dashboard (Leaflet + Framer Motion)
+    │   ├── src/
+    │   │   ├── App.jsx
+    │   │   ├── components/
+    │   │   └── map/
+    │   └── package.json
+    ├── mobile/               # Flutter Android mobile app (Apple-quality HIG)
+    │   ├── lib/
+    │   │   ├── main.dart
+    │   │   ├── theme/        # MargColors, MargText, liquid-glass tokens
+    │   │   ├── data/         # Typed Dio API client, models & repository
+    │   │   └── features/     # Onboarding, explore, plan, results, itinerary, trip, saved, alerts
+    │   └── test/             # Unit, widget, and fixture tests
+    └── data/
+        ├── processed/        # JSON, CSV, and gpickle transit network data
+        └── models/           # Pre-trained Random Forest model
 ```
+
+---
+
+## License
+
+This project is licensed under the MIT License.

@@ -151,3 +151,13 @@ Append one block per phase. Evidence = commit, log, screenshot. Keep it factual.
   - Added fake repository widget tests for unhealthy-then-healthy and never-healthy retry flows, plus contract test for 503 auto-retry.
 - Verify: proof/phase-m4.log (analyze: clean | tests: 111 passed | 0 hardcoded colors)
 - Deviations from design + why: none
+
+### Phase M7 — Update agent rules, API contract, and root README (2026-10-19)
+- Commit / tag: phase-m7
+- Changed:
+  - Updated `AGENTS.md` and `CLAUDE.md`: Replaced "Never edit pump/backend/**" with additive-only backend change policy covered by contract tests and mirrored in `API_CONTRACT.md`; documented contract change workflow.
+  - Rewrote `docs/API_CONTRACT.md` from real fixtures: wrapped geocode, `bus_stop`/`metro_station`, `/network/stops/nearby`, `exclude_metro`, `route_id`/`line`/`line_options`/`path` guarantees, and 503/empty states.
+  - Updated root `README.md`: Added "Run everything" section (backend, React, Flutter), linked `docs/MOBILE_README.md`, updated system architecture and project tree, and removed stale claims. Added `scripts/capture_fixtures.sh`.
+- Verify: proof/phase-m7.log (analyze: clean | Flutter tests: 132 passed | Backend contract tests: 29 passed | 0 hardcoded colors)
+- Deviations from design + why: none
+
