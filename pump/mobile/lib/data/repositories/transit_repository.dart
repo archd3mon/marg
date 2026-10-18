@@ -132,7 +132,9 @@ class TransitRepository {
       try {
         final res = await apiClient.get('/health');
         if (res is Map<String, dynamic>) return res;
-      } catch (_) {}
+      } catch (e) {
+        // Fall through to error throwing in release mode or fallback in dev
+      }
     }
     if (isRelease) {
       throw ApiUnavailableException('Demo mode is disabled in release builds. Configure a secure HTTPS API_BASE.');
