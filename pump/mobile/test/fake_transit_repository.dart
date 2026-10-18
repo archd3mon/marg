@@ -8,10 +8,15 @@ class FakeTransitRepository extends TransitRepository {
   Exception? routesSearchError;
   bool returnEmptyRoutes = false;
 
+  bool Function()? onCheckHealth;
+  bool checkHealthResult = true;
+
   FakeTransitRepository({
     this.fixturesPath = 'test/fixtures',
     this.routesSearchError,
     this.returnEmptyRoutes = false,
+    this.onCheckHealth,
+    this.checkHealthResult = true,
   });
 
   String _readFixture(String filename) {
@@ -20,6 +25,14 @@ class FakeTransitRepository extends TransitRepository {
       throw FileSystemException('Fixture file not found', file.path);
     }
     return file.readAsStringSync();
+  }
+
+  @override
+  Future<bool> checkHealth({int maxRetries = 0}) async {
+    if (onCheckHealth != null) {
+      return onCheckHealth!();
+    }
+    return checkHealthResult;
   }
 
   @override
@@ -57,6 +70,7 @@ class FakeTransitRepository extends TransitRepository {
     required double destLng,
     String? departureTime,
     String priority = 'fastest',
+    Duration retryDelay = const Duration(seconds: 1),
   }) async {
     if (routesSearchError != null) {
       throw routesSearchError!;

@@ -142,5 +142,12 @@ Append one block per phase. Evidence = commit, log, screenshot. Keep it factual.
 - Screenshot: proof/final/ (all 8 screens light + dark, adaptive launcher, 60-s MP4 video demo)
 - Deviations from design + why: none; complete Apple-grade Android experience verified.
 
-
-
+### Phase M4 — Cold start gate (2026-10-18)
+- Commit / tag: phase-m4
+- Changed:
+  - Built token-styled `HealthGate` widget with polling backoff (1s, 3s, 5s, 5s... up to ~60s) showing calm "Waking up Marg…" state and error view with "Retry".
+  - Wrapped `MargApp` router builder with `HealthGate` to gate screen mounting during backend cold-starts.
+  - Implemented auto-retry once on 503 for route search in `ApiClient.post` and `TransitRepository.searchRoutes`.
+  - Added fake repository widget tests for unhealthy-then-healthy and never-healthy retry flows, plus contract test for 503 auto-retry.
+- Verify: proof/phase-m4.log (analyze: clean | tests: 111 passed | 0 hardcoded colors)
+- Deviations from design + why: none

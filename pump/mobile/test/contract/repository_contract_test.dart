@@ -93,9 +93,28 @@ void main() {
     test('503 becomes ApiUnavailableException (drives the "Waking up Marg…" state)', () async {
       final (repo, _) = _repo((o) => (503, {'detail': 'Routing engine unavailable'}));
       expect(
-        () => repo.searchRoutes(srcLat: 18.5, srcLng: 73.8, destLat: 18.56, destLng: 73.9),
+        () => repo.searchRoutes(srcLat: 18.5, srcLng: 73.8, destLat: 18.56, destLng: 73.9, retryDelay: Duration.zero),
         throwsA(isA<ApiUnavailableException>()),
       );
+    });
+
+    test('auto-retries once on 503 and succeeds on second attempt', () async {
+      int attempts = 0;
+      final (repo, adapter) = _repo((o) {
+        attempts++;
+        if (attempts == 1) return (503, {'detail': 'Routing engine warming up'});
+        return (200, realFixture('routes_search_bus_only.json'));
+      });
+      final routes = await repo.searchRoutes(
+        srcLat: 18.5,
+        srcLng: 73.8,
+        destLat: 18.56,
+        destLng: 73.9,
+        retryDelay: Duration.zero,
+      );
+      expect(attempts, 2);
+      expect(routes, isNotEmpty);
+      expect(adapter.requests.length, 2);
     });
 
     test('priority "fastest" keeps the recommended route first', () async {

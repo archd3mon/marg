@@ -107,10 +107,10 @@ class TransitRepository {
     Place(id: 'p10', name: 'Hadapsar', displayName: 'Pune', lat: 18.5089, lng: 73.9260, type: 'poi'),
   ];
 
-  Future<bool> checkHealth() async {
+  Future<bool> checkHealth({int maxRetries = 0}) async {
     if (!apiClient.hasBaseUrl) return true;
     try {
-      final res = await apiClient.get('/health');
+      final res = await apiClient.get('/health', maxRetries: maxRetries);
       if (res is Map<String, dynamic>) {
         return res['status'] == 'ok' && res['routing_available'] == true;
       }
@@ -209,6 +209,7 @@ class TransitRepository {
     required double destLng,
     String? departureTime,
     String priority = 'fastest',
+    Duration retryDelay = const Duration(seconds: 1),
   }) async {
     if (apiClient.hasBaseUrl) {
       final body = {
@@ -221,7 +222,12 @@ class TransitRepository {
           'less_walking': priority == 'least_walking',
         }
       };
-      final res = await apiClient.post('/routes/search', data: body);
+      final res = await apiClient.post(
+        '/routes/search',
+        data: body,
+        maxRetries: 1,
+        retryDelay: retryDelay,
+      );
       if (res is Map<String, dynamic> && res['routes'] is List) {
         final rawRoutes = res['routes'] as List;
         if (rawRoutes.isEmpty) return [];

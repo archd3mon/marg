@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'app/health_gate.dart';
 import 'app/router.dart';
 import 'app/app_state.dart';
 import 'data/storage_service.dart';
@@ -36,6 +37,7 @@ class MargApp extends ConsumerWidget {
       darkTheme: margTheme(Brightness.dark),
       themeMode: themeMode,
       routerConfig: router,
+      builder: (context, child) => HealthGate(child: child ?? const SizedBox.shrink()),
     );
   }
 }

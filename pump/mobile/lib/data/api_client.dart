@@ -95,26 +95,43 @@ class ApiClient {
     }
   }
 
-  Future<dynamic> post(String path, {dynamic data}) async {
+  Future<dynamic> post(
+    String path, {
+    dynamic data,
+    int maxRetries = 0,
+    Duration retryDelay = const Duration(seconds: 1),
+  }) async {
     if (!hasBaseUrl) {
       throw ApiOfflineException('No backend API_BASE configured');
     }
-    try {
-      final res = await _dio.post(path, data: data);
-      return res.data;
-    } on DioException catch (e) {
-      if (e.type == DioExceptionType.connectionTimeout || e.type == DioExceptionType.receiveTimeout) {
-        throw ApiTimeoutException();
-      } else if (e.response?.statusCode == 503) {
-        throw ApiUnavailableException('Backend warming up (503)', statusCode: 503);
-      } else if (e.error is SocketException || e.type == DioExceptionType.connectionError) {
-        throw ApiOfflineException();
+    int attempts = 0;
+    while (true) {
+      attempts++;
+      try {
+        final res = await _dio.post(path, data: data);
+        return res.data;
+      } on DioException catch (e) {
+        if (e.type == DioExceptionType.connectionTimeout || e.type == DioExceptionType.receiveTimeout) {
+          if (attempts <= maxRetries) {
+            await Future.delayed(retryDelay);
+            continue;
+          }
+          throw ApiTimeoutException();
+        } else if (e.response?.statusCode == 503) {
+          if (attempts <= maxRetries) {
+            await Future.delayed(retryDelay);
+            continue;
+          }
+          throw ApiUnavailableException('Backend warming up (503)', statusCode: 503);
+        } else if (e.error is SocketException || e.type == DioExceptionType.connectionError) {
+          throw ApiOfflineException();
+        }
+        throw ApiException(
+          e.response?.statusMessage ?? e.message ?? 'API error',
+          statusCode: e.response?.statusCode,
+          error: e.error,
+        );
       }
-      throw ApiException(
-        e.response?.statusMessage ?? e.message ?? 'API error',
-        statusCode: e.response?.statusCode,
-        error: e.error,
-      );
     }
   }
 }
