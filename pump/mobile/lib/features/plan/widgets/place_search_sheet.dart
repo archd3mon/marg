@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../app/app_state.dart';
 import '../../../data/models/place.dart';
+import '../../../data/api_client.dart';
 import '../../../shared/widgets/tile_icon.dart';
 import '../../../theme/marg_tokens.dart';
 
@@ -31,6 +32,7 @@ class _PlaceSearchSheetState extends ConsumerState<PlaceSearchSheet> {
   List<Place> _results = [];
   bool _isSearching = false;
   String _activeQuery = '';
+  String? _errorMessage;
 
   @override
   void dispose() {
@@ -46,6 +48,7 @@ class _PlaceSearchSheetState extends ConsumerState<PlaceSearchSheet> {
       setState(() {
         _activeQuery = '';
         _results = [];
+        _errorMessage = null;
         _isSearching = false;
       });
       return;
@@ -56,6 +59,7 @@ class _PlaceSearchSheetState extends ConsumerState<PlaceSearchSheet> {
       setState(() {
         _activeQuery = trimmed;
         _results = _sessionCache[cacheKey]!;
+        _errorMessage = null;
         _isSearching = false;
       });
       return;
@@ -63,18 +67,32 @@ class _PlaceSearchSheetState extends ConsumerState<PlaceSearchSheet> {
 
     setState(() {
       _activeQuery = trimmed;
+      _errorMessage = null;
       _isSearching = true;
     });
 
     _debounceTimer = Timer(const Duration(milliseconds: 400), () async {
-      final repo = ref.read(transitRepositoryProvider);
-      final places = await repo.searchGeocode(trimmed);
-      _sessionCache[cacheKey] = places;
-      if (mounted && _activeQuery == trimmed) {
-        setState(() {
-          _results = places;
-          _isSearching = false;
-        });
+      try {
+        final repo = ref.read(transitRepositoryProvider);
+        final places = await repo.searchGeocode(trimmed);
+        _sessionCache[cacheKey] = places;
+        if (mounted && _activeQuery == trimmed) {
+          setState(() {
+            _results = places;
+            _errorMessage = null;
+            _isSearching = false;
+          });
+        }
+      } catch (e) {
+        if (mounted && _activeQuery == trimmed) {
+          setState(() {
+            _results = [];
+            _errorMessage = e is ApiOfflineException
+                ? 'Network connection unavailable'
+                : 'Unable to search places';
+            _isSearching = false;
+          });
+        }
       }
     });
   }
@@ -263,6 +281,22 @@ class _PlaceSearchSheetState extends ConsumerState<PlaceSearchSheet> {
             CircularProgressIndicator.adaptive(strokeWidth: 2.5),
             const SizedBox(height: Sp.x2),
             Text('Searching Pune places...', style: MargText.footnote.copyWith(color: c.label2)),
+          ],
+        ),
+      );
+    }
+
+    if (_errorMessage != null) {
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.error_outline_rounded, size: 40, color: c.orange),
+            const SizedBox(height: Sp.x2),
+            Text(
+              _errorMessage!,
+              style: MargText.subhead.copyWith(color: c.label2),
+            ),
           ],
         ),
       );

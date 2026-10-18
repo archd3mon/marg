@@ -111,7 +111,10 @@ class TransitRepository {
     if (!apiClient.hasBaseUrl) return true;
     try {
       final res = await apiClient.get('/health');
-      return res != null;
+      if (res is Map<String, dynamic>) {
+        return res['status'] == 'ok' && res['routing_available'] == true;
+      }
+      return false;
     } catch (_) {
       return false;
     }
@@ -127,21 +130,28 @@ class TransitRepository {
     return {'status': 'ok', 'graph': 'ready', 'ml': 'ready', 'search': 'ready'};
   }
 
-
   Future<List<TransitStop>> getNearbyStops(double userLat, double userLng) async {
-    if (apiClient.hasBaseUrl) {
-      try {
-        final res = await apiClient.get('/network/stops');
-        if (res is Map<String, dynamic> && res['stops'] is List) {
-          final stops = (res['stops'] as List)
-              .map((s) => TransitStop.fromJson(s as Map<String, dynamic>))
-              .where((s) => s.type == 'bus')
-              .toList();
-          return _rankStopsByDistance(stops, userLat, userLng);
-        }
-      } catch (_) {}
+    if (!apiClient.hasBaseUrl) {
+      return _rankStopsByDistance(_puneStops, userLat, userLng);
     }
-    return _rankStopsByDistance(_puneStops, userLat, userLng);
+    final res = await apiClient.get(
+      '/network/stops/nearby',
+      queryParameters: {
+        'lat': userLat,
+        'lng': userLng,
+        'radius_m': 1500,
+        'limit': 30,
+      },
+    );
+    if (res is Map<String, dynamic> && res['stops'] is List) {
+      final stops = (res['stops'] as List)
+          .map((s) => TransitStop.fromJson(s as Map<String, dynamic>))
+          .where((s) => s.type == 'bus')
+          .toList();
+      stops.sort((a, b) => a.distanceMeters.compareTo(b.distanceMeters));
+      return stops;
+    }
+    return [];
   }
 
   List<TransitStop> _rankStopsByDistance(List<TransitStop> stops, double uLat, double uLng) {
@@ -173,21 +183,23 @@ class TransitRepository {
   }
 
   Future<List<Place>> searchGeocode(String query) async {
-    final q = query.trim().toLowerCase();
-    if (q.isEmpty) return [];
+    final q = query.trim();
+    if (q.length < 2) return [];
 
-    if (apiClient.hasBaseUrl && q.length >= 2) {
-      try {
-        final res = await apiClient.get('/geocode/search', queryParameters: {'q': q, 'limit': 8});
-        if (res is List) {
-          return res.map((item) => Place.fromJson(item as Map<String, dynamic>)).toList();
-        }
-      } catch (_) {}
+    if (!apiClient.hasBaseUrl) {
+      final qLower = q.toLowerCase();
+      return _punePlaces.where((p) {
+        return p.name.toLowerCase().contains(qLower) || p.displayName.toLowerCase().contains(qLower);
+      }).toList();
     }
 
-    return _punePlaces.where((p) {
-      return p.name.toLowerCase().contains(q) || p.displayName.toLowerCase().contains(q);
-    }).toList();
+    final res = await apiClient.get('/geocode/search', queryParameters: {'q': q, 'limit': 8});
+    if (res is Map<String, dynamic> && res['results'] is List) {
+      return (res['results'] as List)
+          .map((item) => Place.fromJson(item as Map<String, dynamic>))
+          .toList();
+    }
+    return [];
   }
 
   Future<List<TransitRoute>> searchRoutes({
@@ -202,17 +214,42 @@ class TransitRepository {
       final body = {
         'source': {'lat': srcLat, 'lng': srcLng},
         'destination': {'lat': destLat, 'lng': destLng},
-        'departure_time': ?departureTime,
+        'departure_time': departureTime,
         'mode_preferences': {
           'prefer_bus': true,
+          'exclude_metro': true,
           'less_walking': priority == 'least_walking',
         }
       };
       final res = await apiClient.post('/routes/search', data: body);
       if (res is Map<String, dynamic> && res['routes'] is List) {
-        final routes = (res['routes'] as List)
-            .map((r) => TransitRoute.fromJson(r as Map<String, dynamic>))
-            .toList();
+        final rawRoutes = res['routes'] as List;
+        if (rawRoutes.isEmpty) return [];
+
+        final topWarnings = (res['warnings'] as List<dynamic>?)
+                ?.map((w) => w.toString())
+                .toList() ??
+            const <String>[];
+        final topDepartureTime = res['departure_time_used']?.toString() ?? '';
+
+        final routes = rawRoutes.map((r) {
+          final map = r as Map<String, dynamic>;
+          final parsed = TransitRoute.fromJson(map);
+          return TransitRoute(
+            routeId: parsed.routeId,
+            score: parsed.score,
+            totalTimeMins: parsed.totalTimeMins,
+            transfers: parsed.transfers,
+            totalWalkM: parsed.totalWalkM,
+            usesMetro: parsed.usesMetro,
+            routeType: parsed.routeType,
+            legs: parsed.legs,
+            warnings: topWarnings.isNotEmpty ? topWarnings : parsed.warnings,
+            departureTimeUsed: topDepartureTime.isNotEmpty ? topDepartureTime : parsed.departureTimeUsed,
+            nextBusMins: parsed.nextBusMins,
+          );
+        }).toList();
+
         return _sortRoutes(routes, priority);
       }
       return [];

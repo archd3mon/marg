@@ -24,6 +24,17 @@ class ApiTimeoutException implements Exception {
   String toString() => 'ApiTimeoutException: $message';
 }
 
+class ApiException implements Exception {
+  final String message;
+  final int? statusCode;
+  final dynamic error;
+
+  ApiException(this.message, {this.statusCode, this.error});
+
+  @override
+  String toString() => 'ApiException: $message (code: $statusCode)';
+}
+
 typedef Offline = ApiOfflineException;
 typedef Unavailable503 = ApiUnavailableException;
 typedef Timeout = ApiTimeoutException;
@@ -72,10 +83,14 @@ class ApiClient {
             continue;
           }
           throw ApiUnavailableException('Backend warming up (503)', statusCode: 503);
-        } else if (e.error is SocketException) {
+        } else if (e.error is SocketException || e.type == DioExceptionType.connectionError) {
           throw ApiOfflineException();
         }
-        rethrow;
+        throw ApiException(
+          e.response?.statusMessage ?? e.message ?? 'API error',
+          statusCode: e.response?.statusCode,
+          error: e.error,
+        );
       }
     }
   }
@@ -92,10 +107,14 @@ class ApiClient {
         throw ApiTimeoutException();
       } else if (e.response?.statusCode == 503) {
         throw ApiUnavailableException('Backend warming up (503)', statusCode: 503);
-      } else if (e.error is SocketException) {
+      } else if (e.error is SocketException || e.type == DioExceptionType.connectionError) {
         throw ApiOfflineException();
       }
-      rethrow;
+      throw ApiException(
+        e.response?.statusMessage ?? e.message ?? 'API error',
+        statusCode: e.response?.statusCode,
+        error: e.error,
+      );
     }
   }
 }
