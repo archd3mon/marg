@@ -1,0 +1,49 @@
+{
+  "stops": [
+    {
+      "lon": 73.80757,
+      "lat": 18.50737000000002,
+      "id": "bus_39507",
+      "code": "40691",
+      "name": "Vanaz Corner",
+      "type": "bus_stop",
+      "distance_meters": 14
+    },
+    {
+      "lon": 73.80783999999998,
+      "lat": 18.50758000000001,
+      "id": "bus_39030",
+      "code": "30691",
+      "name": "Vanaz Corner",
+      "type": "bus_stop",
+      "distance_meters": 25
+    },
+    {
+      "lon": 73.80729000000001,
+      "lat": 18.50747000000002,
+      "id": "bus_34901",
+      "code": "154779",
+      "name": "Vanaj Corner",
+      "type": "bus_stop",
+      "distance_meters": 44
+    },
+    {
+      "lon": 73.80817000000003,
+      "lat": 18.50774000000002,
+      "id": "bus_33087",
+      "code": "154782",
+      "name": "Vanaj Corner",
+      "type": "bus_stop",
+      "distance_meters": 62
+    },
+    {
+      "lon": 73.80912000000002,
+      "lat": 18.50859999999999,
+      "id": "bus_33459",
+      "code": "154256",
+      "name": "Shivtirthnagar Corner",
+      "type": "bus_stop",
+      "distance_meters": 201
+    }
+  ]
+}

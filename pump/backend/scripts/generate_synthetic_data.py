@@ -2,7 +2,9 @@ import json
 import csv
 from pathlib import Path
 
-OUT_DIR = Path("/home/jayant/gitgud/marg/marg/pump/data/processed")
+ROOT = Path(__file__).resolve().parents[3]  # repo root
+
+OUT_DIR = (ROOT / "pump/data/processed")
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 # =============================================================================

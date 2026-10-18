@@ -15,10 +15,7 @@ from pathlib import Path
 from collections import defaultdict
 from typing import Optional
 
-GTFS_DIR = Path(os.getenv(
-    "GTFS_DATA_DIR",
-    "/home/jayant/gitgud/marg/marg/pump/data/gtfs"
-))
+from app.paths import GTFS_DIR
 
 
 def _time_to_seconds(time_str: str) -> int:

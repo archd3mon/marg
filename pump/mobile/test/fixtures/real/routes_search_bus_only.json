@@ -1,0 +1,1216 @@
+{
+  "routes": [
+    {
+      "score": 142.57,
+      "total_time_mins": 90,
+      "transfers": 1,
+      "total_walk_m": 1534,
+      "uses_metro": false,
+      "legs": [
+        {
+          "mode": "walk",
+          "from_node": {
+            "name": "Origin",
+            "lat": 18.508284,
+            "lon": 73.809349
+          },
+          "to_node": {
+            "name": "Pratik Nagar",
+            "lat": 18.508284,
+            "lon": 73.809349
+          },
+          "length_m": 218.71973831645826,
+          "route_names": [],
+          "path": [
+            [
+              18.5073824,
+              73.8076731
+            ],
+            [
+              18.5075253,
+              73.8076289
+            ],
+            [
+              18.5075616,
+              73.8077629
+            ]
+          ],
+          "duration_mins": 3,
+          "line_options": []
+        },
+        {
+          "mode": "bus",
+          "from_node": {
+            "name": "Pratik Nagar",
+            "lat": 18.508284,
+            "lon": 73.809349
+          },
+          "to_node": {
+            "name": "Pune Station Moledina Stand",
+            "lat": 18.5271,
+            "lon": 73.873001
+          },
+          "length_m": 9450.0,
+          "route_names": [
+            "1030"
+          ],
+          "path": [
+            [
+              18.508284,
+              73.809349
+            ],
+            [
+              18.5083138,
+              73.8095246
+            ],
+            [
+              18.5083295,
+              73.8096451
+            ]
+          ],
+          "duration_mins": 36,
+          "line_options": [
+            "1030"
+          ],
+          "line": "1030"
+        },
+        {
+          "mode": "walk",
+          "from_node": {
+            "name": "Pune Station Moledina Stand",
+            "lat": 18.5271,
+            "lon": 73.873001
+          },
+          "to_node": {
+            "name": "Pune Station Moledina Road",
+            "lat": 18.527304,
+            "lon": 73.8731
+          },
+          "length_m": 49.827959500778505,
+          "route_names": [],
+          "path": [
+            [
+              18.5271,
+              73.873001
+            ],
+            [
+              18.5274008,
+              73.8731593
+            ],
+            [
+              18.527304,
+              73.8731
+            ]
+          ],
+          "duration_mins": 1,
+          "line_options": []
+        },
+        {
+          "mode": "bus",
+          "from_node": {
+            "name": "Pune Station Moledina Road",
+            "lat": 18.527304,
+            "lon": 73.8731
+          },
+          "to_node": {
+            "name": "Vadgaon Sheri Phata",
+            "lat": 18.558901,
+            "lon": 73.9123
+          },
+          "length_m": 5615.0,
+          "route_names": [
+            "1041"
+          ],
+          "path": [
+            [
+              18.527304,
+              73.8731
+            ],
+            [
+              18.533199,
+              73.878098
+            ],
+            [
+              18.5333064,
+              73.8783718
+            ]
+          ],
+          "duration_mins": 36,
+          "line_options": [
+            "1041"
+          ],
+          "line": "1041"
+        },
+        {
+          "mode": "walk",
+          "from_node": {
+            "name": "Vadgaon Sheri Phata",
+            "lat": 18.558901,
+            "lon": 73.9123
+          },
+          "to_node": {
+            "name": "Wakefield It Company",
+            "lat": 18.560131,
+            "lon": 73.911751
+          },
+          "length_m": 269.41749824184853,
+          "route_names": [],
+          "path": [
+            [
+              18.5587642,
+              73.9116107
+            ],
+            [
+              18.5611821,
+              73.9117753
+            ]
+          ],
+          "duration_mins": 4,
+          "line_options": []
+        },
+        {
+          "mode": "walk",
+          "from_node": {
+            "name": "Wakefield It Company",
+            "lat": 18.560131,
+            "lon": 73.911751
+          },
+          "to_node": {
+            "name": "Destination",
+            "lat": 18.560131,
+            "lon": 73.911751
+          },
+          "length_m": 996.4139441207833,
+          "route_names": [],
+          "path": [
+            [
+              18.5611821,
+              73.9117753
+            ],
+            [
+              18.5612326,
+              73.9117767
+            ],
+            [
+              18.5613842,
+              73.911781
+            ]
+          ],
+          "duration_mins": 12,
+          "line_options": []
+        }
+      ],
+      "route_type": "recommended",
+      "rank": 2,
+      "route_id": "route_2"
+    },
+    {
+      "score": 235.52,
+      "total_time_mins": 124,
+      "transfers": 8,
+      "total_walk_m": 94,
+      "uses_metro": false,
+      "legs": [
+        {
+          "from_node": {
+            "y": 18.5073824,
+            "x": 73.8076731,
+            "street_count": 4,
+            "lat": 18.5073824,
+            "lon": 73.8076731,
+            "type": "road_node"
+          },
+          "to_node": {
+            "name": "Vanaj Corner",
+            "lat": 18.5075,
+            "lon": 73.807503,
+            "type": "bus_stop",
+            "gtfs_stop_id": "168"
+          },
+          "mode": "walk",
+          "length_m": 22.19679326915447,
+          "line": "",
+          "route_names": [],
+          "path": [
+            [
+              18.5073824,
+              73.8076731
+            ],
+            [
+              18.5075,
+              73.807503
+            ]
+          ],
+          "duration_mins": 1,
+          "line_options": []
+        },
+        {
+          "from_node": {
+            "name": "Vanaj Corner",
+            "lat": 18.5075,
+            "lon": 73.807503,
+            "type": "bus_stop",
+            "gtfs_stop_id": "168"
+          },
+          "to_node": {
+            "name": "Sndt Mahila Vidhyapith",
+            "lat": 18.5068934,
+            "lon": 73.8279419,
+            "type": "bus_stop",
+            "gtfs_stop_id": "152"
+          },
+          "mode": "bus",
+          "length_m": 2420.0286810229654,
+          "line": "99",
+          "route_names": [
+            "99",
+            "219",
+            "94M",
+            "81",
+            "86",
+            "109RING",
+            "277",
+            "199",
+            "99A",
+            "109ARING",
+            "71RING",
+            "94",
+            "92"
+          ],
+          "path": [
+            [
+              18.5075,
+              73.807503
+            ],
+            [
+              18.5075253,
+              73.8076289
+            ],
+            [
+              18.5075616,
+              73.8077629
+            ]
+          ],
+          "duration_mins": 19,
+          "line_options": [
+            "99",
+            "219",
+            "94M",
+            "81",
+            "86",
+            "109RING",
+            "277",
+            "199",
+            "99A",
+            "109ARING",
+            "71RING",
+            "94",
+            "92"
+          ]
+        },
+        {
+          "from_node": {
+            "name": "Sndt Mahila Vidhyapith",
+            "lat": 18.5068934,
+            "lon": 73.8279419,
+            "type": "bus_stop",
+            "gtfs_stop_id": "152"
+          },
+          "to_node": {
+            "name": "Shaniwarwada",
+            "lat": 18.519699,
+            "lon": 73.8545,
+            "type": "bus_stop",
+            "gtfs_stop_id": "344"
+          },
+          "mode": "bus",
+          "length_m": 3612.631020945164,
+          "line": "144A",
+          "route_names": [
+            "144A",
+            "82ARING",
+            "68",
+            "94M",
+            "282",
+            "281",
+            "107",
+            "199",
+            "99",
+            "98",
+            "81",
+            "108",
+            "144",
+            "109RING",
+            "80RING",
+            "82RING",
+            "283",
+            "92",
+            "144K",
+            "98A",
+            "97",
+            "99A",
+            "71RING",
+            "94",
+            "83",
+            "109ARING",
+            "276B"
+          ],
+          "path": [
+            [
+              18.5068934,
+              73.8279419
+            ],
+            [
+              18.5068374,
+              73.8277499
+            ],
+            [
+              18.5067669,
+              73.8277113
+            ]
+          ],
+          "duration_mins": 28,
+          "line_options": [
+            "144A",
+            "82ARING",
+            "68",
+            "94M",
+            "282",
+            "281",
+            "107",
+            "199",
+            "99",
+            "98",
+            "81",
+            "108",
+            "144",
+            "109RING",
+            "80RING",
+            "82RING",
+            "283",
+            "92",
+            "144K",
+            "98A",
+            "97",
+            "99A",
+            "71RING",
+            "94",
+            "83",
+            "109ARING",
+            "276B"
+          ]
+        },
+        {
+          "from_node": {
+            "name": "Shaniwarwada",
+            "lat": 18.519699,
+            "lon": 73.8545,
+            "type": "bus_stop",
+            "gtfs_stop_id": "344"
+          },
+          "to_node": {
+            "name": "Kumbharwada",
+            "lat": 18.5247,
+            "lon": 73.858704,
+            "type": "bus_stop",
+            "gtfs_stop_id": "459"
+          },
+          "mode": "bus",
+          "length_m": 713.7518504590348,
+          "line": "METRO SHUTTLE 2",
+          "route_names": [
+            "METRO SHUTTLE 2"
+          ],
+          "path": [
+            [
+              18.519699,
+              73.8545
+            ],
+            [
+              18.521799,
+              73.855904
+            ],
+            [
+              18.5247,
+              73.858704
+            ]
+          ],
+          "duration_mins": 6,
+          "line_options": [
+            "METRO SHUTTLE 2"
+          ]
+        },
+        {
+          "from_node": {
+            "name": "Kumbharwada",
+            "lat": 18.5247,
+            "lon": 73.858704,
+            "type": "bus_stop",
+            "gtfs_stop_id": "459"
+          },
+          "to_node": {
+            "name": "Sassoon Hospital",
+            "lat": 18.525,
+            "lon": 73.871498,
+            "type": "bus_stop",
+            "gtfs_stop_id": "2230"
+          },
+          "mode": "bus",
+          "length_m": 1466.1198000200461,
+          "line": "157",
+          "route_names": [
+            "157",
+            "175",
+            "256",
+            "142A"
+          ],
+          "path": [
+            [
+              18.5247,
+              73.858704
+            ],
+            [
+              18.5242994,
+              73.8585045
+            ],
+            [
+              18.5242861,
+              73.8584894
+            ]
+          ],
+          "duration_mins": 12,
+          "line_options": [
+            "157",
+            "175",
+            "256",
+            "142A"
+          ]
+        },
+        {
+          "from_node": {
+            "name": "Sassoon Hospital",
+            "lat": 18.525,
+            "lon": 73.871498,
+            "type": "bus_stop",
+            "gtfs_stop_id": "2230"
+          },
+          "to_node": {
+            "name": "Guruprasad Bungalow",
+            "lat": 18.535529,
+            "lon": 73.8801327,
+            "type": "bus_stop",
+            "gtfs_stop_id": "1324"
+          },
+          "mode": "bus",
+          "length_m": 1484.2580176754645,
+          "line": "170",
+          "route_names": [
+            "170",
+            "235",
+            "24B",
+            "236A",
+            "170RING",
+            "170M"
+          ],
+          "path": [
+            [
+              18.525,
+              73.871498
+            ],
+            [
+              18.5251852,
+              73.8717391
+            ],
+            [
+              18.5252479,
+              73.8718158
+            ]
+          ],
+          "duration_mins": 12,
+          "line_options": [
+            "170",
+            "235",
+            "24B",
+            "236A",
+            "170RING",
+            "170M"
+          ]
+        },
+        {
+          "from_node": {
+            "name": "Guruprasad Bungalow",
+            "lat": 18.535529,
+            "lon": 73.8801327,
+            "type": "bus_stop",
+            "gtfs_stop_id": "1324"
+          },
+          "to_node": {
+            "name": "Gunjan Corner",
+            "lat": 18.546301,
+            "lon": 73.889603,
+            "type": "bus_stop",
+            "gtfs_stop_id": "1374"
+          },
+          "mode": "bus",
+          "length_m": 1664.9428857888788,
+          "line": "225",
+          "route_names": [
+            "225"
+          ],
+          "path": [
+            [
+              18.535529,
+              73.8801327
+            ],
+            [
+              18.5360173,
+              73.8804387
+            ],
+            [
+              18.5361227,
+              73.8805048
+            ]
+          ],
+          "duration_mins": 13,
+          "line_options": [
+            "225"
+          ]
+        },
+        {
+          "from_node": {
+            "name": "Gunjan Corner",
+            "lat": 18.546301,
+            "lon": 73.889603,
+            "type": "bus_stop",
+            "gtfs_stop_id": "1374"
+          },
+          "to_node": {
+            "name": "Ramwadi Jakat Naka",
+            "lat": 18.5548354,
+            "lon": 73.9055663,
+            "type": "bus_stop",
+            "gtfs_stop_id": "1381"
+          },
+          "mode": "bus",
+          "length_m": 1984.087857680831,
+          "line": "RATRANI 9",
+          "route_names": [
+            "RATRANI 9",
+            "235"
+          ],
+          "path": [
+            [
+              18.546301,
+              73.889603
+            ],
+            [
+              18.5460284,
+              73.889228
+            ],
+            [
+              18.5460415,
+              73.889269
+            ]
+          ],
+          "duration_mins": 16,
+          "line_options": [
+            "RATRANI 9",
+            "235"
+          ]
+        },
+        {
+          "from_node": {
+            "name": "Ramwadi Jakat Naka",
+            "lat": 18.5548354,
+            "lon": 73.9055663,
+            "type": "bus_stop",
+            "gtfs_stop_id": "1381"
+          },
+          "to_node": {
+            "name": "Viman Nagar Corner",
+            "lat": 18.561199,
+            "lon": 73.919502,
+            "type": "bus_stop",
+            "gtfs_stop_id": "1383"
+          },
+          "mode": "bus",
+          "length_m": 1650.4993493144198,
+          "line": "234",
+          "route_names": [
+            "234",
+            "236",
+            "133",
+            "159B",
+            "164",
+            "98",
+            "147",
+            "376A",
+            "165",
+            "132",
+            "135",
+            "162",
+            "133A",
+            "159",
+            "137",
+            "149",
+            "METRO SHUTTLE 19A"
+          ],
+          "path": [
+            [
+              18.5548354,
+              73.9055663
+            ],
+            [
+              18.5548182,
+              73.9055159
+            ],
+            [
+              18.5545947,
+              73.9047833
+            ]
+          ],
+          "duration_mins": 13,
+          "line_options": [
+            "234",
+            "236",
+            "133",
+            "159B",
+            "164",
+            "98",
+            "147",
+            "376A",
+            "165",
+            "132",
+            "135",
+            "162",
+            "133A",
+            "159",
+            "137",
+            "149",
+            "METRO SHUTTLE 19A"
+          ]
+        },
+        {
+          "from_node": {
+            "name": "Viman Nagar Corner",
+            "lat": 18.561199,
+            "lon": 73.919502,
+            "type": "bus_stop",
+            "gtfs_stop_id": "1383"
+          },
+          "to_node": {
+            "name": "Kailas Market",
+            "lat": 18.567801,
+            "lon": 73.915001,
+            "type": "bus_stop",
+            "gtfs_stop_id": "2993"
+          },
+          "mode": "bus",
+          "length_m": 1000.4107586533008,
+          "line": "179",
+          "route_names": [
+            "179",
+            "166C",
+            "166A",
+            "166",
+            "166B"
+          ],
+          "path": [
+            [
+              18.561199,
+              73.919502
+            ],
+            [
+              18.5648,
+              73.918098
+            ],
+            [
+              18.5651351,
+              73.9181961
+            ]
+          ],
+          "duration_mins": 8,
+          "line_options": [
+            "179",
+            "166C",
+            "166A",
+            "166",
+            "166B"
+          ]
+        },
+        {
+          "from_node": {
+            "name": "Kailas Market",
+            "lat": 18.567801,
+            "lon": 73.915001,
+            "type": "bus_stop",
+            "gtfs_stop_id": "2993"
+          },
+          "to_node": {
+            "y": 18.5678853,
+            "x": 73.9143221,
+            "street_count": 3,
+            "lat": 18.5678853,
+            "lon": 73.9143221,
+            "type": "road_node"
+          },
+          "mode": "walk",
+          "length_m": 72.17208382341285,
+          "line": "",
+          "route_names": [],
+          "path": [
+            [
+              18.567801,
+              73.915001
+            ],
+            [
+              18.5678853,
+              73.9143221
+            ]
+          ],
+          "duration_mins": 1,
+          "line_options": []
+        }
+      ],
+      "route_type": "least_walking",
+      "rank": 3,
+      "route_id": "route_3"
+    },
+    {
+      "score": 237.72,
+      "total_time_mins": 142,
+      "transfers": 6,
+      "total_walk_m": 740,
+      "uses_metro": false,
+      "legs": [
+        {
+          "from_node": {
+            "y": 18.5073824,
+            "x": 73.8076731,
+            "street_count": 4,
+            "lat": 18.5073824,
+            "lon": 73.8076731,
+            "type": "road_node"
+          },
+          "to_node": {
+            "name": "Gujarat Colony",
+            "lat": 18.5049663,
+            "lon": 73.8114238,
+            "type": "bus_stop",
+            "gtfs_stop_id": "1996"
+          },
+          "mode": "walk",
+          "length_m": 561.9097655050988,
+          "line": "",
+          "route_names": [],
+          "path": [
+            [
+              18.5073824,
+              73.8076731
+            ],
+            [
+              18.5071912,
+              73.8077089
+            ],
+            [
+              18.5068397,
+              73.8077191
+            ]
+          ],
+          "duration_mins": 7,
+          "line_options": []
+        },
+        {
+          "from_node": {
+            "name": "Gujarat Colony",
+            "lat": 18.5049663,
+            "lon": 73.8114238,
+            "type": "bus_stop",
+            "gtfs_stop_id": "1996"
+          },
+          "to_node": {
+            "name": "Sndt Mahila Vidhyapith",
+            "lat": 18.5068934,
+            "lon": 73.8279419,
+            "type": "bus_stop",
+            "gtfs_stop_id": "152"
+          },
+          "mode": "bus",
+          "length_m": 1943.1286350887353,
+          "line": "144K",
+          "route_names": [
+            "144K"
+          ],
+          "path": [
+            [
+              18.5049663,
+              73.8114238
+            ],
+            [
+              18.5049995,
+              73.8116404
+            ],
+            [
+              18.5050213,
+              73.8117831
+            ]
+          ],
+          "duration_mins": 16,
+          "line_options": [
+            "144K"
+          ]
+        },
+        {
+          "from_node": {
+            "name": "Sndt Mahila Vidhyapith",
+            "lat": 18.5068934,
+            "lon": 73.8279419,
+            "type": "bus_stop",
+            "gtfs_stop_id": "152"
+          },
+          "to_node": {
+            "name": "Sawarkar Bhavan",
+            "lat": 18.522247,
+            "lon": 73.850174,
+            "type": "bus_stop",
+            "gtfs_stop_id": "6467"
+          },
+          "mode": "bus",
+          "length_m": 4111.538147708458,
+          "line": "219",
+          "route_names": [
+            "219",
+            "80A",
+            "86",
+            "64A"
+          ],
+          "path": [
+            [
+              18.5068934,
+              73.8279419
+            ],
+            [
+              18.5068374,
+              73.8277499
+            ],
+            [
+              18.5067669,
+              73.8277113
+            ]
+          ],
+          "duration_mins": 31,
+          "line_options": [
+            "219",
+            "80A",
+            "86",
+            "64A"
+          ]
+        },
+        {
+          "from_node": {
+            "name": "Sawarkar Bhavan",
+            "lat": 18.522247,
+            "lon": 73.850174,
+            "type": "bus_stop",
+            "gtfs_stop_id": "6467"
+          },
+          "to_node": {
+            "name": "Kumbharwada",
+            "lat": 18.5247,
+            "lon": 73.858658,
+            "type": "bus_stop",
+            "gtfs_stop_id": "3857"
+          },
+          "mode": "bus",
+          "length_m": 935.7585815751893,
+          "line": "205",
+          "route_names": [
+            "205"
+          ],
+          "path": [
+            [
+              18.522247,
+              73.850174
+            ],
+            [
+              18.523001,
+              73.853302
+            ],
+            [
+              18.5247,
+              73.858658
+            ]
+          ],
+          "duration_mins": 8,
+          "line_options": [
+            "205"
+          ]
+        },
+        {
+          "from_node": {
+            "name": "Kumbharwada",
+            "lat": 18.5247,
+            "lon": 73.858658,
+            "type": "bus_stop",
+            "gtfs_stop_id": "3857"
+          },
+          "to_node": {
+            "name": "Ambedkar Bhavan",
+            "lat": 18.525265,
+            "lon": 73.868217,
+            "type": "bus_stop",
+            "gtfs_stop_id": "1205"
+          },
+          "mode": "bus",
+          "length_m": 1040.6782208181726,
+          "line": "208A",
+          "route_names": [
+            "208A"
+          ],
+          "path": [
+            [
+              18.5247,
+              73.858658
+            ],
+            [
+              18.5242994,
+              73.8585045
+            ],
+            [
+              18.5242861,
+              73.8584894
+            ]
+          ],
+          "duration_mins": 9,
+          "line_options": [
+            "208A"
+          ]
+        },
+        {
+          "from_node": {
+            "name": "Ambedkar Bhavan",
+            "lat": 18.525265,
+            "lon": 73.868217,
+            "type": "bus_stop",
+            "gtfs_stop_id": "1205"
+          },
+          "to_node": {
+            "name": "Vikrikar Karyalay",
+            "lat": 18.554899,
+            "lon": 73.890099,
+            "type": "bus_stop",
+            "gtfs_stop_id": "1328"
+          },
+          "mode": "bus",
+          "length_m": 4373.114593835866,
+          "line": "RATRANI 6",
+          "route_names": [
+            "RATRANI 6",
+            "318",
+            "230",
+            "24M"
+          ],
+          "path": [
+            [
+              18.525265,
+              73.868217
+            ],
+            [
+              18.5253135,
+              73.8679606
+            ],
+            [
+              18.5250922,
+              73.8683858
+            ]
+          ],
+          "duration_mins": 33,
+          "line_options": [
+            "RATRANI 6",
+            "318",
+            "230",
+            "24M"
+          ]
+        },
+        {
+          "from_node": {
+            "name": "Vikrikar Karyalay",
+            "lat": 18.554899,
+            "lon": 73.890099,
+            "type": "bus_stop",
+            "gtfs_stop_id": "1328"
+          },
+          "to_node": {
+            "name": "Burma Shell",
+            "lat": 18.577999,
+            "lon": 73.903297,
+            "type": "bus_stop",
+            "gtfs_stop_id": "1334"
+          },
+          "mode": "bus",
+          "length_m": 3025.3716036188,
+          "line": "201",
+          "route_names": [
+            "201",
+            "158",
+            "158B",
+            "153",
+            "155",
+            "24B",
+            "200",
+            "75",
+            "149",
+            "131",
+            "315",
+            "158A",
+            "24A"
+          ],
+          "path": [
+            [
+              18.554899,
+              73.890099
+            ],
+            [
+              18.5551826,
+              73.8902773
+            ],
+            [
+              18.558057,
+              73.8910682
+            ]
+          ],
+          "duration_mins": 23,
+          "line_options": [
+            "201",
+            "158",
+            "158B",
+            "153",
+            "155",
+            "24B",
+            "200",
+            "75",
+            "149",
+            "131",
+            "315",
+            "158A",
+            "24A"
+          ]
+        },
+        {
+          "from_node": {
+            "name": "Burma Shell",
+            "lat": 18.577999,
+            "lon": 73.903297,
+            "type": "bus_stop",
+            "gtfs_stop_id": "1334"
+          },
+          "to_node": {
+            "name": "Kendriya Vidyalaya Burma Cell",
+            "lat": 18.5789862,
+            "lon": 73.9037285,
+            "type": "bus_stop",
+            "gtfs_stop_id": "3280"
+          },
+          "mode": "walk",
+          "length_m": 127.06224313327085,
+          "line": "",
+          "route_names": [],
+          "path": [
+            [
+              18.577999,
+              73.903297
+            ],
+            [
+              18.578611,
+              73.9037765
+            ],
+            [
+              18.5787522,
+              73.9037685
+            ]
+          ],
+          "duration_mins": 2,
+          "line_options": []
+        },
+        {
+          "from_node": {
+            "name": "Kendriya Vidyalaya Burma Cell",
+            "lat": 18.5789862,
+            "lon": 73.9037285,
+            "type": "bus_stop",
+            "gtfs_stop_id": "3280"
+          },
+          "to_node": {
+            "name": "Kailas Market",
+            "lat": 18.5679,
+            "lon": 73.914803,
+            "type": "bus_stop",
+            "gtfs_stop_id": "2988"
+          },
+          "mode": "bus",
+          "length_m": 2292.1399356620495,
+          "line": "179",
+          "route_names": [
+            "179"
+          ],
+          "path": [
+            [
+              18.5789862,
+              73.9037285
+            ],
+            [
+              18.5789499,
+              73.9037701
+            ],
+            [
+              18.5788194,
+              73.9038125
+            ]
+          ],
+          "duration_mins": 17,
+          "line_options": [
+            "179"
+          ]
+        },
+        {
+          "from_node": {
+            "name": "Kailas Market",
+            "lat": 18.5679,
+            "lon": 73.914803,
+            "type": "bus_stop",
+            "gtfs_stop_id": "2988"
+          },
+          "to_node": {
+            "y": 18.5678853,
+            "x": 73.9143221,
+            "street_count": 3,
+            "lat": 18.5678853,
+            "lon": 73.9143221,
+            "type": "road_node"
+          },
+          "mode": "walk",
+          "length_m": 50.71652420205337,
+          "line": "",
+          "route_names": [],
+          "path": [
+            [
+              18.5679,
+              73.914803
+            ],
+            [
+              18.5678853,
+              73.9143221
+            ]
+          ],
+          "duration_mins": 1,
+          "line_options": []
+        }
+      ],
+      "route_type": "alternative",
+      "rank": 4,
+      "route_id": "route_4"
+    }
+  ],
+  "warnings": [],
+  "departure_time_used": "2026-10-19T08:42:00+05:30"
+}

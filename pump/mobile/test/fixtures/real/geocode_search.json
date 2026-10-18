@@ -1,0 +1,31 @@
+{
+  "results": [
+    {
+      "name": "Kothrud Bus Depot",
+      "display_name": "Kothrud Bus Depot (bus_station)",
+      "lat": 18.5012,
+      "lon": 73.8082,
+      "type": "bus_station",
+      "source": "local",
+      "importance": 1.0
+    },
+    {
+      "name": "Indian Oil Kothrud",
+      "display_name": "Indian Oil Kothrud (fuel_station)",
+      "lat": 18.5045,
+      "lon": 73.8089,
+      "type": "fuel_station",
+      "source": "local",
+      "importance": 1.0
+    },
+    {
+      "name": "SBI Kothrud",
+      "display_name": "SBI Kothrud (bank)",
+      "lat": 18.5034,
+      "lon": 73.8078,
+      "type": "bank",
+      "source": "local",
+      "importance": 1.0
+    }
+  ]
+}

@@ -4,9 +4,11 @@ import json
 import os
 from pathlib import Path
 
+ROOT = Path(__file__).resolve().parents[3]  # repo root
+
 # Paths
-DATA_DIR = Path("/home/jayant/gitgud/marg/marg/Datasets")
-OUT_DIR = Path("/home/jayant/gitgud/marg/marg/pump/data/processed")
+DATA_DIR = (ROOT / "Datasets")
+OUT_DIR = (ROOT / "pump/data/processed")
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 STOPS_KML = DATA_DIR / "pune PMPML Bus Stops Map.kml"

@@ -1,0 +1,920 @@
+{
+  "routes": [
+    {
+      "score": 236.02,
+      "total_time_mins": 79,
+      "transfers": 3,
+      "total_walk_m": 988,
+      "uses_metro": true,
+      "legs": [
+        {
+          "from_node": {
+            "y": 18.5073824,
+            "x": 73.8076731,
+            "street_count": 4,
+            "lat": 18.5073824,
+            "lon": 73.8076731,
+            "type": "road_node"
+          },
+          "to_node": {
+            "name": "Vanaj Corner",
+            "lat": 18.507299,
+            "lon": 73.807297,
+            "type": "bus_stop",
+            "gtfs_stop_id": "161"
+          },
+          "mode": "walk",
+          "length_m": 40.72744522903538,
+          "line": "",
+          "route_names": [],
+          "path": [
+            [
+              18.5073824,
+              73.8076731
+            ],
+            [
+              18.507299,
+              73.807297
+            ]
+          ],
+          "duration_mins": 1,
+          "line_options": []
+        },
+        {
+          "from_node": {
+            "name": "Vanaj Corner",
+            "lat": 18.507299,
+            "lon": 73.807297,
+            "type": "bus_stop",
+            "gtfs_stop_id": "161"
+          },
+          "to_node": {
+            "name": "Deccan Gymkhana",
+            "lat": 18.516678,
+            "lon": 73.843002,
+            "type": "bus_stop",
+            "gtfs_stop_id": "217"
+          },
+          "mode": "bus",
+          "length_m": 4384.797907063234,
+          "line": "95",
+          "route_names": [
+            "95",
+            "79",
+            "103M",
+            "233B",
+            "197",
+            "233A",
+            "279",
+            "233",
+            "69A",
+            "77",
+            "227AB",
+            "231",
+            "77A",
+            "69",
+            "232",
+            "227",
+            "103",
+            "70",
+            "227A"
+          ],
+          "path": [
+            [
+              18.507299,
+              73.807297
+            ],
+            [
+              18.5075253,
+              73.8076289
+            ],
+            [
+              18.5075616,
+              73.8077629
+            ]
+          ],
+          "duration_mins": 33,
+          "line_options": [
+            "95",
+            "79",
+            "103M",
+            "233B",
+            "197",
+            "233A",
+            "279",
+            "233",
+            "69A",
+            "77",
+            "227AB",
+            "231",
+            "77A",
+            "69",
+            "232",
+            "227",
+            "103",
+            "70",
+            "227A"
+          ]
+        },
+        {
+          "from_node": {
+            "name": "Deccan Gymkhana",
+            "lat": 18.516678,
+            "lon": 73.843002,
+            "type": "bus_stop",
+            "gtfs_stop_id": "217"
+          },
+          "to_node": {
+            "id": "metro_aq_06",
+            "name": "Deccan Gymkhana",
+            "lat": 18.5168,
+            "lon": 73.8432,
+            "type": "metro_station",
+            "line": "Aqua",
+            "order": 6
+          },
+          "mode": "walk",
+          "length_m": 29.44994027801509,
+          "line": "",
+          "route_names": [],
+          "path": [
+            [
+              18.516678,
+              73.843002
+            ],
+            [
+              18.5166679,
+              73.8429832
+            ],
+            [
+              18.5168,
+              73.8432
+            ]
+          ],
+          "duration_mins": 1,
+          "line_options": []
+        },
+        {
+          "from_node": {
+            "id": "metro_aq_06",
+            "name": "Deccan Gymkhana",
+            "lat": 18.5168,
+            "lon": 73.8432,
+            "type": "metro_station",
+            "line": "Aqua",
+            "order": 6
+          },
+          "to_node": {
+            "id": "metro_aq_07",
+            "name": "Chhatrapati Sambhaji Udyan",
+            "lat": 18.5185,
+            "lon": 73.8482,
+            "type": "metro_station",
+            "line": "Aqua",
+            "order": 7
+          },
+          "mode": "metro",
+          "length_m": 560.0550493605501,
+          "line": "Aqua",
+          "route_names": [],
+          "path": [
+            [
+              18.5168,
+              73.8432
+            ],
+            [
+              18.5185,
+              73.8482
+            ]
+          ],
+          "duration_mins": 1,
+          "line_options": []
+        },
+        {
+          "from_node": {
+            "id": "metro_aq_07",
+            "name": "Chhatrapati Sambhaji Udyan",
+            "lat": 18.5185,
+            "lon": 73.8482,
+            "type": "metro_station",
+            "line": "Aqua",
+            "order": 7
+          },
+          "to_node": {
+            "id": "metro_aq_08",
+            "name": "PMC Bhavan",
+            "lat": 18.5225,
+            "lon": 73.853,
+            "type": "metro_station",
+            "line": "Aqua",
+            "order": 8
+          },
+          "mode": "metro",
+          "length_m": 673.7652645167217,
+          "line": "Aqua",
+          "route_names": [],
+          "path": [
+            [
+              18.5185,
+              73.8482
+            ],
+            [
+              18.5225,
+              73.853
+            ]
+          ],
+          "duration_mins": 2,
+          "line_options": []
+        },
+        {
+          "from_node": {
+            "id": "metro_aq_08",
+            "name": "PMC Bhavan",
+            "lat": 18.5225,
+            "lon": 73.853,
+            "type": "metro_station",
+            "line": "Aqua",
+            "order": 8
+          },
+          "to_node": {
+            "id": "metro_ix_01",
+            "name": "Civil Court",
+            "lat": 18.528,
+            "lon": 73.8555,
+            "type": "metro_station",
+            "line": "Purple/Aqua",
+            "order": 11
+          },
+          "mode": "metro",
+          "length_m": 665.9552939983828,
+          "line": "Aqua",
+          "route_names": [],
+          "path": [
+            [
+              18.5225,
+              73.853
+            ],
+            [
+              18.528,
+              73.8555
+            ]
+          ],
+          "duration_mins": 2,
+          "line_options": []
+        },
+        {
+          "from_node": {
+            "id": "metro_ix_01",
+            "name": "Civil Court",
+            "lat": 18.528,
+            "lon": 73.8555,
+            "type": "metro_station",
+            "line": "Purple/Aqua",
+            "order": 11
+          },
+          "to_node": {
+            "id": "metro_aq_12",
+            "name": "Mangalwar Peth",
+            "lat": 18.5245,
+            "lon": 73.868,
+            "type": "metro_station",
+            "line": "Aqua",
+            "order": 9
+          },
+          "mode": "metro",
+          "length_m": 1374.1699715431535,
+          "line": "Aqua",
+          "route_names": [],
+          "path": [
+            [
+              18.528,
+              73.8555
+            ],
+            [
+              18.5245,
+              73.868
+            ]
+          ],
+          "duration_mins": 3,
+          "line_options": []
+        },
+        {
+          "from_node": {
+            "id": "metro_aq_12",
+            "name": "Mangalwar Peth",
+            "lat": 18.5245,
+            "lon": 73.868,
+            "type": "metro_station",
+            "line": "Aqua",
+            "order": 9
+          },
+          "to_node": {
+            "id": "metro_aq_13",
+            "name": "Pune Railway Station",
+            "lat": 18.529,
+            "lon": 73.8755,
+            "type": "metro_station",
+            "line": "Aqua",
+            "order": 10
+          },
+          "mode": "metro",
+          "length_m": 935.7620211694207,
+          "line": "Aqua",
+          "route_names": [],
+          "path": [
+            [
+              18.5245,
+              73.868
+            ],
+            [
+              18.529,
+              73.8755
+            ]
+          ],
+          "duration_mins": 2,
+          "line_options": []
+        },
+        {
+          "from_node": {
+            "id": "metro_aq_13",
+            "name": "Pune Railway Station",
+            "lat": 18.529,
+            "lon": 73.8755,
+            "type": "metro_station",
+            "line": "Aqua",
+            "order": 10
+          },
+          "to_node": {
+            "id": "metro_aq_14",
+            "name": "Ruby Hall Clinic",
+            "lat": 18.533,
+            "lon": 73.883,
+            "type": "metro_station",
+            "line": "Aqua",
+            "order": 11
+          },
+          "mode": "metro",
+          "length_m": 907.2326862009668,
+          "line": "Aqua",
+          "route_names": [],
+          "path": [
+            [
+              18.529,
+              73.8755
+            ],
+            [
+              18.533,
+              73.883
+            ]
+          ],
+          "duration_mins": 2,
+          "line_options": []
+        },
+        {
+          "from_node": {
+            "id": "metro_aq_14",
+            "name": "Ruby Hall Clinic",
+            "lat": 18.533,
+            "lon": 73.883,
+            "type": "metro_station",
+            "line": "Aqua",
+            "order": 11
+          },
+          "to_node": {
+            "id": "metro_aq_15",
+            "name": "Bund Garden",
+            "lat": 18.5348,
+            "lon": 73.8898,
+            "type": "metro_station",
+            "line": "Aqua",
+            "order": 12
+          },
+          "mode": "metro",
+          "length_m": 744.3250449766161,
+          "line": "Aqua",
+          "route_names": [],
+          "path": [
+            [
+              18.533,
+              73.883
+            ],
+            [
+              18.5348,
+              73.8898
+            ]
+          ],
+          "duration_mins": 2,
+          "line_options": []
+        },
+        {
+          "from_node": {
+            "id": "metro_aq_15",
+            "name": "Bund Garden",
+            "lat": 18.5348,
+            "lon": 73.8898,
+            "type": "metro_station",
+            "line": "Aqua",
+            "order": 12
+          },
+          "to_node": {
+            "id": "metro_aq_16",
+            "name": "Yerawada",
+            "lat": 18.5445,
+            "lon": 73.8945,
+            "type": "metro_station",
+            "line": "Aqua",
+            "order": 13
+          },
+          "mode": "metro",
+          "length_m": 1186.9594666407827,
+          "line": "Aqua",
+          "route_names": [],
+          "path": [
+            [
+              18.5348,
+              73.8898
+            ],
+            [
+              18.5445,
+              73.8945
+            ]
+          ],
+          "duration_mins": 2,
+          "line_options": []
+        },
+        {
+          "from_node": {
+            "id": "metro_aq_16",
+            "name": "Yerawada",
+            "lat": 18.5445,
+            "lon": 73.8945,
+            "type": "metro_station",
+            "line": "Aqua",
+            "order": 13
+          },
+          "to_node": {
+            "id": "metro_aq_17",
+            "name": "Kalyani Nagar",
+            "lat": 18.5495,
+            "lon": 73.9045,
+            "type": "metro_station",
+            "line": "Aqua",
+            "order": 14
+          },
+          "mode": "metro",
+          "length_m": 1191.8226551578755,
+          "line": "Aqua",
+          "route_names": [],
+          "path": [
+            [
+              18.5445,
+              73.8945
+            ],
+            [
+              18.5495,
+              73.9045
+            ]
+          ],
+          "duration_mins": 2,
+          "line_options": []
+        },
+        {
+          "from_node": {
+            "id": "metro_aq_17",
+            "name": "Kalyani Nagar",
+            "lat": 18.5495,
+            "lon": 73.9045,
+            "type": "metro_station",
+            "line": "Aqua",
+            "order": 14
+          },
+          "to_node": {
+            "id": "metro_aq_18",
+            "name": "Ramwadi",
+            "lat": 18.5548,
+            "lon": 73.9155,
+            "type": "metro_station",
+            "line": "Aqua",
+            "order": 15
+          },
+          "mode": "metro",
+          "length_m": 1300.7481977774644,
+          "line": "Aqua",
+          "route_names": [],
+          "path": [
+            [
+              18.5495,
+              73.9045
+            ],
+            [
+              18.5548,
+              73.9155
+            ]
+          ],
+          "duration_mins": 3,
+          "line_options": []
+        },
+        {
+          "from_node": {
+            "id": "metro_aq_18",
+            "name": "Ramwadi",
+            "lat": 18.5548,
+            "lon": 73.9155,
+            "type": "metro_station",
+            "line": "Aqua",
+            "order": 15
+          },
+          "to_node": {
+            "name": "Vrundavan",
+            "lat": 18.554399,
+            "lon": 73.915199,
+            "type": "bus_stop",
+            "gtfs_stop_id": "2981"
+          },
+          "mode": "walk",
+          "length_m": 68.07042967406954,
+          "line": "",
+          "route_names": [],
+          "path": [
+            [
+              18.5548,
+              73.9155
+            ],
+            [
+              18.554652,
+              73.9151582
+            ],
+            [
+              18.554399,
+              73.915199
+            ]
+          ],
+          "duration_mins": 1,
+          "line_options": []
+        },
+        {
+          "from_node": {
+            "name": "Vrundavan",
+            "lat": 18.554399,
+            "lon": 73.915199,
+            "type": "bus_stop",
+            "gtfs_stop_id": "2981"
+          },
+          "to_node": {
+            "name": "Ramwadi Metro Station",
+            "lat": 18.5576018,
+            "lon": 73.9092583,
+            "type": "bus_stop",
+            "gtfs_stop_id": "1370"
+          },
+          "mode": "bus",
+          "length_m": 720.4177535347422,
+          "line": "165",
+          "route_names": [
+            "165"
+          ],
+          "path": [
+            [
+              18.554399,
+              73.915199
+            ],
+            [
+              18.5576018,
+              73.9092583
+            ]
+          ],
+          "duration_mins": 6,
+          "line_options": [
+            "165"
+          ]
+        },
+        {
+          "from_node": {
+            "name": "Ramwadi Metro Station",
+            "lat": 18.5576018,
+            "lon": 73.9092583,
+            "type": "bus_stop",
+            "gtfs_stop_id": "1370"
+          },
+          "to_node": {
+            "name": "Ramwadi Metro Station",
+            "lat": 18.556744,
+            "lon": 73.907967,
+            "type": "bus_stop",
+            "gtfs_stop_id": "2156"
+          },
+          "mode": "walk",
+          "length_m": 204.44780022145218,
+          "line": "",
+          "route_names": [],
+          "path": [
+            [
+              18.5576018,
+              73.9092583
+            ],
+            [
+              18.5565312,
+              73.9079676
+            ],
+            [
+              18.556744,
+              73.907967
+            ]
+          ],
+          "duration_mins": 3,
+          "line_options": []
+        },
+        {
+          "from_node": {
+            "name": "Ramwadi Metro Station",
+            "lat": 18.556744,
+            "lon": 73.907967,
+            "type": "bus_stop",
+            "gtfs_stop_id": "2156"
+          },
+          "to_node": {
+            "name": "Bekar Company",
+            "lat": 18.5648,
+            "lon": 73.918098,
+            "type": "bus_stop",
+            "gtfs_stop_id": "2991"
+          },
+          "mode": "bus",
+          "length_m": 1726.9027976616521,
+          "line": "RATRANI 9",
+          "route_names": [
+            "RATRANI 9",
+            "230",
+            "METRO SHUTTLE 20A"
+          ],
+          "path": [
+            [
+              18.556744,
+              73.907967
+            ],
+            [
+              18.5565993,
+              73.9077215
+            ],
+            [
+              18.55671,
+              73.9078889
+            ]
+          ],
+          "duration_mins": 13,
+          "line_options": [
+            "RATRANI 9",
+            "230",
+            "METRO SHUTTLE 20A"
+          ]
+        },
+        {
+          "from_node": {
+            "name": "Bekar Company",
+            "lat": 18.5648,
+            "lon": 73.918098,
+            "type": "bus_stop",
+            "gtfs_stop_id": "2991"
+          },
+          "to_node": {
+            "y": 18.5678853,
+            "x": 73.9143221,
+            "street_count": 3,
+            "lat": 18.5678853,
+            "lon": 73.9143221,
+            "type": "road_node"
+          },
+          "mode": "walk",
+          "length_m": 645.6950450258036,
+          "line": "",
+          "route_names": [],
+          "path": [
+            [
+              18.5648,
+              73.918098
+            ],
+            [
+              18.566601,
+              73.918297
+            ],
+            [
+              18.567801,
+              73.915001
+            ]
+          ],
+          "duration_mins": 8,
+          "line_options": []
+        }
+      ],
+      "route_type": "recommended",
+      "rank": 1,
+      "route_id": "route_1"
+    },
+    {
+      "score": 142.57,
+      "total_time_mins": 90,
+      "transfers": 1,
+      "total_walk_m": 1534,
+      "uses_metro": false,
+      "legs": [
+        {
+          "mode": "walk",
+          "from_node": {
+            "name": "Origin",
+            "lat": 18.508284,
+            "lon": 73.809349
+          },
+          "to_node": {
+            "name": "Pratik Nagar",
+            "lat": 18.508284,
+            "lon": 73.809349
+          },
+          "length_m": 218.71973831645826,
+          "route_names": [],
+          "path": [
+            [
+              18.5073824,
+              73.8076731
+            ],
+            [
+              18.5075253,
+              73.8076289
+            ],
+            [
+              18.5075616,
+              73.8077629
+            ]
+          ],
+          "duration_mins": 3,
+          "line_options": []
+        },
+        {
+          "mode": "bus",
+          "from_node": {
+            "name": "Pratik Nagar",
+            "lat": 18.508284,
+            "lon": 73.809349
+          },
+          "to_node": {
+            "name": "Pune Station Moledina Stand",
+            "lat": 18.5271,
+            "lon": 73.873001
+          },
+          "length_m": 9450.0,
+          "route_names": [
+            "1030"
+          ],
+          "path": [
+            [
+              18.508284,
+              73.809349
+            ],
+            [
+              18.5083138,
+              73.8095246
+            ],
+            [
+              18.5083295,
+              73.8096451
+            ]
+          ],
+          "duration_mins": 36,
+          "line_options": [
+            "1030"
+          ],
+          "line": "1030"
+        },
+        {
+          "mode": "walk",
+          "from_node": {
+            "name": "Pune Station Moledina Stand",
+            "lat": 18.5271,
+            "lon": 73.873001
+          },
+          "to_node": {
+            "name": "Pune Station Moledina Road",
+            "lat": 18.527304,
+            "lon": 73.8731
+          },
+          "length_m": 49.827959500778505,
+          "route_names": [],
+          "path": [
+            [
+              18.5271,
+              73.873001
+            ],
+            [
+              18.5274008,
+              73.8731593
+            ],
+            [
+              18.527304,
+              73.8731
+            ]
+          ],
+          "duration_mins": 1,
+          "line_options": []
+        },
+        {
+          "mode": "bus",
+          "from_node": {
+            "name": "Pune Station Moledina Road",
+            "lat": 18.527304,
+            "lon": 73.8731
+          },
+          "to_node": {
+            "name": "Vadgaon Sheri Phata",
+            "lat": 18.558901,
+            "lon": 73.9123
+          },
+          "length_m": 5615.0,
+          "route_names": [
+            "1041"
+          ],
+          "path": [
+            [
+              18.527304,
+              73.8731
+            ],
+            [
+              18.533199,
+              73.878098
+            ],
+            [
+              18.5333064,
+              73.8783718
+            ]
+          ],
+          "duration_mins": 36,
+          "line_options": [
+            "1041"
+          ],
+          "line": "1041"
+        },
+        {
+          "mode": "walk",
+          "from_node": {
+            "name": "Vadgaon Sheri Phata",
+            "lat": 18.558901,
+            "lon": 73.9123
+          },
+          "to_node": {
+            "name": "Wakefield It Company",
+            "lat": 18.560131,
+            "lon": 73.911751
+          },
+          "length_m": 269.41749824184853,
+          "route_names": [],
+          "path": [
+            [
+              18.5587642,
+              73.9116107
+            ],
+            [
+              18.5611821,
+              73.9117753
+            ]
+          ],
+          "duration_mins": 4,
+          "line_options": []
+        },
+        {
+          "mode": "walk",
+          "from_node": {
+            "name": "Wakefield It Company",
+            "lat": 18.560131,
+            "lon": 73.911751
+          },
+          "to_node": {
+            "name": "Destination",
+            "lat": 18.560131,
+            "lon": 73.911751
+          },
+          "length_m": 996.4139441207833,
+          "route_names": [],
+          "path": [
+            [
+              18.5611821,
+              73.9117753
+            ],
+            [
+              18.5612326,
+              73.9117767
+            ],
+            [
+              18.5613842,
+              73.911781
+            ]
+          ],
+          "duration_mins": 12,
+          "line_options": []
+        }
+      ],
+      "route_type": "least_transfers",
+      "rank": 2,
+      "route_id": "route_2"
+    }
+  ],
+  "warnings": [],
+  "departure_time_used": "2026-10-19T08:42:00+05:30"
+}

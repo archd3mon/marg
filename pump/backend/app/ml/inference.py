@@ -5,7 +5,9 @@ from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
-MODEL_PATH = Path("/home/jayant/gitgud/marg/marg/pump/data/models/travel_time_rf.pkl")
+from app.paths import MODELS_DIR
+
+MODEL_PATH = MODELS_DIR / "travel_time_rf.pkl"
 
 class TravelTimePredictor:
     def __init__(self):

@@ -12,9 +12,11 @@ Checks:
 import json
 import csv
 from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[3]  # repo root
 from collections import Counter
 
-DATA_DIR = Path("/home/jayant/gitgud/marg/marg/pump/data/processed")
+DATA_DIR = (ROOT / "pump/data/processed")
 
 ERRORS = []
 WARNINGS = []

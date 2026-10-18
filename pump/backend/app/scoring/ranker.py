@@ -34,7 +34,7 @@ def _build_mode_penalties(mode_preferences):
         penalties["bus"] = 0.0
         penalties["metro"] = 8.0
 
-    if mode_preferences.get("avoid_walking"):
+    if mode_preferences.get("avoid_walking") or mode_preferences.get("less_walking"):
         penalties["walk"] = DEFAULT_MODE_PENALTY["walk"] * 3.0
 
     return penalties

@@ -1,0 +1,23 @@
+{
+  "status": "ok",
+  "components": {
+    "graph": {
+      "status": "ok",
+      "nodes": 91714,
+      "edges": 239280
+    },
+    "kdtree": {
+      "status": "ok",
+      "indexed_nodes": 91714
+    },
+    "ml_model": {
+      "status": "ok"
+    },
+    "search": {
+      "status": "ok",
+      "indexed_points": 22896
+    }
+  },
+  "routing_available": true,
+  "load_time_s": 4.12
+}

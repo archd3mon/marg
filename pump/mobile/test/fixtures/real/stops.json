@@ -1,0 +1,46 @@
+{
+  "stops": [
+    {
+      "lon": 73.63157999999999,
+      "lat": 18.51983000000003,
+      "id": "bus_32769",
+      "code": "151131",
+      "name": "Forest Office Road",
+      "type": "bus_stop"
+    },
+    {
+      "lon": 73.82707999999998,
+      "lat": 18.52888999999998,
+      "id": "bus_32770",
+      "code": "152339",
+      "name": "Kusalkar Putala",
+      "type": "bus_stop"
+    },
+    {
+      "lon": 73.78613000000001,
+      "lat": 18.67007000000001,
+      "id": "bus_32771",
+      "code": "154648",
+      "name": "Tower Line",
+      "type": "bus_stop"
+    },
+    {
+      "id": "metro_pu_01",
+      "name": "PCMC",
+      "lat": 18.6281,
+      "lon": 73.8053,
+      "type": "metro_station",
+      "line": "Purple",
+      "order": 1
+    },
+    {
+      "id": "metro_pu_02",
+      "name": "Sant Tukaram Nagar",
+      "lat": 18.6175,
+      "lon": 73.8098,
+      "type": "metro_station",
+      "line": "Purple",
+      "order": 2
+    }
+  ]
+}

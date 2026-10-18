@@ -4,6 +4,8 @@ import sys
 import os
 import networkx as nx
 from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[3]  # repo root
 import math
 import pickle
 from scipy.spatial import KDTree
@@ -11,8 +13,8 @@ from scipy.spatial import KDTree
 # Add backend to path so we can import app modules
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-DATA_DIR = Path("/home/jayant/gitgud/marg/marg/pump/data/processed")
-GTFS_DIR = Path("/home/jayant/gitgud/marg/marg/pump/data/gtfs")
+DATA_DIR = (ROOT / "pump/data/processed")
+GTFS_DIR = (ROOT / "pump/data/gtfs")
 OSM_GRAPH_PATH = DATA_DIR / "osm_pune_roads.gpickle"
 GRAPH_OUT = DATA_DIR / "multimodal_graph.gpickle"
 KDTREE_OUT = DATA_DIR / "spatial_index.pkl"

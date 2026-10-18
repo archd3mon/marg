@@ -6,7 +6,9 @@ from sklearn.metrics import mean_absolute_error
 import joblib
 from pathlib import Path
 
-OUT_DIR = Path("/home/jayant/gitgud/marg/marg/pump/data/models")
+ROOT = Path(__file__).resolve().parents[3]  # repo root
+
+OUT_DIR = (ROOT / "pump/data/models")
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 MODEL_OUT = OUT_DIR / "travel_time_rf.pkl"
 

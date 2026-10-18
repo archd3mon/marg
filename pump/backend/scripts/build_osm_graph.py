@@ -1,10 +1,12 @@
 import osmnx as ox
 import networkx as nx
 from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[3]  # repo root
 import pickle
 import os
 
-DATA_DIR = Path(os.getenv("PUMP_DATA_DIR", "/home/jayant/gitgud/marg/marg/pump/data/processed"))
+DATA_DIR = Path(os.getenv("PUMP_DATA_DIR", str(ROOT / "pump/data/processed")))
 GRAPH_OUT = DATA_DIR / "osm_pune_roads.gpickle"
 
 def build_osm_graph():

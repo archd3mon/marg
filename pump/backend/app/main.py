@@ -92,9 +92,7 @@ app.add_middleware(
 )
 
 # Data directory — points to pump/data/ (parent of processed/)
-DEFAULT_DATA_DIR = Path("/home/jayant/gitgud/marg/marg/pump/data")
-DATA_DIR_ENV = os.getenv("PUMP_DATA_DIR")
-DATA_DIR = Path(DATA_DIR_ENV) if DATA_DIR_ENV else DEFAULT_DATA_DIR
+from app.paths import DATA_ROOT as DATA_DIR
 
 # Nominatim settings
 NOMINATIM_URL = "https://nominatim.openstreetmap.org/search"
@@ -137,6 +135,45 @@ def parse_departure_time(raw: Optional[str]) -> datetime:
         except (ValueError, TypeError):
             pass
     return datetime.now(IST)
+
+
+# --- Client-contract normalisation (additive: never removes or renames a field) ---
+def _normalize_for_clients(routes: list) -> list:
+    """Guarantee the fields every client (React + Flutter) relies on.
+
+    - route_id on every route (walk_direct already has one)
+    - leg.line populated for bus legs from route_names (best guess = first name),
+      with all candidates kept in leg.line_options
+    - leg.duration_mins on every leg (walk_direct is returned unranked)
+    - leg.path (straight line between the nodes when no road geometry exists)
+    - route-level total_walk_m / uses_metro / route_type defaults
+    """
+    for idx, r in enumerate(routes):
+        r.setdefault("route_id", f"route_{idx + 1}")
+        r.setdefault("route_type", "alternative")
+        r.setdefault("uses_metro", any(l.get("mode") == "metro" for l in r.get("legs", [])))
+        if "total_walk_m" not in r:
+            r["total_walk_m"] = round(sum(l.get("length_m", 0.0) for l in r.get("legs", []) if l.get("mode") == "walk"))
+        for leg in r.get("legs", []):
+            names = [str(n) for n in (leg.get("route_names") or [])]
+            leg["line_options"] = names
+            if not leg.get("line") and leg.get("mode") == "bus" and names:
+                leg["line"] = names[0]
+            if not leg.get("path"):
+                a, b = leg.get("from_node", {}), leg.get("to_node", {})
+                leg["path"] = [[a.get("lat", 0.0), a.get("lon", 0.0)], [b.get("lat", 0.0), b.get("lon", 0.0)]]
+            if "duration_mins" not in leg:
+                secs = leg.get("duration_sec", leg.get("travel_time", 0.0)) or 0.0
+                leg["duration_mins"] = max(1, math.ceil(secs / 60)) if leg.get("length_m", 0) else 0
+    return routes
+
+
+def _exclude_metro(routes: list) -> list:
+    """Drop routes that ride the metro (used by the bus-only v1 mobile app)."""
+    kept = [r for r in routes if not r.get("uses_metro")]
+    if kept and not any(r.get("route_type") == "recommended" for r in kept):
+        kept[0]["route_type"] = "recommended"
+    return kept
 
 
 # --- Error Responses ---
@@ -208,6 +245,34 @@ def get_stops():
             stops.extend(all_buses[:500])
 
     return {"stops": stops}
+
+
+@app.get("/api/v1/network/stops/nearby")
+def get_nearby_stops(
+    lat: float = Query(..., ge=-90, le=90),
+    lng: float = Query(..., ge=-180, le=180),
+    radius_m: int = Query(1500, ge=50, le=5000),
+    limit: int = Query(30, ge=1, le=100),
+    include_metro: bool = False,
+):
+    """Stops closest to a point. /network/stops is capped at 500 arbitrary bus stops,
+    so a client that wants 'stops near me' must use this endpoint instead."""
+    from app.utils import haversine
+    stops = []
+    bus_file = DATA_DIR / "processed" / "bus_stops.json"
+    metro_file = DATA_DIR / "processed" / "metro_stations.json"
+    files = [bus_file] + ([metro_file] if include_metro else [])
+    for f in files:
+        if not f.exists():
+            continue
+        with open(f) as fh:
+            for st in json.load(fh):
+                d_km = haversine({"lat": lat, "lng": lng}, {"lat": st["lat"], "lng": st["lon"]})
+                d_m = d_km * 1000
+                if d_m <= radius_m:
+                    stops.append({**st, "distance_meters": round(d_m)})
+    stops.sort(key=lambda x: x["distance_meters"])
+    return {"stops": stops[:limit]}
 
 
 @app.get("/api/v1/geocode/search")
@@ -538,7 +603,8 @@ def search_routes(request: RouteRequest):
                 "badges": ["🚶 Walk only"],
                 "warning": "No transit route found. Showing direct walking distance only."
             }]
-            return {"routes": routes, "warnings": warnings, "departure_time_used": departure_dt.isoformat()}
+            routes[0]["route_type"] = "fastest"
+            return {"routes": _normalize_for_clients(routes), "warnings": warnings, "departure_time_used": departure_dt.isoformat()}
 
         # Score & Rank (with mode preferences)
         ranked = score_and_rank_routes(
@@ -551,6 +617,12 @@ def search_routes(request: RouteRequest):
 
         # Enhance walk legs with OSRM road-following paths
         _enhance_walk_paths(ranked)
+
+        _normalize_for_clients(ranked)
+        if (request.mode_preferences or {}).get("exclude_metro"):
+            ranked = _exclude_metro(ranked)
+            if not ranked:
+                return RouteError.not_found()
 
         return {"routes": ranked, "warnings": warnings, "departure_time_used": departure_dt.isoformat()}
 
