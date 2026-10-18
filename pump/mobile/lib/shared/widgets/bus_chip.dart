@@ -4,11 +4,13 @@ import '../../theme/marg_tokens.dart';
 class BusChip extends StatelessWidget {
   final String line;
   final bool showIcon;
+  final String? suffix;
 
   const BusChip({
     super.key,
     required this.line,
     this.showIcon = false,
+    this.suffix,
   });
 
   @override
@@ -35,6 +37,16 @@ class BusChip extends StatelessWidget {
               fontWeight: FontWeight.w700,
             ),
           ),
+          if (suffix != null && suffix!.isNotEmpty) ...[
+            const SizedBox(width: Sp.x1 / 2),
+            Text(
+              suffix!,
+              style: MargText.caption.copyWith(
+                color: c.card.withValues(alpha: 0.85),
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
         ],
       ),
     );

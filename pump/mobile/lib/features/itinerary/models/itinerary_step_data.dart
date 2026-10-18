@@ -10,6 +10,7 @@ class ItineraryStepData {
   final bool isAlight;
   final bool isDestination;
   final String? busLine;
+  final String? lineSuffix;
   final String? headsign;
   final String? meta;
   final List<String> intermediateStops;
@@ -23,6 +24,7 @@ class ItineraryStepData {
     this.isAlight = false,
     this.isDestination = false,
     this.busLine,
+    this.lineSuffix,
     this.headsign,
     this.meta,
     this.intermediateStops = const [],
@@ -45,9 +47,11 @@ class ItineraryStepData {
       return '$h:${m.toString().padLeft(2, '0')}';
     }
 
-    for (int i = 0; i < route.legs.length; i++) {
-      final leg = route.legs[i];
-      final isLastLeg = i == route.legs.length - 1;
+    final collapsed = collapseLegs(route.legs);
+
+    for (int i = 0; i < collapsed.length; i++) {
+      final leg = collapsed[i];
+      final isLastLeg = i == collapsed.length - 1;
 
       if (leg.mode == 'walk') {
         final isAlight = i > 0;
@@ -64,17 +68,31 @@ class ItineraryStepData {
       } else {
         final waitMins = leg.transferWaitMins ?? 4;
         final depMins = currentMinutes + (i > 1 ? waitMins : 0);
+
+        final metaParts = <String>[];
+        if (leg.frequencyMins != null) {
+          metaParts.add('Every ${leg.frequencyMins} min');
+        }
+        if (leg.numStops != null) {
+          metaParts.add('${leg.numStops} stops');
+        }
+        if (leg.durationMins > 0) {
+          metaParts.add('${leg.durationMins} min');
+        }
+        final meta = metaParts.isNotEmpty ? metaParts.join(' · ') : null;
+
+        final lineSuffix = leg.lineOptions.length > 1 ? '+${leg.lineOptions.length - 1}' : null;
+
         steps.add(ItineraryStepData(
           time: formatTime(currentMinutes),
           depTime: i > 1 ? 'Dep ${formatTime(depMins)}' : null,
           title: leg.fromNode.name.isNotEmpty ? leg.fromNode.name : 'Bus Station',
           subtitle: i > 1 ? 'Change buses · $waitMins min wait' : null,
-          busLine: leg.line ?? '17',
-          headsign: leg.headsign ?? 'towards Destination',
-          meta: '${i == 0 ? "Every 10 min · " : ""}${leg.numStops ?? 8} stops · ${leg.durationMins} min',
-          intermediateStops: leg.intermediateStops.isNotEmpty
-              ? leg.intermediateStops
-              : const ['Stop A', 'Stop B', 'Stop C', 'Stop D'],
+          busLine: leg.line ?? (leg.mode == 'metro' ? 'Metro' : 'Bus'),
+          lineSuffix: lineSuffix,
+          headsign: (leg.headsign != null && leg.headsign!.trim().isNotEmpty) ? leg.headsign : null,
+          meta: meta,
+          intermediateStops: leg.intermediateStops,
         ));
         currentMinutes += leg.durationMins;
       }

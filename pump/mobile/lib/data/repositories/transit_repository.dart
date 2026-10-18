@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:flutter/foundation.dart';
 import '../api_client.dart';
 import '../models/place.dart';
 import '../models/stop.dart';
@@ -7,8 +8,11 @@ import '../models/alert_model.dart';
 
 class TransitRepository {
   final ApiClient apiClient;
+  final bool isRelease;
 
-  TransitRepository({ApiClient? client}) : apiClient = client ?? ApiClient();
+  TransitRepository({ApiClient? client, bool? isRelease})
+      : apiClient = client ?? ApiClient(),
+        isRelease = isRelease ?? kReleaseMode;
 
   // Pune Stops dataset for fallback/offline
   static const List<TransitStop> _puneStops = [
@@ -108,7 +112,10 @@ class TransitRepository {
   ];
 
   Future<bool> checkHealth({int maxRetries = 0}) async {
-    if (!apiClient.hasBaseUrl) return true;
+    if (!apiClient.hasBaseUrl || (isRelease && !apiClient.baseUrl.toLowerCase().startsWith('https://'))) {
+      if (isRelease) return false;
+      return true;
+    }
     try {
       final res = await apiClient.get('/health', maxRetries: maxRetries);
       if (res is Map<String, dynamic>) {
@@ -127,11 +134,17 @@ class TransitRepository {
         if (res is Map<String, dynamic>) return res;
       } catch (_) {}
     }
+    if (isRelease) {
+      throw ApiUnavailableException('Demo mode is disabled in release builds. Configure a secure HTTPS API_BASE.');
+    }
     return {'status': 'ok', 'graph': 'ready', 'ml': 'ready', 'search': 'ready'};
   }
 
   Future<List<TransitStop>> getNearbyStops(double userLat, double userLng) async {
     if (!apiClient.hasBaseUrl) {
+      if (isRelease) {
+        throw ApiUnavailableException('Demo mode is disabled in release builds. Configure a secure HTTPS API_BASE.');
+      }
       return _rankStopsByDistance(_puneStops, userLat, userLng);
     }
     final res = await apiClient.get(
@@ -187,6 +200,9 @@ class TransitRepository {
     if (q.length < 2) return [];
 
     if (!apiClient.hasBaseUrl) {
+      if (isRelease) {
+        throw ApiUnavailableException('Demo mode is disabled in release builds. Configure a secure HTTPS API_BASE.');
+      }
       final qLower = q.toLowerCase();
       return _punePlaces.where((p) {
         return p.name.toLowerCase().contains(qLower) || p.displayName.toLowerCase().contains(qLower);
@@ -259,6 +275,10 @@ class TransitRepository {
         return _sortRoutes(routes, priority);
       }
       return [];
+    }
+
+    if (isRelease) {
+      throw ApiUnavailableException('Demo mode is disabled in release builds. Configure a secure HTTPS API_BASE.');
     }
 
     // High fidelity Pune routes corresponding to 00_overview reference

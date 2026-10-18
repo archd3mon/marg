@@ -95,12 +95,21 @@ class _ItineraryMapState extends State<ItineraryMap> {
               LatLng(widget.from.lat, widget.from.lng),
               Container(decoration: BoxDecoration(color: c.blue, shape: BoxShape.circle, border: Border.all(color: c.card, width: 3))),
             ),
-            if (effectiveRoute.transfers > 0)
+            if (effectiveRoute.legs.isNotEmpty) ...[
+              for (int i = 0; i < effectiveRoute.legs.length - 1; i++)
+                if (effectiveRoute.legs[i].mode != 'walk' && effectiveRoute.legs[i + 1].mode != 'walk')
+                  _buildMarker(
+                    LatLng(effectiveRoute.legs[i].toNode.lat, effectiveRoute.legs[i].toNode.lon),
+                    Container(decoration: BoxDecoration(color: c.card, shape: BoxShape.circle, border: Border.all(color: c.blue, width: 3.5))),
+                    size: 20,
+                  ),
+            ] else if (effectiveRoute.transfers > 0) ...[
               _buildMarker(
                 const LatLng(18.5182, 73.8413),
                 Container(decoration: BoxDecoration(color: c.card, shape: BoxShape.circle, border: Border.all(color: c.blue, width: 3.5))),
                 size: 20,
               ),
+            ],
             _buildMarker(
               LatLng(widget.to.lat, widget.to.lng),
               Container(

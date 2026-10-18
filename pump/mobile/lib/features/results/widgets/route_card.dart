@@ -50,6 +50,7 @@ class RouteCard extends StatelessWidget {
     final c = context.c;
     final badgeType = _getBadgeType(route.routeType);
     final arrivalTime = _formatArrivalTime(route.departureTimeUsed, route.totalTimeMins);
+    final displayLegs = collapseLegs(route.legs);
 
     return Container(
       margin: const EdgeInsets.only(bottom: Sp.x3),
@@ -94,12 +95,14 @@ class RouteCard extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
-                      for (int i = 0; i < route.legs.length; i++) ...[
-                        if (route.legs[i].mode == 'walk')
-                          WalkChip(durationMins: route.legs[i].durationMins)
-                        else if (route.legs[i].mode == 'bus')
-                          BusChip(line: route.legs[i].line ?? 'Bus', showIcon: true),
-                        if (i < route.legs.length - 1)
+                      for (int i = 0; i < displayLegs.length; i++) ...[
+                        if (displayLegs[i].mode == 'walk')
+                          WalkChip(durationMins: displayLegs[i].durationMins)
+                        else if (displayLegs[i].mode == 'bus')
+                          BusChip(line: displayLegs[i].line ?? 'Bus', showIcon: true)
+                        else if (displayLegs[i].mode == 'metro')
+                          BusChip(line: displayLegs[i].line ?? 'Metro', showIcon: true),
+                        if (i < displayLegs.length - 1)
                           Padding(padding: const EdgeInsets.symmetric(horizontal: Sp.x1), child: Icon(Icons.chevron_right, size: 14, color: c.label3)),
                       ],
                     ],

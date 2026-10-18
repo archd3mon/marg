@@ -95,7 +95,11 @@ class ItineraryTimelineStep extends StatelessWidget {
                     const SizedBox(height: 6),
                     Row(
                       children: [
-                        BusChip(line: step.busLine!, showIcon: true),
+                        BusChip(
+                          line: step.busLine!,
+                          suffix: step.lineSuffix,
+                          showIcon: true,
+                        ),
                         const SizedBox(width: Sp.x2),
                         if (step.headsign != null)
                           Expanded(

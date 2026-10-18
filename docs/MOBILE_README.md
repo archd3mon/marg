@@ -98,6 +98,25 @@ flutter test
 flutter run -d emulator-5554 --dart-define=API_BASE=https://api.marg.in/api/v1
 ```
 
+### 🌐 Backend Environments & `API_BASE` Values
+
+Marg requires configuring the backend target using `--dart-define=API_BASE=<URL>`. Three target configurations are supported:
+
+| Target Environment | `API_BASE` Value | Description & Constraints |
+|---|---|---|
+| **Android Emulator (Local Backend)** | `http://10.0.2.2:8000/api/v1` | **Debug / Profile only.** `10.0.2.2` is Android emulator's alias to host `127.0.0.1`. Permitted via `src/debug/res/xml/network_security_config.xml`. Shortcut: `bash scripts/run_mobile_local.sh`. |
+| **Physical Device (Local LAN)** | `http://<YOUR_LAN_IP>:8000/api/v1` | **Debug / Profile only.** Replace `<YOUR_LAN_IP>` with host machine's Wi-Fi IP (e.g., `http://192.168.1.50:8000/api/v1`). Backend must run on `0.0.0.0:8000`. |
+| **Production / Render (Cloud)** | `https://<service>.onrender.com/api/v1` | **Mandatory for Release builds.** Must be valid HTTPS. In release builds (`--release`), cleartext HTTP or missing `API_BASE` will trigger an immediate startup configuration error screen. |
+
+> [!NOTE]
+> **Cleartext HTTP Security Policy:** Cleartext (`http://`) traffic is strictly forbidden in Release builds (`src/main/AndroidManifest.xml` has no `usesCleartextTraffic`). Cleartext is only permitted in debug/profile builds for local testing with `10.0.2.2` and `localhost`.
+
+### Local Run Script
+To boot the local Python FastAPI backend on `0.0.0.0:8000` and automatically start Flutter on the Android emulator:
+```bash
+bash scripts/run_mobile_local.sh
+```
+
 ### Verification Scripts
 ```bash
 # Run comprehensive verification (analyze + tests + color audit)
