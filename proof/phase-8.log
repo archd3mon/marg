@@ -1,0 +1,22 @@
+== phase-8  2026-10-18T16:05:44+05:30 ==
+-- flutter analyze
+Analyzing mobile...                                             
+No issues found! (ran in 31.3s)
+-- flutter test
+      * https://operations.osmfoundation.org/policies/tiles (OSM Tile Usage Policy)
+      * https://docs.fleaflet.dev/osm-warn for more information about this warning
+00:09 +76: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/phase_7_saved_alerts_test.dart: Phase 7 - Alerts Screen Tests kDemoAlerts flag defaults to false and only local reminders are shown
+00:09 +77: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/phase_4_results_test.dart: Phase 4 - Map Component Tests ResultsMap renders with polylines and markers
+00:09 +78: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/phase_4_results_test.dart: Phase 4 - Map Component Tests ResultsMap renders with polylines and markers
+  [1m[flutter_map][0m
+    We want to help keep OpenStreetMap available for everyone. Our examples
+    and demo app use the public tile servers, but they are NOT free to use by
+    everyone! Please review whether the OpenStreetMap tile servers are suitable
+    for your project.
+    See:
+      * https://operations.osmfoundation.org/policies/tiles (OSM Tile Usage Policy)
+      * https://docs.fleaflet.dev/osm-warn for more information about this warning
+00:09 +79: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/phase_7_saved_alerts_test.dart: Phase 7 - Alerts Screen Tests Toggling notification settings updates state and persists across restarts
+00:09 +80: All tests passed!
+-- hardcoded colors in features (must be empty)
+none

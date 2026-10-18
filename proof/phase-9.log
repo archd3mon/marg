@@ -1,0 +1,22 @@
+== phase-9  2026-10-18T17:32:35+05:30 ==
+-- flutter analyze
+Analyzing mobile...                                             
+No issues found! (ran in 84.6s)
+-- flutter test
+    everyone! Please review whether the OpenStreetMap tile servers are suitable
+    for your project.
+    See:
+      * https://operations.osmfoundation.org/policies/tiles (OSM Tile Usage Policy)
+      * https://docs.fleaflet.dev/osm-warn for more information about this warning
+00:22 +72: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/phase_7_saved_alerts_test.dart: Phase 7 - Saved Screen Tests Tapping edit on a place card opens EditPlaceSheet and persists changes
+00:23 +73: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/phase_7_saved_alerts_test.dart: Phase 7 - Saved Screen Tests Tapping edit on a place card opens EditPlaceSheet and persists changes
+00:23 +74: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/widget_test.dart: App Smoke Test App boots with WelcomeScreen on first run
+00:23 +75: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/phase_7_saved_alerts_test.dart: Phase 7 - Saved Screen Tests Tapping a saved route re-runs search by navigating to /results
+00:23 +76: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/phase_7_saved_alerts_test.dart: Phase 7 - Saved Screen Tests Swipe-to-delete removes saved route and persists to storage
+00:23 +77: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/phase_7_saved_alerts_test.dart: Phase 7 - Alerts Screen Tests AlertsScreen renders title, segmented control, NOTIFY ME header and toggles
+00:23 +78: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/phase_7_saved_alerts_test.dart: Phase 7 - Alerts Screen Tests kDemoAlerts flag defaults to false and only local reminders are shown
+00:23 +79: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/phase_7_saved_alerts_test.dart: Phase 7 - Alerts Screen Tests Enabling kDemoAlerts shows sample notices clearly labelled "Sample"
+00:23 +80: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/phase_7_saved_alerts_test.dart: Phase 7 - Alerts Screen Tests Toggling notification settings updates state and persists across restarts
+00:24 +81: All tests passed!
+-- hardcoded colors in features (must be empty)
+none

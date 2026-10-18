@@ -1,0 +1,22 @@
+== phase-5  2026-10-17T17:44:17+05:30 ==
+-- flutter analyze
+Analyzing mobile...                                             
+No issues found! (ran in 78.4s)
+-- flutter test
+    everyone! Please review whether the OpenStreetMap tile servers are suitable
+    for your project.
+    See:
+      * https://operations.osmfoundation.org/policies/tiles (OSM Tile Usage Policy)
+      * https://docs.fleaflet.dev/osm-warn for more information about this warning
+00:08 +53: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/phase_4_results_test.dart: Phase 4 - Map Component Tests ResultsMap renders with polylines and markers
+  [1m[flutter_map][0m
+    We want to help keep OpenStreetMap available for everyone. Our examples
+    and demo app use the public tile servers, but they are NOT free to use by
+    everyone! Please review whether the OpenStreetMap tile servers are suitable
+    for your project.
+    See:
+      * https://operations.osmfoundation.org/policies/tiles (OSM Tile Usage Policy)
+      * https://docs.fleaflet.dev/osm-warn for more information about this warning
+00:08 +54: All tests passed!
+-- hardcoded colors in features (must be empty)
+none

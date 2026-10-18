@@ -1,0 +1,22 @@
+== phase-7  2026-10-17T21:47:28+05:30 ==
+-- flutter analyze
+Analyzing mobile...                                             
+No issues found! (ran in 29.5s)
+-- flutter test
+00:10 +63: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/phase_4_results_test.dart: Phase 4 - Map Component Tests ResultsMap renders with polylines and markers
+  [1m[flutter_map][0m
+    We want to help keep OpenStreetMap available for everyone. Our examples
+    and demo app use the public tile servers, but they are NOT free to use by
+    everyone! Please review whether the OpenStreetMap tile servers are suitable
+    for your project.
+    See:
+      * https://operations.osmfoundation.org/policies/tiles (OSM Tile Usage Policy)
+      * https://docs.fleaflet.dev/osm-warn for more information about this warning
+00:10 +64: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/phase_7_saved_alerts_test.dart: Phase 7 - Saved Screen Tests Swipe-to-delete removes saved route and persists to storage
+00:11 +65: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/phase_7_saved_alerts_test.dart: Phase 7 - Alerts Screen Tests AlertsScreen renders title, segmented control, NOTIFY ME header and toggles
+00:11 +66: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/phase_7_saved_alerts_test.dart: Phase 7 - Alerts Screen Tests kDemoAlerts flag defaults to false and only local reminders are shown
+00:11 +67: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/phase_7_saved_alerts_test.dart: Phase 7 - Alerts Screen Tests Enabling kDemoAlerts shows sample notices clearly labelled "Sample"
+00:11 +68: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/phase_7_saved_alerts_test.dart: Phase 7 - Alerts Screen Tests Toggling notification settings updates state and persists across restarts
+00:11 +69: All tests passed!
+-- hardcoded colors in features (must be empty)
+none

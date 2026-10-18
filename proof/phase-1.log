@@ -1,0 +1,22 @@
+== phase-1  2026-10-16T23:16:23+05:30 ==
+-- flutter analyze
+Analyzing mobile...                                             
+No issues found! (ran in 8.0s)
+-- flutter test
+00:02 +17: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/widget_test.dart: Shared Widgets Tests BadgeLabel renders Fastest badge
+00:02 +18: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/golden_widgets_test.dart: Golden Tests - Shared Widgets (Light & Dark) GlassSheet light
+00:02 +19: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/widget_test.dart: Shared Widgets Tests PrimaryButton handles tap
+00:02 +20: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/widget_test.dart: Shared Widgets Tests PrimaryButton handles tap
+00:02 +21: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/golden_widgets_test.dart: Golden Tests - Shared Widgets (Light & Dark) SettingsRow light
+00:02 +22: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/golden_widgets_test.dart: Golden Tests - Shared Widgets (Light & Dark) SettingsRow light
+00:02 +23: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/golden_widgets_test.dart: Golden Tests - Shared Widgets (Light & Dark) SettingsRow light
+00:02 +24: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/golden_widgets_test.dart: Golden Tests - Shared Widgets (Light & Dark) SettingsRow light
+00:02 +25: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/widget_test.dart: App Smoke Test App boots with WelcomeScreen on first run
+00:02 +26: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/widget_test.dart: App Smoke Test App boots with WelcomeScreen on first run
+00:02 +27: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/widget_test.dart: App Smoke Test App boots with WelcomeScreen on first run
+00:02 +28: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/golden_widgets_test.dart: Golden Tests - Shared Widgets (Light & Dark) Skeleton dark
+00:03 +29: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/golden_widgets_test.dart: Golden Tests - Shared Widgets (Light & Dark) TimelineRail light
+00:03 +30: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/golden_widgets_test.dart: Golden Tests - Shared Widgets (Light & Dark) TimelineRail dark
+00:03 +31: All tests passed!
+-- hardcoded colors in features (must be empty)
+none

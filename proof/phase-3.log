@@ -1,0 +1,22 @@
+== phase-3  2026-10-17T04:51:22+05:30 ==
+-- flutter analyze
+Analyzing mobile...                                             
+No issues found! (ran in 8.1s)
+-- flutter test
+00:03 +25: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/phase_3_plan_test.dart: Phase 3 - Plan Screen & Widgets Tests Swap button swaps From and To points
+00:03 +26: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/phase_3_plan_test.dart: Phase 3 - Plan Screen & Widgets Tests Swap button swaps From and To points
+00:03 +27: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/phase_3_plan_test.dart: Phase 3 - Plan Screen & Widgets Tests Swap button swaps From and To points
+00:03 +28: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/phase_3_plan_test.dart: Phase 3 - Plan Screen & Widgets Tests Swap button swaps From and To points
+00:03 +29: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/phase_3_plan_test.dart: Phase 3 - Plan Screen & Widgets Tests Swap button swaps From and To points
+00:03 +30: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/golden_widgets_test.dart: Golden Tests - Shared Widgets (Light & Dark) TimelineRail light
+00:03 +31: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/widget_test.dart: App Smoke Test App boots with WelcomeScreen on first run
+00:03 +32: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/widget_test.dart: App Smoke Test App boots with WelcomeScreen on first run
+00:03 +33: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/phase_3_plan_test.dart: Phase 3 - Plan Screen & Widgets Tests Priority chips update selected priority
+00:03 +34: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/phase_3_plan_test.dart: Phase 3 - Plan Screen & Widgets Tests Leave row opens departure time sheet and updates time
+00:04 +35: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/phase_3_plan_test.dart: Phase 3 - Plan Screen & Widgets Tests Show Routes is disabled when a point is missing
+00:04 +36: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/phase_3_plan_test.dart: Phase 3 - Autocomplete & Persistence Tests PlaceSearchSheet debounces and caches search results
+00:04 +37: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/phase_3_plan_test.dart: Phase 3 - Autocomplete & Persistence Tests Recent searches persist across restarts via SharedPreferences
+00:04 +38: C:/Users/jayant/Documents/College/MARG/pump/mobile/test/phase_3_plan_test.dart: Phase 3 - Autocomplete & Persistence Tests Dropped pin place creation creates proper reverse label
+00:05 +39: All tests passed!
+-- hardcoded colors in features (must be empty)
+none

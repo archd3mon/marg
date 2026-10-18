@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="splash_bg">#FFFFFF</color>
+    <color name="splash_bg_dark">#000000</color>
+    <color name="marg_blue">#007AFF</color>
+    <color name="marg_blue_dark">#0A84FF</color>
+</resources>

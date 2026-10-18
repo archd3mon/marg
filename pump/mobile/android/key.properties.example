@@ -1,0 +1,7 @@
+# Release Keystore Configuration Template
+# Copy this file to 'key.properties' in this directory (or pump/mobile/)
+# DO NOT commit 'key.properties' or keystores (*.jks, *.keystore) to version control.
+keyAlias=marg-upload-key
+keyPassword=YourKeyPasswordHere
+storeFile=upload-keystore.jks
+storePassword=YourStorePasswordHere

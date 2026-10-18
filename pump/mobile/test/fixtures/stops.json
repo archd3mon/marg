@@ -1,0 +1,52 @@
+{
+  "stops": [
+    {
+      "id": "stop_1",
+      "name": "Kothrud Depot",
+      "lat": 18.5074,
+      "lon": 73.8077,
+      "type": "bus",
+      "subtext": "Platform 1",
+      "distance_meters": 120,
+      "etas": [
+        { "route": "17", "mins": 4 },
+        { "route": "144", "mins": 12 }
+      ]
+    },
+    {
+      "id": "stop_2",
+      "name": "Karve Statue",
+      "lat": 18.5025,
+      "lon": 73.8182,
+      "type": "bus",
+      "subtext": "Towards Swargate",
+      "distance_meters": 450,
+      "etas": [
+        { "route": "17", "mins": 8 }
+      ]
+    },
+    {
+      "id": "stop_3",
+      "name": "Deccan Gymkhana",
+      "lat": 18.5173,
+      "lon": 73.8415,
+      "type": "bus",
+      "subtext": "FC Road",
+      "distance_meters": 950,
+      "etas": [
+        { "route": "17", "mins": 15 },
+        { "route": "24", "mins": 22 }
+      ]
+    },
+    {
+      "id": "stop_4",
+      "name": "Garware College Metro",
+      "lat": 18.5135,
+      "lon": 73.8329,
+      "type": "metro",
+      "subtext": "Aqua Line",
+      "distance_meters": 780,
+      "etas": []
+    }
+  ]
+}

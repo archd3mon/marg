@@ -59,3 +59,23 @@ npm-debug.log
 pump/backend/venv
 pump/frontend/node_modules
 pump/frontend/dist
+
+# Flutter & Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+coverage/
+
+# OS and IDE
+.idea/
+.vscode/
+*.iml
+
+# Keystores and local env
+*.keystore
+*.jks
+key.properties

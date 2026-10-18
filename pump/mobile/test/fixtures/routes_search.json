@@ -1,0 +1,106 @@
+{
+  "routes": [
+    {
+      "route_id": "route_pmpml_17_144",
+      "score": 12.3,
+      "total_time_mins": 55,
+      "transfers": 1,
+      "total_walk_m": 650,
+      "uses_metro": false,
+      "route_type": "fastest",
+      "legs": [
+        {
+          "mode": "walk",
+          "line": null,
+          "from_node": { "name": "Current Location", "lat": 18.5074, "lon": 73.8077 },
+          "to_node": { "name": "Kothrud Depot", "lat": 18.5074, "lon": 73.8077 },
+          "length_m": 350,
+          "duration_mins": 5
+        },
+        {
+          "mode": "bus",
+          "line": "17",
+          "headsign": "Hadapsar Gadital",
+          "from_node": { "name": "Kothrud Depot", "lat": 18.5074, "lon": 73.8077 },
+          "to_node": { "name": "Swargate", "lat": 18.5018, "lon": 73.8586 },
+          "length_m": 6200,
+          "duration_mins": 25,
+          "num_stops": 4,
+          "intermediate_stops": [
+            "Karve Statue",
+            "Deccan Gymkhana",
+            "Alka Talkies",
+            "Tilak Road"
+          ]
+        },
+        {
+          "mode": "walk",
+          "line": null,
+          "from_node": { "name": "Swargate", "lat": 18.5018, "lon": 73.8586 },
+          "to_node": { "name": "Swargate Bus Stand", "lat": 18.5020, "lon": 73.8590 },
+          "length_m": 120,
+          "duration_mins": 2
+        },
+        {
+          "mode": "bus",
+          "line": "144",
+          "headsign": "Viman Nagar",
+          "from_node": { "name": "Swargate Bus Stand", "lat": 18.5020, "lon": 73.8590 },
+          "to_node": { "name": "Viman Nagar Corner", "lat": 18.5679, "lon": 73.9143 },
+          "length_m": 8500,
+          "duration_mins": 23,
+          "num_stops": 4,
+          "intermediate_stops": [
+            "Pune Station",
+            "Ruby Hall",
+            "Yerwada",
+            "Shastri Nagar"
+          ]
+        }
+      ]
+    },
+    {
+      "route_id": "route_pmpml_direct_149",
+      "score": 15.1,
+      "total_time_mins": 62,
+      "transfers": 0,
+      "total_walk_m": 420,
+      "uses_metro": false,
+      "route_type": "least_transfers",
+      "legs": [
+        {
+          "mode": "walk",
+          "line": null,
+          "from_node": { "name": "Current Location", "lat": 18.5074, "lon": 73.8077 },
+          "to_node": { "name": "Kothrud Stand", "lat": 18.5032, "lon": 73.8115 },
+          "length_m": 420,
+          "duration_mins": 6
+        },
+        {
+          "mode": "bus",
+          "line": "149",
+          "headsign": "Viman Nagar via Station",
+          "from_node": { "name": "Kothrud Stand", "lat": 18.5032, "lon": 73.8115 },
+          "to_node": { "name": "Viman Nagar Corner", "lat": 18.5679, "lon": 73.9143 },
+          "length_m": 14200,
+          "duration_mins": 56,
+          "num_stops": 8,
+          "intermediate_stops": [
+            "Paud Phata",
+            "Garware College",
+            "Deccan",
+            "PMC",
+            "Pune Station",
+            "Yerwada",
+            "Gunjan",
+            "Ramwadi"
+          ]
+        }
+      ]
+    }
+  ],
+  "warnings": [
+    "Peak hour frequency delays expected on Karve Road."
+  ],
+  "departure_time_used": "2026-10-16T08:42:00+05:30"
+}

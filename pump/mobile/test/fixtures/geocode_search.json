@@ -1,0 +1,34 @@
+[
+  {
+    "id": "place_1",
+    "name": "Kothrud Depot",
+    "display_name": "Kothrud Depot, Paud Road, Pune",
+    "lat": 18.5074,
+    "lng": 73.8077,
+    "type": "stop"
+  },
+  {
+    "id": "place_2",
+    "name": "Kothrud Stand",
+    "display_name": "Kothrud Stand, Karve Road, Pune",
+    "lat": 18.5032,
+    "lng": 73.8115,
+    "type": "stop"
+  },
+  {
+    "id": "place_3",
+    "name": "Viman Nagar",
+    "display_name": "Viman Nagar Corner, Nagar Road, Pune",
+    "lat": 18.5679,
+    "lng": 73.9143,
+    "type": "poi"
+  },
+  {
+    "id": "place_4",
+    "name": "Pune Station",
+    "display_name": "Pune Junction Railway Station, Agarkar Nagar",
+    "lat": 18.5284,
+    "lng": 73.8744,
+    "type": "station"
+  }
+]
