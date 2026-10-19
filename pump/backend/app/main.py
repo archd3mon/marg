@@ -193,6 +193,17 @@ class RouteError:
 
 # --- Endpoints ---
 
+@app.get("/")
+def root():
+    """Root endpoint for status check and documentation link."""
+    return {
+        "name": "Pune Urban Mobility Planner - Marg",
+        "status": "online",
+        "docs": "/docs",
+        "health": "/api/v1/health",
+    }
+
+
 @app.get("/api/v1/health")
 def health_check():
     """Detailed health check showing per-component status."""

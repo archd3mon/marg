@@ -28,7 +28,15 @@ def _is_num(x):
     return isinstance(x, (int, float)) and not isinstance(x, bool) and math.isfinite(x)
 
 
-# ───────────────────────── health ─────────────────────────
+# ───────────────────────── health & root ──────────────────
+def test_root_endpoint(client):
+    r = client.get("/")
+    assert r.status_code == 200
+    d = r.json()
+    assert d["status"] == "online"
+    assert "health" in d
+
+
 def test_health_shape(client):
     r = client.get("/api/v1/health")
     assert r.status_code == 200

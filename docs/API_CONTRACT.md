@@ -9,10 +9,11 @@
 - **Base URL (`API_BASE`):** Configured via `--dart-define=API_BASE=<URL>`
   - **Android Emulator (Local):** `http://10.0.2.2:8000/api/v1` (Debug/Profile only)
   - **Physical Device LAN (Local):** `http://<YOUR_LAN_IP>:8000/api/v1` (Debug/Profile only)
+  - **Cloud (Hugging Face Spaces):** `https://<hf-user>-<space-name>.hf.space/api/v1` (Mandatory HTTPS for Release)
   - **Cloud (Render Production):** `https://<service>.onrender.com/api/v1` (Mandatory HTTPS for Release)
 - **Timeouts:**
   - Connect: 10 seconds
-  - Receive / Read: 45 seconds (allows for Render free-tier spinning up from cold start)
+  - Receive / Read: 45 seconds (allows for Render/HF free-tier spinning up from cold start)
 - **Retry Policy:**
   - Retry idempotent `GET` requests twice with exponential backoff (1s, 3s).
 - **Health Gate:**
@@ -41,6 +42,19 @@ To ensure zero contract drift between backend and clients:
 ---
 
 ## 3. Endpoints Specification
+
+### 3.0 GET `/`
+Root service greeting and status endpoint.
+
+**Response (200 OK):**
+```json
+{
+  "name": "Pune Urban Mobility Planner - Marg",
+  "status": "online",
+  "docs": "/docs",
+  "health": "/api/v1/health"
+}
+```
 
 ### 3.1 GET `/health`
 Returns system component status, engine availability, and load metrics.
