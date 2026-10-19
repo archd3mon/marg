@@ -80,5 +80,7 @@ coverage/
 *.jks
 key.properties
 
-# Deployments
+# Deployments and tools
 deploy/
+tools/
+*.exe

@@ -106,7 +106,8 @@ Marg requires configuring the backend target using `--dart-define=API_BASE=<URL>
 |---|---|---|
 | **Android Emulator (Local Backend)** | `http://10.0.2.2:8000/api/v1` | **Debug / Profile only.** `10.0.2.2` is Android emulator's alias to host `127.0.0.1`. Permitted via `src/debug/res/xml/network_security_config.xml`. Shortcut: `bash scripts/run_mobile_local.sh`. |
 | **Physical Device (Local LAN)** | `http://<YOUR_LAN_IP>:8000/api/v1` | **Debug / Profile only.** Replace `<YOUR_LAN_IP>` with host machine's Wi-Fi IP (e.g., `http://192.168.1.50:8000/api/v1`). Backend must run on `0.0.0.0:8000`. |
-| **Production / Render (Cloud)** | `https://<service>.onrender.com/api/v1` | **Mandatory for Release builds.** Must be valid HTTPS. In release builds (`--release`), cleartext HTTP or missing `API_BASE` will trigger an immediate startup configuration error screen. |
+| **Cloudflare Tunnel (Instant Free HTTPS)** | `https://<subdomain>.trycloudflare.com/api/v1` | **Supported in Debug & Release builds.** Zero RAM bottlenecks, unlimited bandwidth, instant HTTPS tunnel via `tools\cloudflared.exe`. Ideal for testing release builds and physical devices anywhere. |
+| **Production / Render (Cloud)** | `https://<service>.onrender.com/api/v1` | **Mandatory for Cloud Release builds.** Must be valid HTTPS. In release builds (`--release`), cleartext HTTP or missing `API_BASE` will trigger an immediate startup configuration error screen. |
 
 > [!NOTE]
 > **Cleartext HTTP Security Policy:** Cleartext (`http://`) traffic is strictly forbidden in Release builds (`src/main/AndroidManifest.xml` has no `usesCleartextTraffic`). Cleartext is only permitted in debug/profile builds for local testing with `10.0.2.2` and `localhost`.
